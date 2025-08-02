@@ -1,0 +1,14 @@
+model Group {
+    id String @id @default(uuid()) @db.Uuid
+
+    // basic detail 
+    name     String
+    createAt DateTime @default(now())
+    updateAt DateTime @updatedAt
+
+    authorId String?
+
+    // realtion
+    // m to m 
+    members User[]
+}

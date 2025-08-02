@@ -1,0 +1,31 @@
+model Session {
+    id String @id @default(uuid()) @db.Uuid
+
+    hasedRefreshToken String?
+
+    // realtion
+    userId String? @unique @db.Uuid
+    user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    createAt DateTime @default(now())
+    updateAt DateTime @updatedAt
+}
+
+model Code {
+    id String @id @default(uuid()) @db.Uuid
+
+    code String?
+    type CodeType
+
+    // realtion 
+    userId String? @unique @db.Uuid
+    user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    
+    createAt DateTime @default(now())
+    updateAt DateTime @updatedAt
+}
+
+enum CodeType {
+    VERIFY
+    RESET_PASSWORD
+}

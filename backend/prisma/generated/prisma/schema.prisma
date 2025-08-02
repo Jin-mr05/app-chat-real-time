@@ -1,0 +1,147 @@
+model Session {
+  id String @id @default(uuid()) @db.Uuid
+
+  hasedRefreshToken String?
+
+  // realtion
+  userId String? @unique @db.Uuid
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Code {
+  id String @id @default(uuid()) @db.Uuid
+
+  code String?
+  type CodeType
+
+  // realtion 
+  userId String? @unique @db.Uuid
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+enum CodeType {
+  VERIFY
+  RESET_PASSWORD
+}
+
+model Message {
+  id String @id @default(uuid()) @db.Uuid
+
+  content String
+  staus   StatusMessage
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  // realtion
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model ReadProgram {
+  id String @id @default(uuid()) @db.Uuid
+
+  lastMessgaId String?
+  // realtion
+  userId       String? @unique @db.Uuid
+  user         User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+}
+
+enum StatusMessage {
+  SENT
+  RECEIVED
+  READ
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Group {
+  id String @id @default(uuid()) @db.Uuid
+
+  // basic detail 
+  name     String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  authorId String?
+
+  // realtion
+  // m to m 
+  members User[]
+}
+
+model User {
+  id String @id @default(uuid()) @db.Uuid
+
+  // basic detail 
+  name     String?
+  birthday DateTime?
+  gender   Gender?
+  roleInGr RoleInGroup @default(MEMBER)
+
+  //auth 
+  email          String    @unique
+  hashedPassword String
+  isActive       Boolean   @default(false)
+  idDelete       Boolean   @default(false)
+  createAt       DateTime  @default(now())
+  updateAt       DateTime  @updatedAt
+  deleteAt       DateTime?
+
+  // realtion
+  // one to one
+  session     Session?
+  code        Code?
+  groups      Group[]
+  messages    Message[]
+  readProgram ReadProgram?
+
+  provider   Provider?
+  familyName String?
+  facebookId String?
+  idOauth2   String?
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHERS
+}
+
+enum RoleInGroup {
+  ADMIN
+  MEMBER
+}
+
+enum Provider {
+  FACEBOOK
+  GOOGLE
+}

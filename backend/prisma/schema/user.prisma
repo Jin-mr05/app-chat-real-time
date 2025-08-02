@@ -1,0 +1,47 @@
+model User {
+    id String @id @default(uuid()) @db.Uuid
+
+    // basic detail 
+    name     String?
+    birthday DateTime?
+    gender   Gender?
+    roleInGr RoleInGroup @default(MEMBER)
+
+    //auth 
+    email          String    @unique
+    hashedPassword String
+    isActive       Boolean   @default(false)
+    idDelete       Boolean   @default(false)
+    createAt       DateTime  @default(now())
+    updateAt       DateTime  @updatedAt
+    deleteAt       DateTime?
+
+    // realtion
+    // one to one
+    session     Session?
+    code        Code?
+    groups      Group[]
+    messages    Message[]
+    readProgram ReadProgram?
+
+    provider   Provider?
+    familyName String?
+    facebookId String?
+    idOauth2   String?
+}
+
+enum Gender {
+    MALE
+    FEMALE
+    OTHERS
+}
+
+enum RoleInGroup {
+    ADMIN
+    MEMBER
+}
+
+enum Provider {
+    FACEBOOK
+    GOOGLE
+}

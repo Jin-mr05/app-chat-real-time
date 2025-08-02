@@ -1,0 +1,36 @@
+model Message {
+    id String @id @default(uuid()) @db.Uuid
+
+    content String
+    staus   StatusMessage
+
+    createAt DateTime @default(now())
+    updateAt DateTime @updatedAt
+
+    // realtion
+    userId String @db.Uuid
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model ReadProgram {
+    id String @id @default(uuid()) @db.Uuid
+
+    lastMessgaId String?
+    // realtion
+    userId       String? @unique @db.Uuid
+    user         User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+enum MessageType {
+    TEXT
+    IMAGE
+    VIDEO
+    AUDIO
+    FILE
+}
+
+enum StatusMessage {
+    SENT
+    RECEIVED
+    READ
+}
