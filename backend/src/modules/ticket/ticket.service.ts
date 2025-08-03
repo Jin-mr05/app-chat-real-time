@@ -21,4 +21,9 @@ export class TicketService {
         await this.redis.set(this.lastSeenKey(userId), Date.now().toString())
     }
 
+    // get time behavior before online or offline
+    async getLastSeen(userId: string): Promise<string | null> {
+        return await this.redis.get(this.lastSeenKey(userId));
+    }
+
 }

@@ -143,18 +143,21 @@ exports.Prisma.MessageScalarFieldEnum = {
   staus: 'staus',
   createAt: 'createAt',
   updateAt: 'updateAt',
+  roomId: 'roomId',
+  addressId: 'addressId',
   userId: 'userId'
 };
 
 exports.Prisma.ReadProgramScalarFieldEnum = {
   id: 'id',
-  lastMessgaId: 'lastMessgaId',
+  lastestMessgaId: 'lastestMessgaId',
   userId: 'userId'
 };
 
 exports.Prisma.GroupScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  linkGroup: 'linkGroup',
   createAt: 'createAt',
   updateAt: 'updateAt',
   authorId: 'authorId'
@@ -199,7 +202,7 @@ exports.CodeType = exports.$Enums.CodeType = {
 };
 
 exports.StatusMessage = exports.$Enums.StatusMessage = {
-  SENT: 'SENT',
+  SENDING: 'SENDING',
   RECEIVED: 'RECEIVED',
   READ: 'READ'
 };

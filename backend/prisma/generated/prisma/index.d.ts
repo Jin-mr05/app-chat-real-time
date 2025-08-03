@@ -68,7 +68,7 @@ export type MessageType = (typeof MessageType)[keyof typeof MessageType]
 
 
 export const StatusMessage: {
-  SENT: 'SENT',
+  SENDING: 'SENDING',
   RECEIVED: 'RECEIVED',
   READ: 'READ'
 };
@@ -3662,25 +3662,39 @@ export namespace Prisma {
 
   export type AggregateMessage = {
     _count: MessageCountAggregateOutputType | null
+    _avg: MessageAvgAggregateOutputType | null
+    _sum: MessageSumAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
     _max: MessageMaxAggregateOutputType | null
   }
 
+  export type MessageAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type MessageSumAggregateOutputType = {
+    id: number | null
+  }
+
   export type MessageMinAggregateOutputType = {
-    id: string | null
+    id: number | null
     content: string | null
     staus: $Enums.StatusMessage | null
     createAt: Date | null
     updateAt: Date | null
+    roomId: string | null
+    addressId: string | null
     userId: string | null
   }
 
   export type MessageMaxAggregateOutputType = {
-    id: string | null
+    id: number | null
     content: string | null
     staus: $Enums.StatusMessage | null
     createAt: Date | null
     updateAt: Date | null
+    roomId: string | null
+    addressId: string | null
     userId: string | null
   }
 
@@ -3690,10 +3704,20 @@ export namespace Prisma {
     staus: number
     createAt: number
     updateAt: number
+    roomId: number
+    addressId: number
     userId: number
     _all: number
   }
 
+
+  export type MessageAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type MessageSumAggregateInputType = {
+    id?: true
+  }
 
   export type MessageMinAggregateInputType = {
     id?: true
@@ -3701,6 +3725,8 @@ export namespace Prisma {
     staus?: true
     createAt?: true
     updateAt?: true
+    roomId?: true
+    addressId?: true
     userId?: true
   }
 
@@ -3710,6 +3736,8 @@ export namespace Prisma {
     staus?: true
     createAt?: true
     updateAt?: true
+    roomId?: true
+    addressId?: true
     userId?: true
   }
 
@@ -3719,6 +3747,8 @@ export namespace Prisma {
     staus?: true
     createAt?: true
     updateAt?: true
+    roomId?: true
+    addressId?: true
     userId?: true
     _all?: true
   }
@@ -3761,6 +3791,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: MessageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MessageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: MessageMinAggregateInputType
@@ -3791,18 +3833,24 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: MessageCountAggregateInputType | true
+    _avg?: MessageAvgAggregateInputType
+    _sum?: MessageSumAggregateInputType
     _min?: MessageMinAggregateInputType
     _max?: MessageMaxAggregateInputType
   }
 
   export type MessageGroupByOutputType = {
-    id: string
+    id: number
     content: string
     staus: $Enums.StatusMessage
     createAt: Date
     updateAt: Date
+    roomId: string | null
+    addressId: string | null
     userId: string
     _count: MessageCountAggregateOutputType | null
+    _avg: MessageAvgAggregateOutputType | null
+    _sum: MessageSumAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
     _max: MessageMaxAggregateOutputType | null
   }
@@ -3827,6 +3875,8 @@ export namespace Prisma {
     staus?: boolean
     createAt?: boolean
     updateAt?: boolean
+    roomId?: boolean
+    addressId?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
@@ -3837,6 +3887,8 @@ export namespace Prisma {
     staus?: boolean
     createAt?: boolean
     updateAt?: boolean
+    roomId?: boolean
+    addressId?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
@@ -3847,6 +3899,8 @@ export namespace Prisma {
     staus?: boolean
     createAt?: boolean
     updateAt?: boolean
+    roomId?: boolean
+    addressId?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
@@ -3857,10 +3911,12 @@ export namespace Prisma {
     staus?: boolean
     createAt?: boolean
     updateAt?: boolean
+    roomId?: boolean
+    addressId?: boolean
     userId?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "staus" | "createAt" | "updateAt" | "userId", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "staus" | "createAt" | "updateAt" | "roomId" | "addressId" | "userId", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -3877,11 +3933,13 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
+      id: number
       content: string
       staus: $Enums.StatusMessage
       createAt: Date
       updateAt: Date
+      roomId: string | null
+      addressId: string | null
       userId: string
     }, ExtArgs["result"]["message"]>
     composites: {}
@@ -4307,11 +4365,13 @@ export namespace Prisma {
    * Fields of the Message model
    */
   interface MessageFieldRefs {
-    readonly id: FieldRef<"Message", 'String'>
+    readonly id: FieldRef<"Message", 'Int'>
     readonly content: FieldRef<"Message", 'String'>
     readonly staus: FieldRef<"Message", 'StatusMessage'>
     readonly createAt: FieldRef<"Message", 'DateTime'>
     readonly updateAt: FieldRef<"Message", 'DateTime'>
+    readonly roomId: FieldRef<"Message", 'String'>
+    readonly addressId: FieldRef<"Message", 'String'>
     readonly userId: FieldRef<"Message", 'String'>
   }
     
@@ -4733,45 +4793,63 @@ export namespace Prisma {
 
   export type AggregateReadProgram = {
     _count: ReadProgramCountAggregateOutputType | null
+    _avg: ReadProgramAvgAggregateOutputType | null
+    _sum: ReadProgramSumAggregateOutputType | null
     _min: ReadProgramMinAggregateOutputType | null
     _max: ReadProgramMaxAggregateOutputType | null
   }
 
+  export type ReadProgramAvgAggregateOutputType = {
+    lastestMessgaId: number | null
+  }
+
+  export type ReadProgramSumAggregateOutputType = {
+    lastestMessgaId: number | null
+  }
+
   export type ReadProgramMinAggregateOutputType = {
     id: string | null
-    lastMessgaId: string | null
+    lastestMessgaId: number | null
     userId: string | null
   }
 
   export type ReadProgramMaxAggregateOutputType = {
     id: string | null
-    lastMessgaId: string | null
+    lastestMessgaId: number | null
     userId: string | null
   }
 
   export type ReadProgramCountAggregateOutputType = {
     id: number
-    lastMessgaId: number
+    lastestMessgaId: number
     userId: number
     _all: number
   }
 
 
+  export type ReadProgramAvgAggregateInputType = {
+    lastestMessgaId?: true
+  }
+
+  export type ReadProgramSumAggregateInputType = {
+    lastestMessgaId?: true
+  }
+
   export type ReadProgramMinAggregateInputType = {
     id?: true
-    lastMessgaId?: true
+    lastestMessgaId?: true
     userId?: true
   }
 
   export type ReadProgramMaxAggregateInputType = {
     id?: true
-    lastMessgaId?: true
+    lastestMessgaId?: true
     userId?: true
   }
 
   export type ReadProgramCountAggregateInputType = {
     id?: true
-    lastMessgaId?: true
+    lastestMessgaId?: true
     userId?: true
     _all?: true
   }
@@ -4814,6 +4892,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ReadProgramAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReadProgramSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ReadProgramMinAggregateInputType
@@ -4844,15 +4934,19 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ReadProgramCountAggregateInputType | true
+    _avg?: ReadProgramAvgAggregateInputType
+    _sum?: ReadProgramSumAggregateInputType
     _min?: ReadProgramMinAggregateInputType
     _max?: ReadProgramMaxAggregateInputType
   }
 
   export type ReadProgramGroupByOutputType = {
     id: string
-    lastMessgaId: string | null
+    lastestMessgaId: number | null
     userId: string | null
     _count: ReadProgramCountAggregateOutputType | null
+    _avg: ReadProgramAvgAggregateOutputType | null
+    _sum: ReadProgramSumAggregateOutputType | null
     _min: ReadProgramMinAggregateOutputType | null
     _max: ReadProgramMaxAggregateOutputType | null
   }
@@ -4873,32 +4967,32 @@ export namespace Prisma {
 
   export type ReadProgramSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    lastMessgaId?: boolean
+    lastestMessgaId?: boolean
     userId?: boolean
     user?: boolean | ReadProgram$userArgs<ExtArgs>
   }, ExtArgs["result"]["readProgram"]>
 
   export type ReadProgramSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    lastMessgaId?: boolean
+    lastestMessgaId?: boolean
     userId?: boolean
     user?: boolean | ReadProgram$userArgs<ExtArgs>
   }, ExtArgs["result"]["readProgram"]>
 
   export type ReadProgramSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    lastMessgaId?: boolean
+    lastestMessgaId?: boolean
     userId?: boolean
     user?: boolean | ReadProgram$userArgs<ExtArgs>
   }, ExtArgs["result"]["readProgram"]>
 
   export type ReadProgramSelectScalar = {
     id?: boolean
-    lastMessgaId?: boolean
+    lastestMessgaId?: boolean
     userId?: boolean
   }
 
-  export type ReadProgramOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lastMessgaId" | "userId", ExtArgs["result"]["readProgram"]>
+  export type ReadProgramOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lastestMessgaId" | "userId", ExtArgs["result"]["readProgram"]>
   export type ReadProgramInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | ReadProgram$userArgs<ExtArgs>
   }
@@ -4916,7 +5010,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      lastMessgaId: string | null
+      lastestMessgaId: number | null
       userId: string | null
     }, ExtArgs["result"]["readProgram"]>
     composites: {}
@@ -5343,7 +5437,7 @@ export namespace Prisma {
    */
   interface ReadProgramFieldRefs {
     readonly id: FieldRef<"ReadProgram", 'String'>
-    readonly lastMessgaId: FieldRef<"ReadProgram", 'String'>
+    readonly lastestMessgaId: FieldRef<"ReadProgram", 'Int'>
     readonly userId: FieldRef<"ReadProgram", 'String'>
   }
     
@@ -5791,6 +5885,7 @@ export namespace Prisma {
   export type GroupMinAggregateOutputType = {
     id: string | null
     name: string | null
+    linkGroup: string | null
     createAt: Date | null
     updateAt: Date | null
     authorId: string | null
@@ -5799,6 +5894,7 @@ export namespace Prisma {
   export type GroupMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    linkGroup: string | null
     createAt: Date | null
     updateAt: Date | null
     authorId: string | null
@@ -5807,6 +5903,7 @@ export namespace Prisma {
   export type GroupCountAggregateOutputType = {
     id: number
     name: number
+    linkGroup: number
     createAt: number
     updateAt: number
     authorId: number
@@ -5817,6 +5914,7 @@ export namespace Prisma {
   export type GroupMinAggregateInputType = {
     id?: true
     name?: true
+    linkGroup?: true
     createAt?: true
     updateAt?: true
     authorId?: true
@@ -5825,6 +5923,7 @@ export namespace Prisma {
   export type GroupMaxAggregateInputType = {
     id?: true
     name?: true
+    linkGroup?: true
     createAt?: true
     updateAt?: true
     authorId?: true
@@ -5833,6 +5932,7 @@ export namespace Prisma {
   export type GroupCountAggregateInputType = {
     id?: true
     name?: true
+    linkGroup?: true
     createAt?: true
     updateAt?: true
     authorId?: true
@@ -5914,6 +6014,7 @@ export namespace Prisma {
   export type GroupGroupByOutputType = {
     id: string
     name: string
+    linkGroup: string | null
     createAt: Date
     updateAt: Date
     authorId: string | null
@@ -5939,6 +6040,7 @@ export namespace Prisma {
   export type GroupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    linkGroup?: boolean
     createAt?: boolean
     updateAt?: boolean
     authorId?: boolean
@@ -5949,6 +6051,7 @@ export namespace Prisma {
   export type GroupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    linkGroup?: boolean
     createAt?: boolean
     updateAt?: boolean
     authorId?: boolean
@@ -5957,6 +6060,7 @@ export namespace Prisma {
   export type GroupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    linkGroup?: boolean
     createAt?: boolean
     updateAt?: boolean
     authorId?: boolean
@@ -5965,12 +6069,13 @@ export namespace Prisma {
   export type GroupSelectScalar = {
     id?: boolean
     name?: boolean
+    linkGroup?: boolean
     createAt?: boolean
     updateAt?: boolean
     authorId?: boolean
   }
 
-  export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createAt" | "updateAt" | "authorId", ExtArgs["result"]["group"]>
+  export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "linkGroup" | "createAt" | "updateAt" | "authorId", ExtArgs["result"]["group"]>
   export type GroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Group$membersArgs<ExtArgs>
     _count?: boolean | GroupCountOutputTypeDefaultArgs<ExtArgs>
@@ -5986,6 +6091,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      linkGroup: string | null
       createAt: Date
       updateAt: Date
       authorId: string | null
@@ -6415,6 +6521,7 @@ export namespace Prisma {
   interface GroupFieldRefs {
     readonly id: FieldRef<"Group", 'String'>
     readonly name: FieldRef<"Group", 'String'>
+    readonly linkGroup: FieldRef<"Group", 'String'>
     readonly createAt: FieldRef<"Group", 'DateTime'>
     readonly updateAt: FieldRef<"Group", 'DateTime'>
     readonly authorId: FieldRef<"Group", 'String'>
@@ -8201,6 +8308,8 @@ export namespace Prisma {
     staus: 'staus',
     createAt: 'createAt',
     updateAt: 'updateAt',
+    roomId: 'roomId',
+    addressId: 'addressId',
     userId: 'userId'
   };
 
@@ -8209,7 +8318,7 @@ export namespace Prisma {
 
   export const ReadProgramScalarFieldEnum: {
     id: 'id',
-    lastMessgaId: 'lastMessgaId',
+    lastestMessgaId: 'lastestMessgaId',
     userId: 'userId'
   };
 
@@ -8219,6 +8328,7 @@ export namespace Prisma {
   export const GroupScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    linkGroup: 'linkGroup',
     createAt: 'createAt',
     updateAt: 'updateAt',
     authorId: 'authorId'
@@ -8321,6 +8431,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'StatusMessage'
    */
   export type EnumStatusMessageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusMessage'>
@@ -8384,16 +8508,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Float'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'Float[]'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -8519,11 +8643,13 @@ export namespace Prisma {
     AND?: MessageWhereInput | MessageWhereInput[]
     OR?: MessageWhereInput[]
     NOT?: MessageWhereInput | MessageWhereInput[]
-    id?: UuidFilter<"Message"> | string
+    id?: IntFilter<"Message"> | number
     content?: StringFilter<"Message"> | string
     staus?: EnumStatusMessageFilter<"Message"> | $Enums.StatusMessage
     createAt?: DateTimeFilter<"Message"> | Date | string
     updateAt?: DateTimeFilter<"Message"> | Date | string
+    roomId?: StringNullableFilter<"Message"> | string | null
+    addressId?: StringNullableFilter<"Message"> | string | null
     userId?: UuidFilter<"Message"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -8534,12 +8660,14 @@ export namespace Prisma {
     staus?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
+    roomId?: SortOrderInput | SortOrder
+    addressId?: SortOrderInput | SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
   export type MessageWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: MessageWhereInput | MessageWhereInput[]
     OR?: MessageWhereInput[]
     NOT?: MessageWhereInput | MessageWhereInput[]
@@ -8547,6 +8675,8 @@ export namespace Prisma {
     staus?: EnumStatusMessageFilter<"Message"> | $Enums.StatusMessage
     createAt?: DateTimeFilter<"Message"> | Date | string
     updateAt?: DateTimeFilter<"Message"> | Date | string
+    roomId?: StringNullableFilter<"Message"> | string | null
+    addressId?: StringNullableFilter<"Message"> | string | null
     userId?: UuidFilter<"Message"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -8557,21 +8687,27 @@ export namespace Prisma {
     staus?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
+    roomId?: SortOrderInput | SortOrder
+    addressId?: SortOrderInput | SortOrder
     userId?: SortOrder
     _count?: MessageCountOrderByAggregateInput
+    _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
     _min?: MessageMinOrderByAggregateInput
+    _sum?: MessageSumOrderByAggregateInput
   }
 
   export type MessageScalarWhereWithAggregatesInput = {
     AND?: MessageScalarWhereWithAggregatesInput | MessageScalarWhereWithAggregatesInput[]
     OR?: MessageScalarWhereWithAggregatesInput[]
     NOT?: MessageScalarWhereWithAggregatesInput | MessageScalarWhereWithAggregatesInput[]
-    id?: UuidWithAggregatesFilter<"Message"> | string
+    id?: IntWithAggregatesFilter<"Message"> | number
     content?: StringWithAggregatesFilter<"Message"> | string
     staus?: EnumStatusMessageWithAggregatesFilter<"Message"> | $Enums.StatusMessage
     createAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
     updateAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
+    roomId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    addressId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     userId?: UuidWithAggregatesFilter<"Message"> | string
   }
 
@@ -8580,14 +8716,14 @@ export namespace Prisma {
     OR?: ReadProgramWhereInput[]
     NOT?: ReadProgramWhereInput | ReadProgramWhereInput[]
     id?: UuidFilter<"ReadProgram"> | string
-    lastMessgaId?: StringNullableFilter<"ReadProgram"> | string | null
+    lastestMessgaId?: IntNullableFilter<"ReadProgram"> | number | null
     userId?: UuidNullableFilter<"ReadProgram"> | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type ReadProgramOrderByWithRelationInput = {
     id?: SortOrder
-    lastMessgaId?: SortOrderInput | SortOrder
+    lastestMessgaId?: SortOrderInput | SortOrder
     userId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -8598,17 +8734,19 @@ export namespace Prisma {
     AND?: ReadProgramWhereInput | ReadProgramWhereInput[]
     OR?: ReadProgramWhereInput[]
     NOT?: ReadProgramWhereInput | ReadProgramWhereInput[]
-    lastMessgaId?: StringNullableFilter<"ReadProgram"> | string | null
+    lastestMessgaId?: IntNullableFilter<"ReadProgram"> | number | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "userId">
 
   export type ReadProgramOrderByWithAggregationInput = {
     id?: SortOrder
-    lastMessgaId?: SortOrderInput | SortOrder
+    lastestMessgaId?: SortOrderInput | SortOrder
     userId?: SortOrderInput | SortOrder
     _count?: ReadProgramCountOrderByAggregateInput
+    _avg?: ReadProgramAvgOrderByAggregateInput
     _max?: ReadProgramMaxOrderByAggregateInput
     _min?: ReadProgramMinOrderByAggregateInput
+    _sum?: ReadProgramSumOrderByAggregateInput
   }
 
   export type ReadProgramScalarWhereWithAggregatesInput = {
@@ -8616,7 +8754,7 @@ export namespace Prisma {
     OR?: ReadProgramScalarWhereWithAggregatesInput[]
     NOT?: ReadProgramScalarWhereWithAggregatesInput | ReadProgramScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"ReadProgram"> | string
-    lastMessgaId?: StringNullableWithAggregatesFilter<"ReadProgram"> | string | null
+    lastestMessgaId?: IntNullableWithAggregatesFilter<"ReadProgram"> | number | null
     userId?: UuidNullableWithAggregatesFilter<"ReadProgram"> | string | null
   }
 
@@ -8626,6 +8764,7 @@ export namespace Prisma {
     NOT?: GroupWhereInput | GroupWhereInput[]
     id?: UuidFilter<"Group"> | string
     name?: StringFilter<"Group"> | string
+    linkGroup?: StringNullableFilter<"Group"> | string | null
     createAt?: DateTimeFilter<"Group"> | Date | string
     updateAt?: DateTimeFilter<"Group"> | Date | string
     authorId?: StringNullableFilter<"Group"> | string | null
@@ -8635,6 +8774,7 @@ export namespace Prisma {
   export type GroupOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    linkGroup?: SortOrderInput | SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
     authorId?: SortOrderInput | SortOrder
@@ -8647,6 +8787,7 @@ export namespace Prisma {
     OR?: GroupWhereInput[]
     NOT?: GroupWhereInput | GroupWhereInput[]
     name?: StringFilter<"Group"> | string
+    linkGroup?: StringNullableFilter<"Group"> | string | null
     createAt?: DateTimeFilter<"Group"> | Date | string
     updateAt?: DateTimeFilter<"Group"> | Date | string
     authorId?: StringNullableFilter<"Group"> | string | null
@@ -8656,6 +8797,7 @@ export namespace Prisma {
   export type GroupOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    linkGroup?: SortOrderInput | SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
     authorId?: SortOrderInput | SortOrder
@@ -8670,6 +8812,7 @@ export namespace Prisma {
     NOT?: GroupScalarWhereWithAggregatesInput | GroupScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Group"> | string
     name?: StringWithAggregatesFilter<"Group"> | string
+    linkGroup?: StringNullableWithAggregatesFilter<"Group"> | string | null
     createAt?: DateTimeWithAggregatesFilter<"Group"> | Date | string
     updateAt?: DateTimeWithAggregatesFilter<"Group"> | Date | string
     authorId?: StringNullableWithAggregatesFilter<"Group"> | string | null
@@ -8915,111 +9058,123 @@ export namespace Prisma {
   }
 
   export type MessageCreateInput = {
-    id?: string
     content: string
-    staus: $Enums.StatusMessage
+    staus?: $Enums.StatusMessage
     createAt?: Date | string
     updateAt?: Date | string
+    roomId?: string | null
+    addressId?: string | null
     user: UserCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateInput = {
-    id?: string
+    id?: number
     content: string
-    staus: $Enums.StatusMessage
+    staus?: $Enums.StatusMessage
     createAt?: Date | string
     updateAt?: Date | string
+    roomId?: string | null
+    addressId?: string | null
     userId: string
   }
 
   export type MessageUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     staus?: EnumStatusMessageFieldUpdateOperationsInput | $Enums.StatusMessage
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    addressId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
     staus?: EnumStatusMessageFieldUpdateOperationsInput | $Enums.StatusMessage
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    addressId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type MessageCreateManyInput = {
-    id?: string
+    id?: number
     content: string
-    staus: $Enums.StatusMessage
+    staus?: $Enums.StatusMessage
     createAt?: Date | string
     updateAt?: Date | string
+    roomId?: string | null
+    addressId?: string | null
     userId: string
   }
 
   export type MessageUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     staus?: EnumStatusMessageFieldUpdateOperationsInput | $Enums.StatusMessage
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    addressId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
     staus?: EnumStatusMessageFieldUpdateOperationsInput | $Enums.StatusMessage
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    addressId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReadProgramCreateInput = {
     id?: string
-    lastMessgaId?: string | null
+    lastestMessgaId?: number | null
     user?: UserCreateNestedOneWithoutReadProgramInput
   }
 
   export type ReadProgramUncheckedCreateInput = {
     id?: string
-    lastMessgaId?: string | null
+    lastestMessgaId?: number | null
     userId?: string | null
   }
 
   export type ReadProgramUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    lastMessgaId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
     user?: UserUpdateOneWithoutReadProgramNestedInput
   }
 
   export type ReadProgramUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    lastMessgaId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReadProgramCreateManyInput = {
     id?: string
-    lastMessgaId?: string | null
+    lastestMessgaId?: number | null
     userId?: string | null
   }
 
   export type ReadProgramUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    lastMessgaId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ReadProgramUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    lastMessgaId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type GroupCreateInput = {
     id?: string
     name: string
+    linkGroup?: string | null
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
@@ -9029,6 +9184,7 @@ export namespace Prisma {
   export type GroupUncheckedCreateInput = {
     id?: string
     name: string
+    linkGroup?: string | null
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
@@ -9038,6 +9194,7 @@ export namespace Prisma {
   export type GroupUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    linkGroup?: NullableStringFieldUpdateOperationsInput | string | null
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9047,6 +9204,7 @@ export namespace Prisma {
   export type GroupUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    linkGroup?: NullableStringFieldUpdateOperationsInput | string | null
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9056,6 +9214,7 @@ export namespace Prisma {
   export type GroupCreateManyInput = {
     id?: string
     name: string
+    linkGroup?: string | null
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
@@ -9064,6 +9223,7 @@ export namespace Prisma {
   export type GroupUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    linkGroup?: NullableStringFieldUpdateOperationsInput | string | null
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9072,6 +9232,7 @@ export namespace Prisma {
   export type GroupUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    linkGroup?: NullableStringFieldUpdateOperationsInput | string | null
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9420,6 +9581,17 @@ export namespace Prisma {
     _max?: NestedEnumCodeTypeFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -9453,7 +9625,13 @@ export namespace Prisma {
     staus?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
+    roomId?: SortOrder
+    addressId?: SortOrder
     userId?: SortOrder
+  }
+
+  export type MessageAvgOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type MessageMaxOrderByAggregateInput = {
@@ -9462,6 +9640,8 @@ export namespace Prisma {
     staus?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
+    roomId?: SortOrder
+    addressId?: SortOrder
     userId?: SortOrder
   }
 
@@ -9471,7 +9651,29 @@ export namespace Prisma {
     staus?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
+    roomId?: SortOrder
+    addressId?: SortOrder
     userId?: SortOrder
+  }
+
+  export type MessageSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -9502,22 +9704,57 @@ export namespace Prisma {
     _max?: NestedEnumStatusMessageFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ReadProgramCountOrderByAggregateInput = {
     id?: SortOrder
-    lastMessgaId?: SortOrder
+    lastestMessgaId?: SortOrder
     userId?: SortOrder
+  }
+
+  export type ReadProgramAvgOrderByAggregateInput = {
+    lastestMessgaId?: SortOrder
   }
 
   export type ReadProgramMaxOrderByAggregateInput = {
     id?: SortOrder
-    lastMessgaId?: SortOrder
+    lastestMessgaId?: SortOrder
     userId?: SortOrder
   }
 
   export type ReadProgramMinOrderByAggregateInput = {
     id?: SortOrder
-    lastMessgaId?: SortOrder
+    lastestMessgaId?: SortOrder
     userId?: SortOrder
+  }
+
+  export type ReadProgramSumOrderByAggregateInput = {
+    lastestMessgaId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type UserListRelationFilter = {
@@ -9533,6 +9770,7 @@ export namespace Prisma {
   export type GroupCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    linkGroup?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
     authorId?: SortOrder
@@ -9541,6 +9779,7 @@ export namespace Prisma {
   export type GroupMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    linkGroup?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
     authorId?: SortOrder
@@ -9549,6 +9788,7 @@ export namespace Prisma {
   export type GroupMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    linkGroup?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
     authorId?: SortOrder
@@ -9801,10 +10041,26 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMessagesInput, UserUpdateWithoutMessagesInput>, UserUncheckedUpdateWithoutMessagesInput>
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserCreateNestedOneWithoutReadProgramInput = {
     create?: XOR<UserCreateWithoutReadProgramInput, UserUncheckedCreateWithoutReadProgramInput>
     connectOrCreate?: UserCreateOrConnectWithoutReadProgramInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type UserUpdateOneWithoutReadProgramNestedInput = {
@@ -10217,6 +10473,33 @@ export namespace Prisma {
     not?: NestedEnumStatusMessageFilter<$PrismaModel> | $Enums.StatusMessage
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10242,6 +10525,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusMessageFilter<$PrismaModel>
     _max?: NestedEnumStatusMessageFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -10897,6 +11207,7 @@ export namespace Prisma {
   export type GroupCreateWithoutMembersInput = {
     id?: string
     name: string
+    linkGroup?: string | null
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
@@ -10905,6 +11216,7 @@ export namespace Prisma {
   export type GroupUncheckedCreateWithoutMembersInput = {
     id?: string
     name: string
+    linkGroup?: string | null
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
@@ -10916,19 +11228,22 @@ export namespace Prisma {
   }
 
   export type MessageCreateWithoutUserInput = {
-    id?: string
     content: string
-    staus: $Enums.StatusMessage
+    staus?: $Enums.StatusMessage
     createAt?: Date | string
     updateAt?: Date | string
+    roomId?: string | null
+    addressId?: string | null
   }
 
   export type MessageUncheckedCreateWithoutUserInput = {
-    id?: string
+    id?: number
     content: string
-    staus: $Enums.StatusMessage
+    staus?: $Enums.StatusMessage
     createAt?: Date | string
     updateAt?: Date | string
+    roomId?: string | null
+    addressId?: string | null
   }
 
   export type MessageCreateOrConnectWithoutUserInput = {
@@ -10943,12 +11258,12 @@ export namespace Prisma {
 
   export type ReadProgramCreateWithoutUserInput = {
     id?: string
-    lastMessgaId?: string | null
+    lastestMessgaId?: number | null
   }
 
   export type ReadProgramUncheckedCreateWithoutUserInput = {
     id?: string
-    lastMessgaId?: string | null
+    lastestMessgaId?: number | null
   }
 
   export type ReadProgramCreateOrConnectWithoutUserInput = {
@@ -11030,6 +11345,7 @@ export namespace Prisma {
     NOT?: GroupScalarWhereInput | GroupScalarWhereInput[]
     id?: UuidFilter<"Group"> | string
     name?: StringFilter<"Group"> | string
+    linkGroup?: StringNullableFilter<"Group"> | string | null
     createAt?: DateTimeFilter<"Group"> | Date | string
     updateAt?: DateTimeFilter<"Group"> | Date | string
     authorId?: StringNullableFilter<"Group"> | string | null
@@ -11055,11 +11371,13 @@ export namespace Prisma {
     AND?: MessageScalarWhereInput | MessageScalarWhereInput[]
     OR?: MessageScalarWhereInput[]
     NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
-    id?: UuidFilter<"Message"> | string
+    id?: IntFilter<"Message"> | number
     content?: StringFilter<"Message"> | string
     staus?: EnumStatusMessageFilter<"Message"> | $Enums.StatusMessage
     createAt?: DateTimeFilter<"Message"> | Date | string
     updateAt?: DateTimeFilter<"Message"> | Date | string
+    roomId?: StringNullableFilter<"Message"> | string | null
+    addressId?: StringNullableFilter<"Message"> | string | null
     userId?: UuidFilter<"Message"> | string
   }
 
@@ -11076,12 +11394,12 @@ export namespace Prisma {
 
   export type ReadProgramUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    lastMessgaId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ReadProgramUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    lastMessgaId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserUpdateWithoutGroupsInput = {
@@ -11150,16 +11468,19 @@ export namespace Prisma {
   }
 
   export type MessageCreateManyUserInput = {
-    id?: string
+    id?: number
     content: string
-    staus: $Enums.StatusMessage
+    staus?: $Enums.StatusMessage
     createAt?: Date | string
     updateAt?: Date | string
+    roomId?: string | null
+    addressId?: string | null
   }
 
   export type GroupUpdateWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    linkGroup?: NullableStringFieldUpdateOperationsInput | string | null
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11168,6 +11489,7 @@ export namespace Prisma {
   export type GroupUncheckedUpdateWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    linkGroup?: NullableStringFieldUpdateOperationsInput | string | null
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11176,33 +11498,39 @@ export namespace Prisma {
   export type GroupUncheckedUpdateManyWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    linkGroup?: NullableStringFieldUpdateOperationsInput | string | null
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     staus?: EnumStatusMessageFieldUpdateOperationsInput | $Enums.StatusMessage
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    addressId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
     staus?: EnumStatusMessageFieldUpdateOperationsInput | $Enums.StatusMessage
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    addressId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
     staus?: EnumStatusMessageFieldUpdateOperationsInput | $Enums.StatusMessage
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    addressId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

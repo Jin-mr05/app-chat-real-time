@@ -3,6 +3,7 @@ model Group {
 
     // basic detail 
     name     String
+    linkGroup String?
     createAt DateTime @default(now())
     updateAt DateTime @updatedAt
 
