@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Post, Query, Req } from "@nestjs/common";
 import { ChatService } from "../chat/chat.service";
 import { Request } from 'express';
+import { PaginationDto } from "../chat/dto/pagination.dto";
 
 @Controller('user')
 export class UserController {
@@ -10,8 +11,8 @@ export class UserController {
     ) { }
 
     @Get('loading-message')
-    async loadingAllMessage(@Req() req: Request) {
-        return this.chatService.loadingAllMessage(req)
+    async loadingAllMessage(@Req() req: Request, @Query() pagination: PaginationDto) {
+        return this.chatService.loadingAllMessage(req, pagination)
     }
 
     @Post('edit-message')

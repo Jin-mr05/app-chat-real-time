@@ -105,7 +105,12 @@ export class AuthService {
         // send notification verify account
         await this.emailService.sendNotificationVerifyAccount(data.email, newUser.name || 'unknow-user', `http://localhost:4000/auth/verify-account?email=${data.email}`)
 
-        return newUser
+        return {
+            success: true,
+            message: 'Đã gửi email xác nhận. Vui lòng kiểm tra hộp thư.',
+            user: newUser,
+
+        }
     }
 
     // create session
@@ -132,14 +137,14 @@ export class AuthService {
         res
             .cookie('refresh_token', tokens.refreshToken, {
                 httpOnly: true,
-                secure: false,
+                secure: true,
                 sameSite: 'lax',
                 maxAge: MAX_AGE_REFRESH_TOKEN,
                 path: '/',
             })
             .cookie('access_token', tokens.accessToken, {
                 httpOnly: true,
-                secure: false,
+                secure: true,
                 sameSite: 'lax',
                 maxAge: MAX_AGE_ACCESS_TOKEN,
                 path: '/',
@@ -169,18 +174,26 @@ export class AuthService {
         }
 
         if (!exitedUser.isActive) {
+            await this.emailService.sendNotificationVerifyAccount(data.email, exitedUser.name || 'unknow-user', `http://localhost:4000/auth/verify-account?email=${data.email}`)
             throw new ForbiddenException('Request active account')
         }
 
         // create session
-        await this.createSession(exitedUser, res.req.cookies?.session_id, res)
+        const session = await this.createSession(exitedUser, res.req.cookies?.session_id, res)
+
+        const accessToken = session.tokens.accessToken
 
         // set status 
         await this.ticketService.setOnline(exitedUser.id)
 
-        const { hashedPassword, ...userWithoutPassword } = exitedUser
+        // Tìm và sửa phần return trong login method (khoảng dòng 200)
+        const { hashedPassword, ...user } = exitedUser
 
-        return userWithoutPassword
+        return {
+            user: user,
+            token: accessToken, 
+            success: true
+        }
     }
 
     // logout
@@ -310,14 +323,14 @@ export class AuthService {
 
     // delete account
     async deleteAccount(req: Request) {
-        
+
         // find user
         const exitedUser = await this.prismaService.user.findUnique({
             where: { id: req.user?.id },
             select: { id: true, email: true, name: true }
         })
 
-        if(!exitedUser) {
+        if (!exitedUser) {
             throw new NotFoundException('User not found')
         }
 
@@ -333,6 +346,6 @@ export class AuthService {
         return {
             message: 'Delete account success'
         }
-        
+
     }
 }

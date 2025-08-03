@@ -4,6 +4,7 @@ import { Cache } from 'cache-manager';
 import { Request } from 'express';
 import { PrismaService } from "src/prisma/prisma.service";
 import { CustomCacheService } from "../custom-cache/custom-cache.service";
+import { PaginationDto } from "./dto/pagination.dto";
 @Injectable()
 export class ChatService {
 
@@ -66,40 +67,70 @@ export class ChatService {
     }
 
     // loading all message 
-    async loadingAllMessage(req: Request) {
+    async loadingAllMessage(req: Request, pagination: PaginationDto) {
         // find user
         const exitedUser = await this.prismaService.user.findUnique({
             where: { id: req.user?.id }
         })
-
+    
         if (!exitedUser) {
             throw new NotFoundException('user not found')
         }
-
+    
         // find lastest message
         const lastestMessage = await this.prismaService.readProgram.findUnique({
             where: { userId: req.user?.id },
             select: { lastestMessgaId: true }
         })
-
-        // find message
-        let messageCache: any[] = []
-
+    
         if (lastestMessage?.lastestMessgaId == 0) {
             throw new NotFoundException('no conversation yet')
         }
-
-        // loading message
-        for (let i = 0; i <= (lastestMessage?.lastestMessgaId || 0); i++) {
-            const key = `cache-message${exitedUser.id} + ${i}`
-            const message = await this.cacheManager.get(key)
-
+    
+        // Calculate skip and take for pagination
+        const skip = (pagination.page - 1) * pagination.limit;
+        const take = pagination.limit;
+    
+        // Get total count for pagination metadata
+        const totalMessages = lastestMessage?.lastestMessgaId || 0;
+        const totalPages = Math.ceil(totalMessages / pagination.limit);
+    
+        // Calculate range of messages to load
+        const startId = pagination.sort === 'desc' 
+            ? Math.max(1, totalMessages - skip - take + 1)
+            : skip + 1;
+        const endId = pagination.sort === 'desc'
+            ? totalMessages - skip
+            : Math.min(skip + take, totalMessages);
+    
+        let messageCache: any[] = [];
+    
+        // Load messages in range
+        for (let i = startId; i <= endId; i++) {
+            const key = `cache-message${exitedUser.id} + ${i}`;
+            const message = await this.cacheManager.get(key);
+    
             if (message) {
-                messageCache.push(message)
+                messageCache.push(message);
             }
-
         }
-        return messageCache
+    
+        // Sort messages based on preference
+        if (pagination.sort === 'desc') {
+            messageCache = messageCache.reverse();
+        }
+    
+        return {
+            data: messageCache,
+            metadata: {
+                page: pagination.page,
+                limit: pagination.limit,
+                totalPages,
+                totalItems: totalMessages,
+                hasNextPage: pagination.page < totalPages,
+                hasPreviousPage: pagination.page > 1
+            }
+        }
     }
 
     // edit message
@@ -198,7 +229,7 @@ export class ChatService {
 
         const cached = await this.cacheManager.get(key)
 
-        if(cached) {
+        if (cached) {
             await this.cacheManager.del(key)
         }
     }
