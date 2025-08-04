@@ -2,6 +2,8 @@ import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSo
 import { Server, Socket } from "socket.io";
 import { PrismaService } from "src/prisma/prisma.service";
 import { AuthService } from "../auth/auth.service";
+import { GroupService } from "../group/group.service";
+import { NotFoundException } from "@nestjs/common";
 @WebSocketGateway({
     cors: { origin: '*' },
     namespace: 'chat-feature'
@@ -11,6 +13,7 @@ export class ChatGateway {
     constructor(
         private readonly authService: AuthService,
         private readonly prismaService: PrismaService,
+        private readonly groupService: GroupService
     ) { }
 
     // create server
@@ -53,6 +56,47 @@ export class ChatGateway {
         console.log(`User ${userId} joined ${room}`)
     }
 
+    async handleSendMessage(
+        senderId: string,
+        type: 'private' | 'group',
+        targetId: string,  // Changed from 'name' to 'targetId'
+        message: string,
+    ) {
+        // For private messages, verify target user exists by ID
+        if (type === 'private') {
+            const targetUser = await this.prismaService.user.findUnique({
+                where: { id: targetId }
+            })
+
+            if (!targetUser) {
+                throw new Error('user not found')
+            }
+        }
+
+        const room =
+            type === 'group'
+                ? this.getGroupRoom(targetId)  // targetId is the group ID
+                : this.getPrivateRoom(senderId, targetId);  // targetId is the user ID
+
+        this.server.to(room).emit('receive_message', {
+            from: senderId,
+            message
+        });
+
+        const roomId = type === 'group'
+            ? `room:group:${targetId}`  // targetId is the group ID
+            : `room:private:${senderId}_${targetId}`;  // targetId is the user ID
+
+        await this.prismaService.message.create({
+            data: {
+                content: message,
+                userId: senderId,
+                roomId,
+                ...(type === 'private' && { addressId: targetId })
+            }
+        });
+    }
+
     @SubscribeMessage('send_message')
     async sendMessage(
         @ConnectedSocket() client: Socket,
@@ -62,37 +106,46 @@ export class ChatGateway {
             message: string;
         },
     ) {
-        const userId = client.data.userId
-        const room =
-            data.type === 'group'
-                ? this.getGroupRoom(data.targetId)
-                : this.getPrivateRoom(userId, data.targetId)
+        const userId = client.data.userId;
+        await this.handleSendMessage(userId, data.type, data.targetId, data.message);
+    }
 
-        this.server.to(room).emit('receive_message', {
-            from: userId,
-            message: data.message
+     async createRoom(
+        senderId: string,
+        type: 'private' | 'group',
+        name: string,
+    ) {
+
+
+        // find sender user
+        const senderUser = await this.prismaService.user.findUnique({
+            where: { id: senderId}
         })
 
-        if (data.type === 'group') {
-            // save  message
-            await this.prismaService.message.create({
-                data: {
-                    content: data.message,
-                    userId,
-                    roomId: `room:group:${data.targetId}`
-                }
-            })
-
-        } else {
-            // save  message
-            await this.prismaService.message.create({
-                data: {
-                    content: data.message,
-                    userId,
-                    roomId: `room:private:${userId}_${data.targetId}`,
-                    addressId: data.targetId
-                }
-            })
+        if(!senderUser) {
+            throw new NotFoundException('user not found')
         }
+
+        // find user
+        const targetUser = await this.prismaService.user.findFirst({
+            where: { name }
+        })  
+
+        if(!targetUser) {
+            throw new Error('user not found')
+        }
+
+        const room =
+            type === 'group'
+                ? this.getGroupRoom(senderId)
+                : this.getPrivateRoom(senderId, targetUser.id)
+
+        const roomId = type === 'group'
+            ? `room:group:${senderId}`
+            : `room:private:${senderId}_${targetUser.id}`
+
+        const newGroup = await this.groupService.createGroup(senderId, senderUser?.name || '')
+
+        return newGroup
     }
 }

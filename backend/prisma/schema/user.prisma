@@ -20,7 +20,8 @@ model User {
     // one to one
     session     Session?
     code        Code?
-    groups      Group[]
+    memberGroups      GroupMember[]
+    createdGroups Group[]     
     messages    Message[]
     readProgram ReadProgram?
 

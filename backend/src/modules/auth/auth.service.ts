@@ -292,7 +292,6 @@ export class AuthService {
 
     // change password
     async changePassword(req: Request, data: ChangepasswordDto) {
-
         const author = await this.prismaService.user.findUnique({
             where: { id: req.user?.id },
             omit: { hashedPassword: false }
@@ -303,22 +302,22 @@ export class AuthService {
         }
 
         const isMatch = await verify(author.hashedPassword, data.oldPassword)
-
         if (!isMatch) {
             throw new BadRequestException('Password is not match')
         }
 
-        // hashing password
         const hashedNewPassword = await this.hashPassword(data.newPassword)
-
-        // update new password
         await this.prismaService.user.update({
             where: { id: author.id },
             data: { hashedPassword: hashedNewPassword }
         })
 
-        // send notification
         await this.emailService.sendNotificationChangePassword(author.email, author.name || 'unknown user')
+        
+        return {
+            success: true,
+            message: 'Password changed successfully'
+        }
     }
 
     // delete account

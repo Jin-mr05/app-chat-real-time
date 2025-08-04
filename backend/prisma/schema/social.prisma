@@ -2,14 +2,28 @@ model Group {
     id String @id @default(uuid()) @db.Uuid
 
     // basic detail 
-    name     String
+    name      String
     linkGroup String?
-    createAt DateTime @default(now())
-    updateAt DateTime @updatedAt
+    createAt  DateTime @default(now())
+    updateAt  DateTime @updatedAt
 
-    authorId String?
+    authorId String? @db.Uuid
+    author   User?   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
     // realtion
-    // m to m 
-    members User[]
+    members GroupMember[]   
+}
+
+model GroupMember {
+    id String @id @default(uuid()) @db.Uuid
+
+    userId String      @db.Uuid
+    role   RoleInGroup @default(MEMBER)
+    joinAt DateTime    @default(now())
+    user   User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    groupId String @db.Uuid
+    group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@unique([groupId, userId])
 }

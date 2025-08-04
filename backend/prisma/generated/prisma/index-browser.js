@@ -163,6 +163,14 @@ exports.Prisma.GroupScalarFieldEnum = {
   authorId: 'authorId'
 };
 
+exports.Prisma.GroupMemberScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  role: 'role',
+  joinAt: 'joinAt',
+  groupId: 'groupId'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -207,15 +215,15 @@ exports.StatusMessage = exports.$Enums.StatusMessage = {
   READ: 'READ'
 };
 
+exports.RoleInGroup = exports.$Enums.RoleInGroup = {
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+};
+
 exports.Gender = exports.$Enums.Gender = {
   MALE: 'MALE',
   FEMALE: 'FEMALE',
   OTHERS: 'OTHERS'
-};
-
-exports.RoleInGroup = exports.$Enums.RoleInGroup = {
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
 };
 
 exports.Provider = exports.$Enums.Provider = {
@@ -229,6 +237,7 @@ exports.Prisma.ModelName = {
   Message: 'Message',
   ReadProgram: 'ReadProgram',
   Group: 'Group',
+  GroupMember: 'GroupMember',
   User: 'User'
 };
 

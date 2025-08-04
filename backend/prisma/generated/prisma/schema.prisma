@@ -51,10 +51,11 @@ model Message {
 model ReadProgram {
   id String @id @default(uuid()) @db.Uuid
 
-  lastestMessgaId Int?    @default(0)
+  lastestMessgaId Int? @default(0)
+
   // realtion
-  userId          String? @unique @db.Uuid
-  user            User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String? @unique @db.Uuid
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 enum MessageType {
@@ -96,11 +97,25 @@ model Group {
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
 
-  authorId String?
+  authorId String? @db.Uuid
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   // realtion
-  // m to m 
-  members User[]
+  members GroupMember[]
+}
+
+model GroupMember {
+  id String @id @default(uuid()) @db.Uuid
+
+  userId String      @db.Uuid
+  role   RoleInGroup @default(MEMBER)
+  joinAt DateTime    @default(now())
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  groupId String @db.Uuid
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([groupId, userId])
 }
 
 model User {
@@ -123,11 +138,12 @@ model User {
 
   // realtion
   // one to one
-  session     Session?
-  code        Code?
-  groups      Group[]
-  messages    Message[]
-  readProgram ReadProgram?
+  session       Session?
+  code          Code?
+  memberGroups  GroupMember[]
+  createdGroups Group[]
+  messages      Message[]
+  readProgram   ReadProgram?
 
   provider   Provider?
   familyName String?
