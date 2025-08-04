@@ -10,9 +10,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Mail, Lock, User, Loader2, CheckCircle } from "lucide-react"
 import ApiService from "@/lib/api"
+import type { User as UserType } from "@/types/chat" // Import User type
 
 interface RegisterFormProps {
-  onSuccess: () => void
+  onSuccess: (user: UserType) => void // Cập nhật để truyền user object
   onSwitchToLogin: () => void
 }
 
@@ -81,12 +82,19 @@ export function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) 
         password: formData.password,
       })
 
-      if (response.success || response.user) {
-        setSuccess("Đăng ký thành công! Đang chuyển hướng...")
-        setTimeout(() => {
-          onSuccess()
-        }, 1500)
-      } else {  
+      if (response.success) {
+        // Nếu backend trả về user và token (tức là tự động đăng nhập sau đăng ký)
+        if (response.user && response.token) {
+          setSuccess("Đăng ký thành công! Đang chuyển hướng...")
+          setTimeout(() => {
+            onSuccess(response.user) // Truyền user object khi thành công
+          }, 1500)
+        } else {
+          // Nếu backend chỉ trả về success (như trong mock mode: cần xác thực email)
+          setSuccess(response.message || "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.")
+          // Không tự động chuyển hướng, người dùng cần đăng nhập sau khi xác thực
+        }
+      } else {
         setError(response.message || "Đăng ký thất bại. Vui lòng thử lại.")
       }
     } catch (error: any) {
@@ -152,6 +160,7 @@ export function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) 
                 className="pl-10"
                 required
                 disabled={isLoading}
+                autoComplete="name"
               />
             </div>
           </div>
@@ -170,6 +179,7 @@ export function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) 
                 className="pl-10"
                 required
                 disabled={isLoading}
+                autoComplete="email"
               />
             </div>
           </div>
@@ -188,6 +198,7 @@ export function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) 
                 className="pl-10 pr-10"
                 required
                 disabled={isLoading}
+                autoComplete="new-password"
               />
               <Button
                 type="button"
@@ -238,6 +249,7 @@ export function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) 
                 className="pl-10 pr-10"
                 required
                 disabled={isLoading}
+                autoComplete="new-password"
               />
               <Button
                 type="button"

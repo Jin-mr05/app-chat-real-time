@@ -136,8 +136,9 @@ export function MessageList({
                     </div>
                   ) : (
                     <div
-                      className={`rounded-2xl px-4 py-2 ${isCurrentUser ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-900"
-                        }`}
+                      className={`rounded-2xl px-4 py-2 ${
+                        isCurrentUser ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-900"
+                      }`}
                     >
                       <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                     </div>
@@ -148,7 +149,7 @@ export function MessageList({
                     <div className="absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button size="sm" variant="ghost" className="h-6 w-6 p-0" title="Tùy chọn tin nhắn">
+                          <Button size="sm" variant="ghost" className="h-6 w-6 p-0">
                             <MoreVertical className="h-3 w-3" />
                           </Button>
                         </DropdownMenuTrigger>

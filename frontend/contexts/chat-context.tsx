@@ -2,25 +2,51 @@
 
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
-import type { Chat, User, Message, ChatContextType } from "@/types/chat"
+import type { Chat, User, Message } from "@/types/chat"
 import SocketService from "@/lib/socket"
 import ApiService from "@/lib/api"
 import { config } from "@/lib/config"
 import type { Socket } from "socket.io-client"
 
+// Cập nhật ChatContextType để bao gồm onLogout
+export interface ChatContextType {
+  chats: Chat[]
+  activeChat: Chat | null
+  currentUser: User | null
+  isConnected: boolean
+  connectionStatus: "connecting" | "connected" | "disconnected" | "mock"
+  typingUsers: { [chatId: string]: string[] }
+  setActiveChat: (chat: Chat) => void
+  sendMessage: (chatId: string, content: string) => void
+  editMessage: (messageId: string, content: string) => Promise<void>
+  deleteMessage: (messageId: string) => Promise<void>
+  createIndividualChat: (user: User) => Promise<void>
+  createGroupChat: (name: string, participants: User[]) => Promise<void>
+  loadMessages: () => Promise<void>
+  retryConnection: () => void
+  emitTyping: (chatId: string, isTyping: boolean) => void
+  updateCurrentUser: (user: User) => void
+  onLogout: () => void // Thêm onLogout vào context
+}
+
 const ChatContext = createContext<ChatContextType | undefined>(undefined)
 
-export function ChatProvider({ children }: { children: React.ReactNode }) {
+// Cập nhật ChatProviderProps để nhận onLogout
+interface ChatProviderProps {
+  children: React.ReactNode
+  onLogout: () => void // Nhận onLogout từ AuthGuard
+}
+
+export function ChatProvider({ children, onLogout }: ChatProviderProps) {
   const [chats, setChats] = useState<Chat[]>([])
   const [activeChat, setActiveChat] = useState<Chat | null>(null)
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const [currentUser, setCurrentUser] = useState<User | null>(null) // Khôi phục về null
   const [socket, setSocket] = useState<Socket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState<"connecting" | "connected" | "disconnected" | "mock">(
     "connecting",
   )
 
-  // Thêm state cho typing indicator
   const [typingUsers, setTypingUsers] = useState<{ [chatId: string]: string[] }>({})
 
   useEffect(() => {
@@ -29,10 +55,9 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
 
   const initializeApp = async () => {
     try {
-      // Load user from localStorage or set demo user
+      // Khôi phục logic tải người dùng từ localStorage
       let userData = localStorage.getItem("user")
       if (!userData && !config.USE_REAL_BACKEND) {
-        // Set demo user for mock mode
         const demoUser = { id: "current", name: "Demo User", isOnline: true }
         localStorage.setItem("user", JSON.stringify(demoUser))
         userData = JSON.stringify(demoUser)
@@ -42,7 +67,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         setCurrentUser(JSON.parse(userData))
       }
 
-      // Initialize socket connection
       if (config.USE_REAL_BACKEND) {
         const socketService = SocketService.getInstance()
         const socketInstance = socketService.connect()
@@ -66,12 +90,11 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
             setConnectionStatus("disconnected")
           })
 
-          // Listen for new messages - cập nhật NGAY LẬP TỨC
           socketInstance.on("receive_message", (message: Message) => {
             console.log("📨 Received new message:", message)
 
-            setChats((prevChats) =>
-              prevChats.map((chat) =>
+            setChats((prevChats) => {
+              const updatedChats = prevChats.map((chat) =>
                 chat.id === message.chatId
                   ? {
                       ...chat,
@@ -80,11 +103,14 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
                       unreadCount: activeChat?.id === message.chatId ? 0 : chat.unreadCount + 1,
                     }
                   : chat,
-              ),
-            )
+              )
+              if (!updatedChats.some((chat) => chat.id === message.chatId)) {
+                console.warn("Received message for unknown chat ID:", message.chatId)
+              }
+              return updatedChats
+            })
           })
 
-          // Listen for message updates - cập nhật NGAY LẬP TỨC
           socketInstance.on("message_updated", (updatedMessage: Message) => {
             console.log("✏️ Message updated:", updatedMessage)
 
@@ -100,7 +126,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
             )
           })
 
-          // Listen for message deletions - cập nhật NGAY LẬP TỨC
           socketInstance.on("message_deleted", (messageId: string, chatId: string) => {
             console.log("🗑️ Message deleted:", messageId)
 
@@ -116,7 +141,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
             )
           })
 
-          // Listen for typing events
           socketInstance.on("user_typing", (data: { userId: string; chatId: string; isTyping: boolean }) => {
             setTypingUsers((prev) => {
               const chatTyping = prev[data.chatId] || []
@@ -139,10 +163,9 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         }
       } else {
         setConnectionStatus("mock")
-        setIsConnected(true) // Mock mode is always "connected"
+        setIsConnected(true)
       }
 
-      // Load initial messages
       await loadMessages()
     } catch (error) {
       console.error("Failed to initialize app:", error)
@@ -166,7 +189,19 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
 
   const joinChat = (chatId: string) => {
     if (socket && isConnected && config.USE_REAL_BACKEND) {
-      socket.emit("join-chat", { chatId })
+      const chat = chats.find(c => c.id === chatId)
+      const isGroup = chat?.type === 'group'
+      
+      let targetId = chatId
+      if (!isGroup && chat && chat.participants.length === 2 && currentUser) {
+        const otherUser = chat.participants.find(p => p.id !== currentUser.id)
+        targetId = otherUser?.id || chatId
+      }
+
+      socket.emit('join-chat', { 
+        type: isGroup ? 'group' : 'private', 
+        targetId 
+      })
     }
   }
 
@@ -178,12 +213,11 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       senderId: currentUser.id,
       content,
       timestamp: new Date(),
-      type: "text",
+      type: 'text',
       isRead: false,
       chatId,
     }
 
-    // Optimistically add message to UI IMMEDIATELY
     setChats((prevChats) =>
       prevChats.map((chat) =>
         chat.id === chatId
@@ -197,22 +231,29 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     )
 
     if (socket && isConnected && config.USE_REAL_BACKEND) {
-      const messageData = {
-        chatId,
-        content,
-        senderId: currentUser.id,
-        timestamp: new Date(),
+      const chat = chats.find(c => c.id === chatId)
+      const isGroup = chat?.type === 'group'
+      
+      let targetId = chatId
+      if (!isGroup && chat && chat.participants.length === 2) {
+        const otherUser = chat.participants.find(p => p.id !== currentUser.id)
+        targetId = otherUser?.id || chatId
       }
-      socket.emit("send_message", messageData)
+
+      const messageData = {
+        type: isGroup ? 'group' : 'private',
+        targetId,
+        message: content,
+      }
+      socket.emit('send_message', messageData)
     } else {
-      // Mock mode - simulate response IMMEDIATELY
       setTimeout(() => {
         const mockResponse: Message = {
           id: `mock-${Date.now()}`,
-          senderId: activeChat?.participants.find((p) => p.id !== currentUser.id)?.id || "1",
+          senderId: activeChat?.participants.find((p) => p.id !== currentUser.id)?.id || '1',
           content: `Echo: ${content} (Chế độ demo)`,
           timestamp: new Date(),
-          type: "text",
+          type: 'text',
           isRead: false,
           chatId,
         }
@@ -228,7 +269,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
               : chat,
           ),
         )
-      }, 500) // Giảm delay từ 1000ms xuống 500ms
+      }, 500)
     }
   }
 
@@ -236,7 +277,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     try {
       await ApiService.editMessage(messageId, content)
 
-      // Update UI optimistically
       setChats((prevChats) =>
         prevChats.map((chat) => ({
           ...chat,
@@ -252,7 +292,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     try {
       await ApiService.deleteMessage(messageId)
 
-      // Update UI optimistically
       setChats((prevChats) =>
         prevChats.map((chat) => ({
           ...chat,
@@ -270,13 +309,11 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       joinChat(chat.id)
     }
 
-    // Mark messages as read
     setChats((prevChats) => prevChats.map((c) => (c.id === chat.id ? { ...c, unreadCount: 0 } : c)))
   }
 
   const createIndividualChat = async (user: User) => {
     try {
-      // Check if chat already exists
       const existingChat = chats.find(
         (chat) => chat.type === "individual" && chat.participants.some((p) => p.id === user.id),
       )
@@ -287,11 +324,20 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       }
 
       const newChat = await ApiService.createIndividualChat(user.id)
-      newChat.participants = [user, currentUser!]
-      newChat.name = user.name
+      if (!newChat.participants || newChat.participants.length === 0) {
+        newChat.participants = [user, currentUser!]
+      }
+      if (!newChat.name) {
+        newChat.name = user.name
+      }
       newChat.isOnline = user.isOnline
+      newChat.messages = []
 
-      setChats((prev) => [newChat, ...prev])
+      setChats((prev) => {
+        const updatedChats = [newChat, ...prev]
+        console.log("ChatContext: Chats after creating individual chat", updatedChats)
+        return updatedChats
+      })
       setActiveChat(newChat)
     } catch (error) {
       console.error("Failed to create individual chat:", error)
@@ -302,11 +348,23 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const createGroupChat = async (name: string, participants: User[]) => {
     try {
       const userIds = participants.map((p) => p.id)
+      console.log("ChatContext: Calling ApiService.createGroupChat with name:", name, "userIds:", userIds)
       const newChat = await ApiService.createGroupChat(name, userIds)
-      newChat.participants = [...participants, currentUser!]
-      newChat.name = name
+      console.log("ChatContext: Received new chat from API service", newChat)
 
-      setChats((prev) => [newChat, ...prev])
+      if (!newChat.participants || newChat.participants.length === 0) {
+        newChat.participants = [...participants, currentUser!]
+      }
+      if (!newChat.name) {
+        newChat.name = name
+      }
+      newChat.messages = []
+
+      setChats((prev) => {
+        const updatedChats = [newChat, ...prev]
+        console.log("ChatContext: Chats after creating group chat", updatedChats)
+        return updatedChats
+      })
       setActiveChat(newChat)
     } catch (error) {
       console.error("Failed to create group chat:", error)
@@ -322,14 +380,17 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  // Thêm function để emit typing events
   const emitTyping = (chatId: string, isTyping: boolean) => {
     if (socket && isConnected && config.USE_REAL_BACKEND && currentUser) {
       socket.emit("typing", { chatId, userId: currentUser.id, isTyping })
     }
   }
 
-  // Thêm vào return value của context
+  const updateCurrentUser = (user: User) => {
+    setCurrentUser(user)
+    localStorage.setItem("user", JSON.stringify(user))
+  }
+
   return (
     <ChatContext.Provider
       value={{
@@ -348,6 +409,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         loadMessages,
         retryConnection,
         emitTyping,
+        updateCurrentUser,
+        onLogout, // Truyền onLogout vào context
       }}
     >
       {children}

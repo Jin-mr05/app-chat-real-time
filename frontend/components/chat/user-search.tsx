@@ -19,17 +19,26 @@ export function UserSearch() {
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState<User[]>([])
   const [isSearching, setIsSearching] = useState(false)
+  const [searchError, setSearchError] = useState<string | null>(null) // New state for search errors
 
   const handleSearch = async () => {
-    if (!searchQuery.trim()) return
+    if (!searchQuery.trim()) {
+      setSearchResults([])
+      setSearchError(null)
+      return
+    }
 
     setIsSearching(true)
+    setSearchError(null) // Clear previous errors
     try {
+      console.log("UserSearch: Searching for users with query:", searchQuery.trim())
       const results = await ApiService.searchUsers(searchQuery.trim())
+      console.log("UserSearch: Search results received:", results)
       setSearchResults(results)
-    } catch (error) {
-      console.error("Error searching users:", error)
+    } catch (error: any) {
+      console.error("UserSearch: Error searching users:", error)
       setSearchResults([])
+      setSearchError(error.message || "Đã xảy ra lỗi khi tìm kiếm người dùng.")
     } finally {
       setIsSearching(false)
     }
@@ -37,12 +46,15 @@ export function UserSearch() {
 
   const handleStartChat = async (user: User) => {
     try {
+      console.log("UserSearch: Starting individual chat with user:", user.name)
       await createIndividualChat(user)
       setIsOpen(false)
       setSearchQuery("")
       setSearchResults([])
+      setSearchError(null)
     } catch (error) {
-      console.error("Error creating chat:", error)
+      console.error("UserSearch: Error creating chat:", error)
+      setSearchError("Không thể tạo cuộc trò chuyện. Vui lòng thử lại.")
     }
   }
 
@@ -77,8 +89,17 @@ export function UserSearch() {
             </Button>
           </div>
 
+          {searchError && <div className="text-red-500 text-sm text-center">{searchError}</div>}
+
           <div className="max-h-60 overflow-y-auto">
-            {searchResults.length === 0 && searchQuery && !isSearching && (
+            {isSearching && searchQuery && (
+              <div className="text-center py-8 text-gray-500">
+                <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-blue-600" />
+                <p>Đang tìm kiếm...</p>
+              </div>
+            )}
+
+            {searchResults.length === 0 && searchQuery && !isSearching && !searchError && (
               <div className="text-center py-8 text-gray-500">
                 <Search className="h-12 w-12 mx-auto mb-2 text-gray-300" />
                 <p>Không tìm thấy người dùng nào</p>

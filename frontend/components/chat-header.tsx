@@ -5,15 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { LogOut, Settings, User } from "lucide-react"
+import Link from "next/link" // Import Link from Next.js
 
 export function ChatHeader() {
-  const { currentUser } = useChat()
-
-  const handleLogout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    window.location.reload()
-  }
+  const { currentUser, onLogout } = useChat() // Lấy onLogout từ context
 
   if (!currentUser) return null
 
@@ -28,7 +23,7 @@ export function ChatHeader() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="rounded-full" title="Menu người dùng">
+            <Button variant="ghost" size="sm" className="rounded-full">
               <Avatar className="h-8 w-8">
                 <AvatarFallback className="bg-blue-100">
                   <User className="h-4 w-4 text-blue-600" />
@@ -37,11 +32,13 @@ export function ChatHeader() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <Settings className="h-4 w-4 mr-2" />
-              Cài đặt
+            <DropdownMenuItem asChild>
+              <Link href="/settings" className="flex items-center">
+                <Settings className="h-4 w-4 mr-2" />
+                Cài đặt
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+            <DropdownMenuItem onClick={onLogout} className="text-red-600">
               <LogOut className="h-4 w-4 mr-2" />
               Đăng xuất
             </DropdownMenuItem>

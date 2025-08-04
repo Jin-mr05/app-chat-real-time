@@ -1,3 +1,9 @@
+export enum Gender {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHER = "OTHER",
+}
+
 export interface User {
   id: string
   name: string
@@ -5,6 +11,8 @@ export interface User {
   avatar?: string
   isOnline: boolean
   lastSeen?: Date
+  birthday?: string // YYYY-MM-DD format
+  gender?: Gender
 }
 
 export interface Message {
@@ -45,4 +53,5 @@ export interface ChatContextType {
   loadMessages: () => Promise<void>
   retryConnection: () => void
   emitTyping: (chatId: string, isTyping: boolean) => void
+  updateCurrentUser: (user: User) => void // New: Function to update current user in context
 }

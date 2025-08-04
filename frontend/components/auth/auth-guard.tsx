@@ -5,6 +5,8 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { AuthPage } from "./auth-page"
 import { Loader2 } from "lucide-react"
+import { ChatProvider } from "@/contexts/chat-context" // Import ChatProvider
+import type { User } from "@/types/chat" // Import User type
 
 interface AuthGuardProps {
   children: React.ReactNode
@@ -13,6 +15,7 @@ interface AuthGuardProps {
 export function AuthGuard({ children }: AuthGuardProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  // Loại bỏ state authenticatedUser vì ChatProvider sẽ tự đọc từ localStorage
 
   useEffect(() => {
     checkAuthStatus()
@@ -21,9 +24,9 @@ export function AuthGuard({ children }: AuthGuardProps) {
   const checkAuthStatus = () => {
     try {
       const token = localStorage.getItem("token")
-      const user = localStorage.getItem("user")
+      const userJson = localStorage.getItem("user")
 
-      if (token && user) {
+      if (token && userJson) {
         setIsAuthenticated(true)
       } else {
         setIsAuthenticated(false)
@@ -36,14 +39,18 @@ export function AuthGuard({ children }: AuthGuardProps) {
     }
   }
 
-  const handleAuthSuccess = () => {
+  // Hàm này sẽ được gọi khi đăng nhập/đăng ký thành công
+  const handleAuthSuccess = (user: User) => {
+    // User và token đã được lưu vào localStorage bởi ApiService trong LoginForm/RegisterForm
     setIsAuthenticated(true)
   }
 
+  // Hàm logout để truyền xuống ChatProvider
   const handleLogout = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
     setIsAuthenticated(false)
+    window.location.reload() // Tải lại trang để đảm bảo trạng thái được reset hoàn toàn
   }
 
   if (isLoading) {
@@ -61,5 +68,6 @@ export function AuthGuard({ children }: AuthGuardProps) {
     return <AuthPage onAuthSuccess={handleAuthSuccess} />
   }
 
-  return <>{children}</>
+  // Nếu đã xác thực, render ChatProvider và truyền children vào
+  return <ChatProvider onLogout={handleLogout}>{children}</ChatProvider>
 }

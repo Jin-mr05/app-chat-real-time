@@ -25,11 +25,11 @@ class SocketService {
 
     if (!this.socket) {
       try {
-        this.socket = io(config.SOCKET_URL, {
+        this.socket = io(config.SOCKET_URL + '/chat-feature', {
           auth: {
-            token: token || localStorage.getItem("token"),
+            token: token || localStorage.getItem('token'),
           },
-          transports: ["websocket", "polling"],
+          transports: ['websocket', 'polling'],
           timeout: 5000,
           reconnection: true,
           reconnectionAttempts: this.maxRetries,

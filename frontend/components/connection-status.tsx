@@ -59,7 +59,7 @@ export function ConnectionStatus() {
       </Badge>
 
       {connectionStatus === "disconnected" && config.USE_REAL_BACKEND && (
-        <Button size="sm" variant="ghost" onClick={retryConnection} className="h-6 px-2" title="Thử kết nối lại">
+        <Button size="sm" variant="ghost" onClick={retryConnection} className="h-6 px-2">
           <RefreshCw className="h-3 w-3" />
         </Button>
       )}

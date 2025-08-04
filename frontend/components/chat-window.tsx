@@ -131,25 +131,44 @@ export function ChatWindow() {
     )
   }
 
-  const otherParticipants = activeChat.participants.filter((p) => p.id !== currentUser?.id)
+  // XÓA đoạn code này (dòng 140-155)
+  // if (!activeChat || !activeChat.participants || !currentUser) {
+  //   return (
+  //     <div className="flex-1 flex items-center justify-center bg-gray-50">
+  //       <div className="text-center">
+  //         <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+  //           <Users className="h-10 w-10 text-blue-600" />
+  //         </div>
+  //         <h3 className="text-xl font-semibold text-gray-900 mb-2">Đang tải cuộc trò chuyện...</h3>
+  //         <p className="text-gray-600">Vui lòng đợi trong giây lát</p>
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
+  // Giữ lại chỉ điều kiện đầu tiên và sử dụng null-safe operators
+  const otherParticipants = activeChat?.participants?.filter((p) => p?.id !== currentUser?.id) || []
+
+  // Trong phần render, sử dụng optional chaining để tránh lỗi
   return (
     <div className="flex-1 flex flex-col bg-white">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
-            <AvatarFallback className={`${activeChat.type === "group" ? "bg-purple-100" : "bg-blue-100"}`}>
-              {activeChat.type === "group" ? (
+            <AvatarFallback className={`${activeChat?.type === "group" ? "bg-purple-100" : "bg-blue-100"}`}>
+              {activeChat?.type === "group" ? (
                 <Users className="h-5 w-5 text-purple-600" />
               ) : (
-                <span className="text-blue-600 font-semibold">{activeChat.name.charAt(0).toUpperCase()}</span>
+                <span className="text-blue-600 font-semibold">
+                  {activeChat?.name?.charAt(0)?.toUpperCase() || '?'}
+                </span>
               )}
             </AvatarFallback>
           </Avatar>
           <div>
-            <h2 className="font-semibold text-gray-900">{activeChat.name}</h2>
-            {activeChat.type === "individual" ? (
+            <h2 className="font-semibold text-gray-900">{activeChat?.name || 'Không có tên'}</h2>
+            {activeChat?.type === "individual" ? (
               <p className="text-sm text-gray-600">
                 {activeChat.isOnline ? (
                   <span className="flex items-center gap-1">
@@ -161,19 +180,21 @@ export function ChatWindow() {
                 )}
               </p>
             ) : (
-              <p className="text-sm text-gray-600">{otherParticipants.length + 1} thành viên</p>
+              <p className="text-sm text-gray-600">
+                {(otherParticipants?.length || 0) + 1} thành viên
+              </p>
             )}
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <Button size="sm" variant="ghost" className="rounded-full" title="Gọi thoại">
+          <Button size="sm" variant="ghost" className="rounded-full">
             <Phone className="h-5 w-5 text-blue-600" />
           </Button>
-          <Button size="sm" variant="ghost" className="rounded-full" title="Gọi video">
+          <Button size="sm" variant="ghost" className="rounded-full">
             <Video className="h-5 w-5 text-blue-600" />
           </Button>
-          <Button size="sm" variant="ghost" className="rounded-full" title="Thông tin">
+          <Button size="sm" variant="ghost" className="rounded-full">
             <Info className="h-5 w-5 text-blue-600" />
           </Button>
         </div>
@@ -182,7 +203,7 @@ export function ChatWindow() {
       {/* Messages */}
       <ScrollArea className="flex-1 p-4">
         <MessageList
-          messages={activeChat.messages}
+          messages={activeChat.messages || []}
           activeChat={activeChat}
           currentUser={currentUser}
           editingMessageId={editingMessageId}
@@ -198,7 +219,7 @@ export function ChatWindow() {
       {/* Input */}
       <div className="p-4 border-t border-gray-200 bg-white">
         <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-          <Button type="button" size="sm" variant="ghost" className="rounded-full" title="Chọn emoji">
+          <Button type="button" size="sm" variant="ghost" className="rounded-full">
             <Smile className="h-5 w-5 text-blue-600" />
           </Button>
           <Input

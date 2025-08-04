@@ -10,9 +10,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react"
 import ApiService from "@/lib/api"
+import type { User } from "@/types/chat" // Import User type
 
 interface LoginFormProps {
-  onSuccess: () => void
+  onSuccess: (user: User) => void // Cập nhật để truyền user object
   onSwitchToRegister: () => void
 }
 
@@ -44,7 +45,7 @@ export function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormProps) {
 
       if (response.user && response.token) {
         console.log("✅ Login successful:", response.user)
-        onSuccess()
+        onSuccess(response.user) // Truyền user object khi thành công
       } else {
         setError("Đăng nhập thất bại. Vui lòng thử lại.")
       }
@@ -86,6 +87,7 @@ export function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormProps) {
                 className="pl-10"
                 required
                 disabled={isLoading}
+                autoComplete="email" // Thêm dòng này
               />
             </div>
           </div>
@@ -104,6 +106,7 @@ export function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormProps) {
                 className="pl-10 pr-10"
                 required
                 disabled={isLoading}
+                autoComplete="current-password" // Thêm dòng này
               />
               <Button
                 type="button"
