@@ -16,6 +16,7 @@ import { ChatModule } from './modules/chat/chat.module';
 import { UserModule } from './modules/user/user.module';
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
 
 @Module({
@@ -29,6 +30,14 @@ const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
     CacheModule.register({
       isGlobal: true,
       ttl: TIME_LIFE_CACHE,
+    }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
     })
   ],
   controllers: [AppController],
@@ -43,6 +52,10 @@ const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
     },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
   ],
 })
 export class AppModule { }

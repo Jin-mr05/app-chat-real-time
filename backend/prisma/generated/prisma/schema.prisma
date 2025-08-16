@@ -88,14 +88,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Group {
+model Room {
   id String @id @default(uuid()) @db.Uuid
 
   // basic detail 
-  name      String
-  linkGroup String?
-  createAt  DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  name     String
+  linkRoom String?
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 
   authorId String? @db.Uuid
   author   User?   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -107,15 +107,55 @@ model Group {
 model GroupMember {
   id String @id @default(uuid()) @db.Uuid
 
-  userId String      @db.Uuid
-  role   RoleInGroup @default(MEMBER)
-  joinAt DateTime    @default(now())
-  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String   @db.Uuid
+  joinAt DateTime @default(now())
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   groupId String @db.Uuid
-  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  group   Room   @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([groupId, userId])
+}
+
+model Role {
+  id String @id @default(uuid()) @db.Uuid
+
+  nameRole String
+
+  // realtion
+  userRoleId String?   @db.Uuid
+  userRole   UserRole? @relation(fields: [userRoleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  rolePermisson RolePermisson[]
+}
+
+model UserRole {
+  id String @id @default(uuid()) @db.Uuid
+
+  // realtion
+  userId String? @db.Uuid
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roles  Role[]
+}
+
+model Permission {
+  id String @id @default(uuid()) @db.Uuid
+
+  namePermission String
+  codePermisson  Int
+
+  // realtion
+  rolePermissonId String?        @db.Uuid
+  rolePermission  RolePermisson? @relation(fields: [rolePermissonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model RolePermisson {
+  id String @id @default(uuid()) @db.Uuid
+
+  roleId     String       @db.Uuid
+  role       Role         @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  // realtion
+  permission Permission[]
 }
 
 model User {
@@ -125,7 +165,6 @@ model User {
   name     String?
   birthday DateTime?
   gender   Gender?
-  roleInGr RoleInGroup @default(MEMBER)
 
   //auth 
   email          String    @unique
@@ -137,32 +176,17 @@ model User {
   deleteAt       DateTime?
 
   // realtion
-  // one to one
   session       Session?
   code          Code?
+  roles         UserRole[]
   memberGroups  GroupMember[]
-  createdGroups Group[]
+  createdGroups Room[]
   messages      Message[]
   readProgram   ReadProgram?
-
-  provider   Provider?
-  familyName String?
-  facebookId String?
-  idOauth2   String?
 }
 
 enum Gender {
   MALE
   FEMALE
   OTHERS
-}
-
-enum RoleInGroup {
-  ADMIN
-  MEMBER
-}
-
-enum Provider {
-  FACEBOOK
-  GOOGLE
 }

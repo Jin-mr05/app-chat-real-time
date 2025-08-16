@@ -38,7 +38,7 @@ export class AuthController {
 
     @Public()
     @Get('verify-account')
-    async verifyAccount(@Query('email')email: string,@Res() res: Response) {
+    async verifyAccount(@Query('email') email: string, @Res() res: Response) {
         return this.authService.verifyAccount(email, res)
     }
 

@@ -5,7 +5,6 @@ model User {
     name     String?
     birthday DateTime?
     gender   Gender?
-    roleInGr RoleInGroup @default(MEMBER)
 
     //auth 
     email          String    @unique
@@ -17,32 +16,17 @@ model User {
     deleteAt       DateTime?
 
     // realtion
-    // one to one
-    session     Session?
-    code        Code?
-    memberGroups      GroupMember[]
-    createdGroups Group[]     
-    messages    Message[]
-    readProgram ReadProgram?
-
-    provider   Provider?
-    familyName String?
-    facebookId String?
-    idOauth2   String?
+    session       Session?
+    code          Code?
+    roles         UserRole[]
+    memberGroups  GroupMember[]
+    createdGroups Room[]
+    messages      Message[]
+    readProgram   ReadProgram?
 }
 
 enum Gender {
     MALE
     FEMALE
     OTHERS
-}
-
-enum RoleInGroup {
-    ADMIN
-    MEMBER
-}
-
-enum Provider {
-    FACEBOOK
-    GOOGLE
 }

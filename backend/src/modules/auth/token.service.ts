@@ -33,7 +33,7 @@ export class TokenService {
     }
 
     // store tokens
-    async storeTokens(userId: string, hashRefreshToken: string, sessionId: string) {
+    async storeTokens(userId: string, hashRefreshToken: string) {
         const session = await this.prismaService.session.upsert({
             where: { userId: userId },
             update: {

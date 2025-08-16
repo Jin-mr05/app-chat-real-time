@@ -8,22 +8,21 @@ export class TicketService {
     private redis = new Redis()
 
     // key follow status user
-    private onlineLey = (userId: string) => `user:${userId}:status`
+    private onlineKey = (userId: string) => `user:${userId}:status`
     private lastSeenKey = (userId: string) => `user:${userId}:lastSeen`
 
     async setOnline(userId: string) {
-        await this.redis.set(this.onlineLey(userId), 'online')
+        await this.redis.set(this.onlineKey(userId), 'online')
         await this.redis.set(this.lastSeenKey(userId), Date.now().toString())
     }
 
     async setOffline(userId: string) {
-        await this.redis.set(this.onlineLey(userId), 'offline')
+        await this.redis.set(this.onlineKey(userId), 'offline')
         await this.redis.set(this.lastSeenKey(userId), Date.now().toString())
     }
 
-    // get time behavior before online or offline
-    async getLastSeen(userId: string): Promise<string | null> {
-        return await this.redis.get(this.lastSeenKey(userId));
+    async getStatususer(userId: string) {
+        return await this.redis.get(this.onlineKey(userId))
     }
 
 }

@@ -154,10 +154,10 @@ exports.Prisma.ReadProgramScalarFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.GroupScalarFieldEnum = {
+exports.Prisma.RoomScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  linkGroup: 'linkGroup',
+  linkRoom: 'linkRoom',
   createAt: 'createAt',
   updateAt: 'updateAt',
   authorId: 'authorId'
@@ -166,9 +166,31 @@ exports.Prisma.GroupScalarFieldEnum = {
 exports.Prisma.GroupMemberScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  role: 'role',
   joinAt: 'joinAt',
   groupId: 'groupId'
+};
+
+exports.Prisma.RoleScalarFieldEnum = {
+  id: 'id',
+  nameRole: 'nameRole',
+  userRoleId: 'userRoleId'
+};
+
+exports.Prisma.UserRoleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId'
+};
+
+exports.Prisma.PermissionScalarFieldEnum = {
+  id: 'id',
+  namePermission: 'namePermission',
+  codePermisson: 'codePermisson',
+  rolePermissonId: 'rolePermissonId'
+};
+
+exports.Prisma.RolePermissonScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -176,18 +198,13 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   birthday: 'birthday',
   gender: 'gender',
-  roleInGr: 'roleInGr',
   email: 'email',
   hashedPassword: 'hashedPassword',
   isActive: 'isActive',
   idDelete: 'idDelete',
   createAt: 'createAt',
   updateAt: 'updateAt',
-  deleteAt: 'deleteAt',
-  provider: 'provider',
-  familyName: 'familyName',
-  facebookId: 'facebookId',
-  idOauth2: 'idOauth2'
+  deleteAt: 'deleteAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -215,20 +232,10 @@ exports.StatusMessage = exports.$Enums.StatusMessage = {
   READ: 'READ'
 };
 
-exports.RoleInGroup = exports.$Enums.RoleInGroup = {
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
-};
-
 exports.Gender = exports.$Enums.Gender = {
   MALE: 'MALE',
   FEMALE: 'FEMALE',
   OTHERS: 'OTHERS'
-};
-
-exports.Provider = exports.$Enums.Provider = {
-  FACEBOOK: 'FACEBOOK',
-  GOOGLE: 'GOOGLE'
 };
 
 exports.Prisma.ModelName = {
@@ -236,8 +243,12 @@ exports.Prisma.ModelName = {
   Code: 'Code',
   Message: 'Message',
   ReadProgram: 'ReadProgram',
-  Group: 'Group',
+  Room: 'Room',
   GroupMember: 'GroupMember',
+  Role: 'Role',
+  UserRole: 'UserRole',
+  Permission: 'Permission',
+  RolePermisson: 'RolePermisson',
   User: 'User'
 };
 
