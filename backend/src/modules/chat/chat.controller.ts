@@ -1,13 +1,13 @@
 import { Body, Controller, Post, Req } from "@nestjs/common";
 import { Request } from 'express';
-import { GroupService } from "../group/group.service";
+import { RoomService } from "../room/room.service";
 import { ChatGateway } from "./chat.gateway";
 import { ChatService } from "./chat.service";
 @Controller('chat')
 export class ChatController {
     constructor(
         private readonly chatService: ChatService,
-        private readonly groupService: GroupService,
+        private readonly roomService: RoomService,
         private readonly gateway: ChatGateway
     ) { }
 
@@ -32,6 +32,6 @@ export class ChatController {
         @Req() req: Request,
         @Body('name') name: string,
     ) {
-        return this.groupService.createGroup(req.user?.id, name)
+        return this.roomService.createRoom(req.user?.id, name)
     }
 }

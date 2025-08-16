@@ -150,10 +150,10 @@ export class AuthService {
         // find account
         const existingUser = await this.customCache.getUserByEmailInCache(data.email);
 
-        if (!existingUser) { 
-            const key = `account:${data.email}`
-            await this.customCache.setCacheTempUser(key , null)
-            throw new NotFoundException('Account does not exist') 
+        if (!existingUser) {
+            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(data.email)
+            await this.customCache.setCacheTempObject(key, null)
+            throw new NotFoundException('Account does not exist')
         }
 
         // verify password
@@ -223,8 +223,8 @@ export class AuthService {
         const existingAccount = await this.customCache.getUserByEmailInCache(email);
 
         if (!existingAccount) {
-            const key = `account:${email}`
-            await this.customCache.setCacheTempUser(key , null)
+            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(email)
+            await this.customCache.setCacheTempObject(key, null)
             throw new NotFoundException('Account does not exist');
         }
 
@@ -269,8 +269,8 @@ export class AuthService {
         const existingUser = await this.customCache.getUserByIdInCache(userId);
 
         if (!existingUser) {
-            const key = `account:${userId}`
-            await this.customCache.setCacheTempUser(key, null)
+            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
+            await this.customCache.setCacheTempObject(key, null)
             throw new NotFoundException('User not found');
         }
 
@@ -303,8 +303,8 @@ export class AuthService {
         const user = await this.customCache.getUserByIdInCache(userId);
 
         if (!user) {
-            const key = `account:${userId}`
-            await this.customCache.setCacheTempUser(key , null)
+            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
+            await this.customCache.setCacheTempObject(key, null)
             throw new NotFoundException("User not found")
         }
 
@@ -347,8 +347,8 @@ export class AuthService {
         const existingUser = await this.customCache.getUserByIdInCache(userId);
 
         if (!existingUser) {
-            const key = `account:${userId}`
-            await this.customCache.setCacheTempUser(key, null)
+            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
+            await this.customCache.setCacheTempObject(key, null)
             throw new NotFoundException('User not found')
         }
 

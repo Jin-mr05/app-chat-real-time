@@ -54,9 +54,8 @@ export class UserService {
     }
 
     // find user 
-    async findUser(name: string) {
-        // exited find user
-
+    async findUserByName(nameUser: string) {
+        // find user
         const key = `user-${name}`
         const exitedUser = await this.customCacheService.getOrSet(key, async () => {
             this.prismaService.user.findFirst({

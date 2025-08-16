@@ -18,7 +18,6 @@ model User {
     // realtion
     session       Session?
     code          Code?
-    roles         UserRole[]
     memberGroups  GroupMember[]
     createdGroups Room[]
     messages      Message[]

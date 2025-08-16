@@ -4,7 +4,7 @@ import { ChatService } from './chat.service';
 import { ChatGateway } from './chat.gateway';
 import { AuthModule } from '../auth/auth.module';
 import { ChatController } from './chat.controller';
-import { GroupModule } from '../group/group.module';
+import { GroupModule } from '../room/room.module';
 
 @Module({
     imports: [CustomCacheModule, AuthModule, GroupModule],
@@ -12,4 +12,4 @@ import { GroupModule } from '../group/group.module';
     providers: [ChatService, ChatGateway],
     exports: [ChatService]
 })
-export class ChatModule {}
+export class ChatModule { }

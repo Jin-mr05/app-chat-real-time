@@ -11,7 +11,7 @@ import { TicketModule } from './modules/ticket/ticket.module';
 import { EmailModule } from './email/email.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronModule } from './cron/cron.module';
-import { GroupModule } from './modules/group/group.module';
+import { GroupModule } from './modules/room/room.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { UserModule } from './modules/user/user.module';
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module';

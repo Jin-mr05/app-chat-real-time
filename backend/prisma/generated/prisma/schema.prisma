@@ -111,31 +111,23 @@ model GroupMember {
   joinAt DateTime @default(now())
   user   User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  groupId String @db.Uuid
-  group   Room   @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roomID String @db.Uuid
+  room   Room   @relation(fields: [roomID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@unique([groupId, userId])
+  roleId String @db.Uuid
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([roomID, userId])
 }
 
 model Role {
   id String @id @default(uuid()) @db.Uuid
 
-  nameRole String
+  nameRole String @unique
 
-  // realtion
-  userRoleId String?   @db.Uuid
-  userRole   UserRole? @relation(fields: [userRoleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  rolePermisson RolePermisson[]
-}
-
-model UserRole {
-  id String @id @default(uuid()) @db.Uuid
-
-  // realtion
-  userId String? @db.Uuid
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  roles  Role[]
+  // relation
+  userRoles       GroupMember[]
+  rolePermissions RolePermisson[]
 }
 
 model Permission {
@@ -178,7 +170,6 @@ model User {
   // realtion
   session       Session?
   code          Code?
-  roles         UserRole[]
   memberGroups  GroupMember[]
   createdGroups Room[]
   messages      Message[]

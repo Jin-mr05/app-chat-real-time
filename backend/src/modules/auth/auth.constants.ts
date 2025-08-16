@@ -10,8 +10,8 @@ export const AUTH_CONSTANTS = {
 
 	// Cache keys
 	CACHE_KEYS: {
-		ACCOUNT_BY_ID: (userId: string) => `account:${userId}`,
-		ACCOUNT_BY_EMAIL: (email: string) => `account-email:${email}`,
+		KeyUserWithId: (mainKey: string) => `account:${mainKey}`,
+		KeyUserWithEmail: (mainKey: string) => `account-email:${mainKey}`
 	},
 
 	// Cookie configuration

@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query, Req } from "@nestjs/co
 import { ChatService } from "../chat/chat.service";
 import { Request } from 'express';
 import { PaginationDto } from "../chat/dto/pagination.dto";
-import { GroupService } from "../group/group.service";
+import { GroupService } from "../room/room.service";
 import { UserService } from "./user.service";
 import { ChangeDetailDto } from "./dto/Change-detail.dto";
 

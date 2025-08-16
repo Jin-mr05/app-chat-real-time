@@ -167,18 +167,13 @@ exports.Prisma.GroupMemberScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   joinAt: 'joinAt',
-  groupId: 'groupId'
+  roomID: 'roomID',
+  roleId: 'roleId'
 };
 
 exports.Prisma.RoleScalarFieldEnum = {
   id: 'id',
-  nameRole: 'nameRole',
-  userRoleId: 'userRoleId'
-};
-
-exports.Prisma.UserRoleScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId'
+  nameRole: 'nameRole'
 };
 
 exports.Prisma.PermissionScalarFieldEnum = {
@@ -246,7 +241,6 @@ exports.Prisma.ModelName = {
   Room: 'Room',
   GroupMember: 'GroupMember',
   Role: 'Role',
-  UserRole: 'UserRole',
   Permission: 'Permission',
   RolePermisson: 'RolePermisson',
   User: 'User'

@@ -2,7 +2,7 @@ import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSo
 import { Server, Socket } from "socket.io";
 import { PrismaService } from "src/prisma/prisma.service";
 import { AuthService } from "../auth/auth.service";
-import { GroupService } from "../group/group.service";
+import { GroupService } from "../room/room.service";
 import { NotFoundException } from "@nestjs/common";
 @WebSocketGateway({
     cors: { origin: '*' },
@@ -110,7 +110,7 @@ export class ChatGateway {
         await this.handleSendMessage(userId, data.type, data.targetId, data.message);
     }
 
-     async createRoom(
+    async createRoom(
         senderId: string,
         type: 'private' | 'group',
         name: string,
@@ -119,19 +119,19 @@ export class ChatGateway {
 
         // find sender user
         const senderUser = await this.prismaService.user.findUnique({
-            where: { id: senderId}
+            where: { id: senderId }
         })
 
-        if(!senderUser) {
+        if (!senderUser) {
             throw new NotFoundException('user not found')
         }
 
         // find user
         const targetUser = await this.prismaService.user.findFirst({
             where: { name }
-        })  
+        })
 
-        if(!targetUser) {
+        if (!targetUser) {
             throw new Error('user not found')
         }
 

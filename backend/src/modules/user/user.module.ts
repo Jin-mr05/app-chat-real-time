@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { ChatModule } from '../chat/chat.module';
-import { GroupModule } from '../group/group.module';
+import { GroupModule } from '../room/room.module';
 import { UserService } from './user.service';
 import { CustomCacheModule } from '../custom-cache/custom-cache.module';
 
@@ -10,4 +10,4 @@ import { CustomCacheModule } from '../custom-cache/custom-cache.module';
     imports: [ChatModule, GroupModule, CustomCacheModule],
     providers: [UserService]
 })
-export class UserModule {}
+export class UserModule { }
