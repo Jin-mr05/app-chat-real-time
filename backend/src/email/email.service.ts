@@ -51,7 +51,7 @@ export class EmailService {
             const template = this.getTemplate('notification-verify-register')
             const subject = 'Verify Account'
             const html = (await template)
-                .replace('{LINK_VERIFY}', linkVerify)
+                .replace('{verify_link}', linkVerify)
 
             const mailOptions = {
                 from: `"Thaiandev Service" <${this.condifService.getOrThrow<string>("EMAIL_USER")}>`,

@@ -6,7 +6,6 @@ import { Request, Response } from 'express';
 import { User } from 'prisma/generated/prisma';
 import { EmailProducerService } from 'src/email/email.producer';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TicketService } from '../ticket/ticket.service';
 import { ChangepasswordDto } from './dto/ChangePass.dto';
 import { EditDetailDto } from './dto/EditDetail.dto';
 import { LoginDto } from './dto/Login.dto';
@@ -24,7 +23,6 @@ export class AuthService {
         private readonly configService: ConfigService,
         private readonly prismaService: PrismaService,
         private readonly tokenService: TokenService,
-        private readonly ticketService: TicketService,
         private readonly emailProducerService: EmailProducerService,
         private readonly customCache: CustomCacheService,
         @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
@@ -92,7 +90,7 @@ export class AuthService {
             },
         });
 
-        const verifyLink = `${this.configService.get('FRONTEND_URL', 'http://localhost:3000')}/auth/verify?email=${data.email}`
+        const verifyLink = `http://localhost:4000/auth/verify-account?email=${data.email}`
 
         // send verification email
         await this.emailProducerService.sendNotificationRegister({
@@ -162,7 +160,7 @@ export class AuthService {
         if (!isMatch) throw new UnauthorizedException('Invalid credentials');
 
         if (!existingUser.isActive) {
-            const verifyLink = `${this.configService.get('FRONTEND_URL', 'http://localhost:3000')}/auth/verify?email=${data.email}`;
+            const verifyLink = `http://localhost:4000/auth/verify-account?email=${existingUser.email}`
 
             await this.emailProducerService.sendNotificationRegister({
                 to: data.email,
@@ -174,8 +172,6 @@ export class AuthService {
         // create session
         const session = await this.createSession(existingUser, res);
 
-        // set online status
-        await this.ticketService.setOnline(existingUser.id);
 
         // return user without password
         const { hashedPassword, ...userWithoutPassword } = existingUser;
@@ -210,8 +206,6 @@ export class AuthService {
         // set status
         if (!session?.userId) throw new BadRequestException('User ID not found in session')
 
-        await this.ticketService.setOffline(session.userId);
-
         return {
             message: 'Done',
         };
@@ -229,7 +223,7 @@ export class AuthService {
         }
 
         // send verification email
-        const verifyLink = `${this.configService.get('FRONTEND_URL', 'http://localhost:3000')}/auth/verify?email=${email}`;
+        const verifyLink = `http://localhost:4000/auth/verify-account?email=${email}`
         await this.emailProducerService.sendNotificationRegister({
             to: email,
             verifyLink,
@@ -368,8 +362,6 @@ export class AuthService {
         const key = `account:${existingUser.id}`;
         await this.cacheManager.del(key);
 
-        // set offline status
-        await this.ticketService.setOffline(existingUser.id);
 
         return {
             success: true,

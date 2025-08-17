@@ -1,151 +1,60 @@
-import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
-import { PrismaService } from "src/prisma/prisma.service";
-import { AuthService } from "../auth/auth.service";
-import { GroupService } from "../room/room.service";
-import { NotFoundException } from "@nestjs/common";
+import { ChatService } from "./chat.service";
+import { SendMessageDto } from "./dto/SendMessage.dto";
+
 @WebSocketGateway({
-    cors: { origin: '*' },
-    namespace: 'chat-feature'
+    cors: {
+        origin: '*'
+    }
 })
-export class ChatGateway {
 
-    constructor(
-        private readonly authService: AuthService,
-        private readonly prismaService: PrismaService,
-        private readonly groupService: GroupService
-    ) { }
+export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
-    // create server
     @WebSocketServer()
     server: Server
 
-    private async verifyToken(accessToken: string) {
-        // validate 
-        const exitedUser = await this.authService.validate(accessToken)
+    constructor(
+        private readonly chatService: ChatService
+    ) { }
 
-        if (!exitedUser) {
-            throw new Error('user not found')
-        }
-
-        return exitedUser.id
+    afterInit(server: Server) {
+        console.log('✅ WebSocket Gateway initialized');
     }
 
-    // join private room
-    private getPrivateRoom = (userA: string, userB: string) =>
-        `room:private:${[userA, userB].sort().join('_')}`
+    async handleConnection(client: Socket) {
+        const userId = client.handshake.auth.userId
 
-    // group zoom
-    private getGroupRoom = (groupId: string) => `room:group:${groupId}`
+        if (!userId) return client.disconnect()
 
-    @SubscribeMessage('join-chat')
-    async joinChat(
-        @ConnectedSocket() client: Socket,
-        @MessageBody() data: { type: 'private' | 'group'; targetId: string },
-    ) {
-        const userId = await this.verifyToken(client.handshake.auth.token);
-        client.data.userId = userId;
+        client.data.userId = userId
+        console.log(`🔌 Client connected: ${userId}`)
+        await this.chatService.setUserOnline(userId, true)
 
-        const room =
-            data.type === 'group'
-                ? this.getGroupRoom(data.targetId)
-                : this.getPrivateRoom(userId, data.targetId);
-
-        // join the room
-        client.join(room)
-        console.log(`User ${userId} joined ${room}`)
     }
 
-    async handleSendMessage(
-        senderId: string,
-        type: 'private' | 'group',
-        targetId: string,  // Changed from 'name' to 'targetId'
-        message: string,
-    ) {
-        // For private messages, verify target user exists by ID
-        if (type === 'private') {
-            const targetUser = await this.prismaService.user.findUnique({
-                where: { id: targetId }
-            })
-
-            if (!targetUser) {
-                throw new Error('user not found')
-            }
-        }
-
-        const room =
-            type === 'group'
-                ? this.getGroupRoom(targetId)  // targetId is the group ID
-                : this.getPrivateRoom(senderId, targetId);  // targetId is the user ID
-
-        this.server.to(room).emit('receive_message', {
-            from: senderId,
-            message
-        });
-
-        const roomId = type === 'group'
-            ? `room:group:${targetId}`  // targetId is the group ID
-            : `room:private:${senderId}_${targetId}`;  // targetId is the user ID
-
-        await this.prismaService.message.create({
-            data: {
-                content: message,
-                userId: senderId,
-                roomId,
-                ...(type === 'private' && { addressId: targetId })
-            }
-        });
+    async handleDisconnect(client: Socket) {
+        const userId = client.data.userId
+        console.log(`❌ Client disconnected: ${userId}`)
+        await this.chatService.setUserOnline(userId, false)
     }
 
-    @SubscribeMessage('send_message')
+    @SubscribeMessage('joinRoom')
+    async onJoinRoom(@MessageBody() roomId: string, @ConnectedSocket() client: Socket) {
+        client.join(roomId)
+        console.log(`👥 User ${client.data.userId} joined room ${roomId}`)
+    }
+
+    @SubscribeMessage('sendMessage')
     async sendMessage(
-        @ConnectedSocket() client: Socket,
-        @MessageBody() data: {
-            type: 'private' | 'group';
-            targetId: string;
-            message: string;
-        },
+        @MessageBody() dto: SendMessageDto,
+        @ConnectedSocket() client: Socket
     ) {
-        const userId = client.data.userId;
-        await this.handleSendMessage(userId, data.type, data.targetId, data.message);
+        const message = await this.chatService.createMessage(client.data.userId, dto.roomId, dto.content)
+
+        // emit
+        this.server.to(dto.roomId).emit('newMessage', message)
+        return message
     }
 
-    async createRoom(
-        senderId: string,
-        type: 'private' | 'group',
-        name: string,
-    ) {
-
-
-        // find sender user
-        const senderUser = await this.prismaService.user.findUnique({
-            where: { id: senderId }
-        })
-
-        if (!senderUser) {
-            throw new NotFoundException('user not found')
-        }
-
-        // find user
-        const targetUser = await this.prismaService.user.findFirst({
-            where: { name }
-        })
-
-        if (!targetUser) {
-            throw new Error('user not found')
-        }
-
-        const room =
-            type === 'group'
-                ? this.getGroupRoom(senderId)
-                : this.getPrivateRoom(senderId, targetUser.id)
-
-        const roomId = type === 'group'
-            ? `room:group:${senderId}`
-            : `room:private:${senderId}_${targetUser.id}`
-
-        const newGroup = await this.groupService.createGroup(senderId, senderUser?.name || '')
-
-        return newGroup
-    }
 }

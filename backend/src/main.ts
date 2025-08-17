@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { RedisIoAdapter } from './modules/chat/redis.adapter';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +30,11 @@ async function bootstrap() {
       },
     },
   })
+  const configService = app.get(ConfigService)
+  const redisIoAdapter = new RedisIoAdapter(configService)
+  await redisIoAdapter.connectToRedis()
+  app.useWebSocketAdapter(redisIoAdapter)
+  app.useWebSocketAdapter(redisIoAdapter)
 
   await app.startAllMicroservices();
   await app.listen(4000);

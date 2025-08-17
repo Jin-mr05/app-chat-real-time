@@ -151,7 +151,8 @@ exports.Prisma.MessageScalarFieldEnum = {
 exports.Prisma.ReadProgramScalarFieldEnum = {
   id: 'id',
   lastestMessgaId: 'lastestMessgaId',
-  userId: 'userId'
+  userId: 'userId',
+  roomId: 'roomId'
 };
 
 exports.Prisma.RoomScalarFieldEnum = {

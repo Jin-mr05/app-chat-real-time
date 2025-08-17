@@ -22,8 +22,9 @@ export class RoomService {
     }
 
     // create room 
-    async createRoom(userId: string, addressId: string, nameRoom: string) {
+    async createRoom(req: Request, addressId: string) {
         // find user
+        const userId = req.user?.id
         const exitingUser = await this.customCache.findUserWithRoom(userId) as UserWithRoom
 
         // fall back
@@ -32,11 +33,25 @@ export class RoomService {
             await this.cacheManage.set(key, null, ROOM_CONSTANTS.MAX_AGE_CACHE_TEMPORARY)
         }
 
+        // find addressUser
+        const addressUser = await this.customCache.getUserByIdInCache(addressId)
+
+        // fall back
+        if (!addressUser) {
+            const key = ROOM_CONSTANTS.CACHE_KEYS.KeyUserWithERoom(userId)
+            await this.cacheManage.set(key, null, ROOM_CONSTANTS.MAX_AGE_CACHE_TEMPORARY)
+            throw new NotFoundException('Address user not found')
+        }
+
+
         // quantity number
         const quantityNumber = exitingUser?.createdGroups.length || 0
 
         // generate link group
         const linkRoom = await this.generateLinkRoom(userId, addressId, quantityNumber)
+
+        // name room
+        const nameRoom = `${exitingUser.name}`
 
         const newRoom = await this.prismaService.room.create({
             data: {
@@ -45,6 +60,8 @@ export class RoomService {
                 linkRoom: linkRoom
             }
         })
+
+        await this.addMember(req, String(addressUser.name), newRoom.id)
 
         // create permission 
         await this.prismaService.groupMember.create({
@@ -101,5 +118,30 @@ export class RoomService {
         })
 
         return newMember
+    }
+
+    // remove member
+    async removeMember(userId: string) {
+        // find user
+        const exitingUser = await this.customCache.getUserByIdInCache(userId)
+
+        if (!exitingUser) {
+            const key = ROOM_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
+            await this.customCache.setCacheTempObject(key, null)
+            throw new NotFoundException("Room not found")
+        }
+
+        // remove user in room
+        await this.prismaService.groupMember.delete({
+            where: { id: exitingUser.id }
+        })
+
+        return {
+            message: 'success'
+        }
+    }
+
+    async getUserRooms(req: Request) {
+
     }
 }

@@ -1,37 +1,27 @@
-import { Body, Controller, Post, Req } from "@nestjs/common";
-import { Request } from 'express';
-import { RoomService } from "../room/room.service";
-import { ChatGateway } from "./chat.gateway";
+import { Controller, Get, Query } from "@nestjs/common";
 import { ChatService } from "./chat.service";
+
 @Controller('chat')
-export class ChatController {
-    constructor(
-        private readonly chatService: ChatService,
-        private readonly roomService: RoomService,
-        private readonly gateway: ChatGateway
-    ) { }
+export class chatController {
 
-    @Post('send-message')
-    async sendMessage(@Req() req: Request, @Body() body: {
-        type: 'private' | 'group';
-        nane: string;
-        message: string;
-    }) {
-        await this.gateway.handleSendMessage(
-            req.user?.id,
-            body.type,
-            body.nane,
-            body.message,
-        );
+	constructor(
+		private readonly chatService: ChatService
+	) { }
 
-        return { success: true };
-    }
+	@Get('loading-message')
+	async loadingMessage(
+		@Query('roomId') roomId: string,
+		@Query('cursor') cursor?: string,
+		@Query('limit') limit = '20',
+		@Query('direction') direction: 'next' | 'prev' = 'next',
+	) {
+		return this.chatService.loadingMessage(roomId, {
+			cursor,
+			limit: Number(limit),
+			direction
+		}
 
-    @Post('create-individual')
-    async createGroupChat(
-        @Req() req: Request,
-        @Body('name') name: string,
-    ) {
-        return this.roomService.createRoom(req.user?.id, name)
-    }
+		)
+	}
+
 }

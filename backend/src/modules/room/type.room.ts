@@ -1,5 +1,6 @@
 export interface UserWithRoom {
     id: string;
+    name: string
     createdGroups: {
         id: string;
         name: string;

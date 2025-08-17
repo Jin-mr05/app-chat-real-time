@@ -6,4 +6,4 @@ import { RoomService } from './room.service';
     providers: [RoomService],
     exports: [RoomService]
 })
-export class GroupModule { }
+export class RoomModule { }

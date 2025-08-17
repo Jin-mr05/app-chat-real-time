@@ -1,47 +1,38 @@
-import { Body, Controller, Delete, Get, Post, Put, Query, Req } from "@nestjs/common";
-import { ChatService } from "../chat/chat.service";
+import { Controller, Delete, Get, Post, Query, Req } from "@nestjs/common";
 import { Request } from 'express';
-import { PaginationDto } from "../chat/dto/pagination.dto";
-import { GroupService } from "../room/room.service";
+import { RoomService } from "../room/room.service";
 import { UserService } from "./user.service";
-import { ChangeDetailDto } from "./dto/Change-detail.dto";
-
 @Controller('user')
 export class UserController {
 
     constructor(
-        private readonly chatService: ChatService,
-        private readonly groupService: GroupService,
+        private readonly roomService: RoomService,
         private readonly userService: UserService,
     ) { }
 
-    @Get('loading-message')
-    async loadingAllMessage(@Req() req: Request, @Query() pagination: PaginationDto) {
-        return this.chatService.loadingAllMessage(req, pagination)
+    @Get('find-user-by-name')
+    async findUserByName(@Query('userName') userName: string) {
+        return this.userService.findUserByName(userName)
     }
 
-    @Post('edit-message')
-    async editMessage(@Req() req: Request, @Query('messageId') messageId: number, @Body('newContent') newContent: string) {
-        return this.chatService.editMessage(req, messageId, newContent)
+    @Post('create-room')
+    async createRoom(@Req() req: Request, @Query('addressId') addressId: string) {
+        return this.roomService.createRoom(req, addressId)
     }
 
-    @Delete('delete-message')
-    async deleteMessage(@Req() req: Request, @Query('messageId') messageId: number) {
-        return this.chatService.deleteMessage(req, messageId)
+    @Post('add-member')
+    async addMember(@Req() req: Request, @Query('userName') userName: string, @Query('roomId') roomId: string) {
+        return this.roomService.addMember(req, userName, roomId)
     }
 
-    @Put('profile')
-    async updateProfile(@Req() req: Request, @Body() data: ChangeDetailDto) {
-        return this.userService.changeBasicDetail(req, data)
+    @Delete('remove-member')
+    async removeMember(@Query('userId') userId: string) {
+        return this.roomService.removeMember(userId)
     }
 
-    @Get('find-user')
-    async findUser(@Query('name') name: string) {
-        return this.userService.findUser(name)
+    @Get('/chat/user-rooms')
+    async getUserRooms(@Req() req: Request) {
+        return this.roomService.getUserRooms(req)
     }
 
-    @Get('search')
-    async searchUsers(@Query('q') query: string) {
-        return this.userService.searchUsers(query)
-    }
 }

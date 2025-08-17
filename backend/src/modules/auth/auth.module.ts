@@ -5,12 +5,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { TokenService } from './token.service';
 import { AuthCookieStrategy } from 'src/common/strategy/auth.cookie.strategy';
-import { TicketModule } from '../ticket/ticket.module';
 import { EmailModule } from 'src/email/email.module';
+import { CustomCacheModule } from '../custom-cache/custom-cache.module';
 
 @Module({
     imports: [
-        ConfigModule, TicketModule, EmailModule,
+        ConfigModule, EmailModule, CustomCacheModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],

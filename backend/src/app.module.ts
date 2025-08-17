@@ -7,21 +7,20 @@ import { AuthModule } from './modules/auth/auth.module';
 import configuration from './common/config/configuration';
 import { APP_GUARD, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
 import { AuthCookieGuard } from './common/guard/auth.cookie.guard';
-import { TicketModule } from './modules/ticket/ticket.module';
 import { EmailModule } from './email/email.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronModule } from './cron/cron.module';
-import { GroupModule } from './modules/room/room.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { UserModule } from './modules/user/user.module';
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { RoomModule } from './modules/room/room.module';
 const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
 
 @Module({
   imports: [
-    CronModule, GroupModule, ChatModule, UserModule, CustomCacheModule, PrismaModule, AuthModule, EmailModule, TicketModule,
+    CronModule, RoomModule, ChatModule, UserModule, CustomCacheModule, PrismaModule, AuthModule, EmailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration]

@@ -1760,10 +1760,12 @@ export namespace Prisma {
 
   export type RoomCountOutputType = {
     members: number
+    readPrograms: number
   }
 
   export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | RoomCountOutputTypeCountMembersArgs
+    readPrograms?: boolean | RoomCountOutputTypeCountReadProgramsArgs
   }
 
   // Custom InputTypes
@@ -1782,6 +1784,13 @@ export namespace Prisma {
    */
   export type RoomCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GroupMemberWhereInput
+  }
+
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeCountReadProgramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReadProgramWhereInput
   }
 
 
@@ -1864,12 +1873,14 @@ export namespace Prisma {
     memberGroups: number
     createdGroups: number
     messages: number
+    readProgram: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberGroups?: boolean | UserCountOutputTypeCountMemberGroupsArgs
     createdGroups?: boolean | UserCountOutputTypeCountCreatedGroupsArgs
     messages?: boolean | UserCountOutputTypeCountMessagesArgs
+    readProgram?: boolean | UserCountOutputTypeCountReadProgramArgs
   }
 
   // Custom InputTypes
@@ -1902,6 +1913,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReadProgramArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReadProgramWhereInput
   }
 
 
@@ -5231,18 +5249,21 @@ export namespace Prisma {
     id: string | null
     lastestMessgaId: number | null
     userId: string | null
+    roomId: string | null
   }
 
   export type ReadProgramMaxAggregateOutputType = {
     id: string | null
     lastestMessgaId: number | null
     userId: string | null
+    roomId: string | null
   }
 
   export type ReadProgramCountAggregateOutputType = {
     id: number
     lastestMessgaId: number
     userId: number
+    roomId: number
     _all: number
   }
 
@@ -5259,18 +5280,21 @@ export namespace Prisma {
     id?: true
     lastestMessgaId?: true
     userId?: true
+    roomId?: true
   }
 
   export type ReadProgramMaxAggregateInputType = {
     id?: true
     lastestMessgaId?: true
     userId?: true
+    roomId?: true
   }
 
   export type ReadProgramCountAggregateInputType = {
     id?: true
     lastestMessgaId?: true
     userId?: true
+    roomId?: true
     _all?: true
   }
 
@@ -5363,7 +5387,8 @@ export namespace Prisma {
   export type ReadProgramGroupByOutputType = {
     id: string
     lastestMessgaId: number | null
-    userId: string | null
+    userId: string
+    roomId: string
     _count: ReadProgramCountAggregateOutputType | null
     _avg: ReadProgramAvgAggregateOutputType | null
     _sum: ReadProgramSumAggregateOutputType | null
@@ -5389,49 +5414,61 @@ export namespace Prisma {
     id?: boolean
     lastestMessgaId?: boolean
     userId?: boolean
-    user?: boolean | ReadProgram$userArgs<ExtArgs>
+    roomId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["readProgram"]>
 
   export type ReadProgramSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     lastestMessgaId?: boolean
     userId?: boolean
-    user?: boolean | ReadProgram$userArgs<ExtArgs>
+    roomId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["readProgram"]>
 
   export type ReadProgramSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     lastestMessgaId?: boolean
     userId?: boolean
-    user?: boolean | ReadProgram$userArgs<ExtArgs>
+    roomId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["readProgram"]>
 
   export type ReadProgramSelectScalar = {
     id?: boolean
     lastestMessgaId?: boolean
     userId?: boolean
+    roomId?: boolean
   }
 
-  export type ReadProgramOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lastestMessgaId" | "userId", ExtArgs["result"]["readProgram"]>
+  export type ReadProgramOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lastestMessgaId" | "userId" | "roomId", ExtArgs["result"]["readProgram"]>
   export type ReadProgramInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | ReadProgram$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }
   export type ReadProgramIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | ReadProgram$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }
   export type ReadProgramIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | ReadProgram$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }
 
   export type $ReadProgramPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ReadProgram"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
+      room: Prisma.$RoomPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       lastestMessgaId: number | null
-      userId: string | null
+      userId: string
+      roomId: string
     }, ExtArgs["result"]["readProgram"]>
     composites: {}
   }
@@ -5826,7 +5863,8 @@ export namespace Prisma {
    */
   export interface Prisma__ReadProgramClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends ReadProgram$userArgs<ExtArgs> = {}>(args?: Subset<T, ReadProgram$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5859,6 +5897,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ReadProgram", 'String'>
     readonly lastestMessgaId: FieldRef<"ReadProgram", 'Int'>
     readonly userId: FieldRef<"ReadProgram", 'String'>
+    readonly roomId: FieldRef<"ReadProgram", 'String'>
   }
     
 
@@ -6077,7 +6116,7 @@ export namespace Prisma {
     /**
      * The data needed to create a ReadProgram.
      */
-    data?: XOR<ReadProgramCreateInput, ReadProgramUncheckedCreateInput>
+    data: XOR<ReadProgramCreateInput, ReadProgramUncheckedCreateInput>
   }
 
   /**
@@ -6252,25 +6291,6 @@ export namespace Prisma {
      * Limit how many ReadPrograms to delete.
      */
     limit?: number
-  }
-
-  /**
-   * ReadProgram.user
-   */
-  export type ReadProgram$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
   }
 
   /**
@@ -6466,6 +6486,7 @@ export namespace Prisma {
     authorId?: boolean
     author?: boolean | Room$authorArgs<ExtArgs>
     members?: boolean | Room$membersArgs<ExtArgs>
+    readPrograms?: boolean | Room$readProgramsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -6502,6 +6523,7 @@ export namespace Prisma {
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | Room$authorArgs<ExtArgs>
     members?: boolean | Room$membersArgs<ExtArgs>
+    readPrograms?: boolean | Room$readProgramsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6516,6 +6538,7 @@ export namespace Prisma {
     objects: {
       author: Prisma.$UserPayload<ExtArgs> | null
       members: Prisma.$GroupMemberPayload<ExtArgs>[]
+      readPrograms: Prisma.$ReadProgramPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6920,6 +6943,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     author<T extends Room$authorArgs<ExtArgs> = {}>(args?: Subset<T, Room$authorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     members<T extends Room$membersArgs<ExtArgs> = {}>(args?: Subset<T, Room$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    readPrograms<T extends Room$readProgramsArgs<ExtArgs> = {}>(args?: Subset<T, Room$readProgramsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadProgramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7391,6 +7415,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GroupMemberScalarFieldEnum | GroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * Room.readPrograms
+   */
+  export type Room$readProgramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadProgram
+     */
+    select?: ReadProgramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadProgram
+     */
+    omit?: ReadProgramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadProgramInclude<ExtArgs> | null
+    where?: ReadProgramWhereInput
+    orderBy?: ReadProgramOrderByWithRelationInput | ReadProgramOrderByWithRelationInput[]
+    cursor?: ReadProgramWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReadProgramScalarFieldEnum | ReadProgramScalarFieldEnum[]
   }
 
   /**
@@ -11976,7 +12024,7 @@ export namespace Prisma {
       memberGroups: Prisma.$GroupMemberPayload<ExtArgs>[]
       createdGroups: Prisma.$RoomPayload<ExtArgs>[]
       messages: Prisma.$MessagePayload<ExtArgs>[]
-      readProgram: Prisma.$ReadProgramPayload<ExtArgs> | null
+      readProgram: Prisma.$ReadProgramPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12389,7 +12437,7 @@ export namespace Prisma {
     memberGroups<T extends User$memberGroupsArgs<ExtArgs> = {}>(args?: Subset<T, User$memberGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdGroups<T extends User$createdGroupsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messages<T extends User$messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    readProgram<T extends User$readProgramArgs<ExtArgs> = {}>(args?: Subset<T, User$readProgramArgs<ExtArgs>>): Prisma__ReadProgramClient<$Result.GetResult<Prisma.$ReadProgramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    readProgram<T extends User$readProgramArgs<ExtArgs> = {}>(args?: Subset<T, User$readProgramArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadProgramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12944,6 +12992,11 @@ export namespace Prisma {
      */
     include?: ReadProgramInclude<ExtArgs> | null
     where?: ReadProgramWhereInput
+    orderBy?: ReadProgramOrderByWithRelationInput | ReadProgramOrderByWithRelationInput[]
+    cursor?: ReadProgramWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReadProgramScalarFieldEnum | ReadProgramScalarFieldEnum[]
   }
 
   /**
@@ -13019,7 +13072,8 @@ export namespace Prisma {
   export const ReadProgramScalarFieldEnum: {
     id: 'id',
     lastestMessgaId: 'lastestMessgaId',
-    userId: 'userId'
+    userId: 'userId',
+    roomId: 'roomId'
   };
 
   export type ReadProgramScalarFieldEnum = (typeof ReadProgramScalarFieldEnum)[keyof typeof ReadProgramScalarFieldEnum]
@@ -13421,31 +13475,39 @@ export namespace Prisma {
     NOT?: ReadProgramWhereInput | ReadProgramWhereInput[]
     id?: UuidFilter<"ReadProgram"> | string
     lastestMessgaId?: IntNullableFilter<"ReadProgram"> | number | null
-    userId?: UuidNullableFilter<"ReadProgram"> | string | null
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    userId?: UuidFilter<"ReadProgram"> | string
+    roomId?: UuidFilter<"ReadProgram"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
   }
 
   export type ReadProgramOrderByWithRelationInput = {
     id?: SortOrder
     lastestMessgaId?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    roomId?: SortOrder
     user?: UserOrderByWithRelationInput
+    room?: RoomOrderByWithRelationInput
   }
 
   export type ReadProgramWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     userId?: string
+    userId_roomId?: ReadProgramUserIdRoomIdCompoundUniqueInput
     AND?: ReadProgramWhereInput | ReadProgramWhereInput[]
     OR?: ReadProgramWhereInput[]
     NOT?: ReadProgramWhereInput | ReadProgramWhereInput[]
     lastestMessgaId?: IntNullableFilter<"ReadProgram"> | number | null
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id" | "userId">
+    roomId?: UuidFilter<"ReadProgram"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+  }, "id" | "userId" | "userId_roomId">
 
   export type ReadProgramOrderByWithAggregationInput = {
     id?: SortOrder
     lastestMessgaId?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    roomId?: SortOrder
     _count?: ReadProgramCountOrderByAggregateInput
     _avg?: ReadProgramAvgOrderByAggregateInput
     _max?: ReadProgramMaxOrderByAggregateInput
@@ -13459,7 +13521,8 @@ export namespace Prisma {
     NOT?: ReadProgramScalarWhereWithAggregatesInput | ReadProgramScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"ReadProgram"> | string
     lastestMessgaId?: IntNullableWithAggregatesFilter<"ReadProgram"> | number | null
-    userId?: UuidNullableWithAggregatesFilter<"ReadProgram"> | string | null
+    userId?: UuidWithAggregatesFilter<"ReadProgram"> | string
+    roomId?: UuidWithAggregatesFilter<"ReadProgram"> | string
   }
 
   export type RoomWhereInput = {
@@ -13474,6 +13537,7 @@ export namespace Prisma {
     authorId?: UuidNullableFilter<"Room"> | string | null
     author?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     members?: GroupMemberListRelationFilter
+    readPrograms?: ReadProgramListRelationFilter
   }
 
   export type RoomOrderByWithRelationInput = {
@@ -13485,6 +13549,7 @@ export namespace Prisma {
     authorId?: SortOrderInput | SortOrder
     author?: UserOrderByWithRelationInput
     members?: GroupMemberOrderByRelationAggregateInput
+    readPrograms?: ReadProgramOrderByRelationAggregateInput
   }
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
@@ -13499,6 +13564,7 @@ export namespace Prisma {
     authorId?: UuidNullableFilter<"Room"> | string | null
     author?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     members?: GroupMemberListRelationFilter
+    readPrograms?: ReadProgramListRelationFilter
   }, "id">
 
   export type RoomOrderByWithAggregationInput = {
@@ -13745,7 +13811,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberListRelationFilter
     createdGroups?: RoomListRelationFilter
     messages?: MessageListRelationFilter
-    readProgram?: XOR<ReadProgramNullableScalarRelationFilter, ReadProgramWhereInput> | null
+    readProgram?: ReadProgramListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13765,7 +13831,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberOrderByRelationAggregateInput
     createdGroups?: RoomOrderByRelationAggregateInput
     messages?: MessageOrderByRelationAggregateInput
-    readProgram?: ReadProgramOrderByWithRelationInput
+    readProgram?: ReadProgramOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13788,7 +13854,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberListRelationFilter
     createdGroups?: RoomListRelationFilter
     messages?: MessageListRelationFilter
-    readProgram?: XOR<ReadProgramNullableScalarRelationFilter, ReadProgramWhereInput> | null
+    readProgram?: ReadProgramListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -14018,31 +14084,36 @@ export namespace Prisma {
   export type ReadProgramCreateInput = {
     id?: string
     lastestMessgaId?: number | null
-    user?: UserCreateNestedOneWithoutReadProgramInput
+    user: UserCreateNestedOneWithoutReadProgramInput
+    room: RoomCreateNestedOneWithoutReadProgramsInput
   }
 
   export type ReadProgramUncheckedCreateInput = {
     id?: string
     lastestMessgaId?: number | null
-    userId?: string | null
+    userId: string
+    roomId: string
   }
 
   export type ReadProgramUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
-    user?: UserUpdateOneWithoutReadProgramNestedInput
+    user?: UserUpdateOneRequiredWithoutReadProgramNestedInput
+    room?: RoomUpdateOneRequiredWithoutReadProgramsNestedInput
   }
 
   export type ReadProgramUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReadProgramCreateManyInput = {
     id?: string
     lastestMessgaId?: number | null
-    userId?: string | null
+    userId: string
+    roomId: string
   }
 
   export type ReadProgramUpdateManyMutationInput = {
@@ -14053,7 +14124,8 @@ export namespace Prisma {
   export type ReadProgramUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
   }
 
   export type RoomCreateInput = {
@@ -14064,6 +14136,7 @@ export namespace Prisma {
     updateAt?: Date | string
     author?: UserCreateNestedOneWithoutCreatedGroupsInput
     members?: GroupMemberCreateNestedManyWithoutRoomInput
+    readPrograms?: ReadProgramCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateInput = {
@@ -14074,6 +14147,7 @@ export namespace Prisma {
     updateAt?: Date | string
     authorId?: string | null
     members?: GroupMemberUncheckedCreateNestedManyWithoutRoomInput
+    readPrograms?: ReadProgramUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUpdateInput = {
@@ -14084,6 +14158,7 @@ export namespace Prisma {
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneWithoutCreatedGroupsNestedInput
     members?: GroupMemberUpdateManyWithoutRoomNestedInput
+    readPrograms?: ReadProgramUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateInput = {
@@ -14094,6 +14169,7 @@ export namespace Prisma {
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     members?: GroupMemberUncheckedUpdateManyWithoutRoomNestedInput
+    readPrograms?: ReadProgramUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomCreateManyInput = {
@@ -14321,7 +14397,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14341,7 +14417,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramUncheckedCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -14361,7 +14437,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14381,7 +14457,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUncheckedUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14750,10 +14826,21 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type RoomScalarRelationFilter = {
+    is?: RoomWhereInput
+    isNot?: RoomWhereInput
+  }
+
+  export type ReadProgramUserIdRoomIdCompoundUniqueInput = {
+    userId: string
+    roomId: string
+  }
+
   export type ReadProgramCountOrderByAggregateInput = {
     id?: SortOrder
     lastestMessgaId?: SortOrder
     userId?: SortOrder
+    roomId?: SortOrder
   }
 
   export type ReadProgramAvgOrderByAggregateInput = {
@@ -14764,12 +14851,14 @@ export namespace Prisma {
     id?: SortOrder
     lastestMessgaId?: SortOrder
     userId?: SortOrder
+    roomId?: SortOrder
   }
 
   export type ReadProgramMinOrderByAggregateInput = {
     id?: SortOrder
     lastestMessgaId?: SortOrder
     userId?: SortOrder
+    roomId?: SortOrder
   }
 
   export type ReadProgramSumOrderByAggregateInput = {
@@ -14798,7 +14887,17 @@ export namespace Prisma {
     none?: GroupMemberWhereInput
   }
 
+  export type ReadProgramListRelationFilter = {
+    every?: ReadProgramWhereInput
+    some?: ReadProgramWhereInput
+    none?: ReadProgramWhereInput
+  }
+
   export type GroupMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReadProgramOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14827,11 +14926,6 @@ export namespace Prisma {
     createAt?: SortOrder
     updateAt?: SortOrder
     authorId?: SortOrder
-  }
-
-  export type RoomScalarRelationFilter = {
-    is?: RoomWhereInput
-    isNot?: RoomWhereInput
   }
 
   export type RoleScalarRelationFilter = {
@@ -14997,11 +15091,6 @@ export namespace Prisma {
     none?: MessageWhereInput
   }
 
-  export type ReadProgramNullableScalarRelationFilter = {
-    is?: ReadProgramWhereInput | null
-    isNot?: ReadProgramWhereInput | null
-  }
-
   export type RoomOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -15164,6 +15253,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type RoomCreateNestedOneWithoutReadProgramsInput = {
+    create?: XOR<RoomCreateWithoutReadProgramsInput, RoomUncheckedCreateWithoutReadProgramsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutReadProgramsInput
+    connect?: RoomWhereUniqueInput
+  }
+
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -15172,14 +15267,20 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type UserUpdateOneWithoutReadProgramNestedInput = {
+  export type UserUpdateOneRequiredWithoutReadProgramNestedInput = {
     create?: XOR<UserCreateWithoutReadProgramInput, UserUncheckedCreateWithoutReadProgramInput>
     connectOrCreate?: UserCreateOrConnectWithoutReadProgramInput
     upsert?: UserUpsertWithoutReadProgramInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReadProgramInput, UserUpdateWithoutReadProgramInput>, UserUncheckedUpdateWithoutReadProgramInput>
+  }
+
+  export type RoomUpdateOneRequiredWithoutReadProgramsNestedInput = {
+    create?: XOR<RoomCreateWithoutReadProgramsInput, RoomUncheckedCreateWithoutReadProgramsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutReadProgramsInput
+    upsert?: RoomUpsertWithoutReadProgramsInput
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutReadProgramsInput, RoomUpdateWithoutReadProgramsInput>, RoomUncheckedUpdateWithoutReadProgramsInput>
   }
 
   export type UserCreateNestedOneWithoutCreatedGroupsInput = {
@@ -15195,11 +15296,25 @@ export namespace Prisma {
     connect?: GroupMemberWhereUniqueInput | GroupMemberWhereUniqueInput[]
   }
 
+  export type ReadProgramCreateNestedManyWithoutRoomInput = {
+    create?: XOR<ReadProgramCreateWithoutRoomInput, ReadProgramUncheckedCreateWithoutRoomInput> | ReadProgramCreateWithoutRoomInput[] | ReadProgramUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: ReadProgramCreateOrConnectWithoutRoomInput | ReadProgramCreateOrConnectWithoutRoomInput[]
+    createMany?: ReadProgramCreateManyRoomInputEnvelope
+    connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+  }
+
   export type GroupMemberUncheckedCreateNestedManyWithoutRoomInput = {
     create?: XOR<GroupMemberCreateWithoutRoomInput, GroupMemberUncheckedCreateWithoutRoomInput> | GroupMemberCreateWithoutRoomInput[] | GroupMemberUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: GroupMemberCreateOrConnectWithoutRoomInput | GroupMemberCreateOrConnectWithoutRoomInput[]
     createMany?: GroupMemberCreateManyRoomInputEnvelope
     connect?: GroupMemberWhereUniqueInput | GroupMemberWhereUniqueInput[]
+  }
+
+  export type ReadProgramUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<ReadProgramCreateWithoutRoomInput, ReadProgramUncheckedCreateWithoutRoomInput> | ReadProgramCreateWithoutRoomInput[] | ReadProgramUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: ReadProgramCreateOrConnectWithoutRoomInput | ReadProgramCreateOrConnectWithoutRoomInput[]
+    createMany?: ReadProgramCreateManyRoomInputEnvelope
+    connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
   }
 
   export type UserUpdateOneWithoutCreatedGroupsNestedInput = {
@@ -15226,6 +15341,20 @@ export namespace Prisma {
     deleteMany?: GroupMemberScalarWhereInput | GroupMemberScalarWhereInput[]
   }
 
+  export type ReadProgramUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<ReadProgramCreateWithoutRoomInput, ReadProgramUncheckedCreateWithoutRoomInput> | ReadProgramCreateWithoutRoomInput[] | ReadProgramUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: ReadProgramCreateOrConnectWithoutRoomInput | ReadProgramCreateOrConnectWithoutRoomInput[]
+    upsert?: ReadProgramUpsertWithWhereUniqueWithoutRoomInput | ReadProgramUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: ReadProgramCreateManyRoomInputEnvelope
+    set?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    disconnect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    delete?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    update?: ReadProgramUpdateWithWhereUniqueWithoutRoomInput | ReadProgramUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: ReadProgramUpdateManyWithWhereWithoutRoomInput | ReadProgramUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: ReadProgramScalarWhereInput | ReadProgramScalarWhereInput[]
+  }
+
   export type GroupMemberUncheckedUpdateManyWithoutRoomNestedInput = {
     create?: XOR<GroupMemberCreateWithoutRoomInput, GroupMemberUncheckedCreateWithoutRoomInput> | GroupMemberCreateWithoutRoomInput[] | GroupMemberUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: GroupMemberCreateOrConnectWithoutRoomInput | GroupMemberCreateOrConnectWithoutRoomInput[]
@@ -15238,6 +15367,20 @@ export namespace Prisma {
     update?: GroupMemberUpdateWithWhereUniqueWithoutRoomInput | GroupMemberUpdateWithWhereUniqueWithoutRoomInput[]
     updateMany?: GroupMemberUpdateManyWithWhereWithoutRoomInput | GroupMemberUpdateManyWithWhereWithoutRoomInput[]
     deleteMany?: GroupMemberScalarWhereInput | GroupMemberScalarWhereInput[]
+  }
+
+  export type ReadProgramUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<ReadProgramCreateWithoutRoomInput, ReadProgramUncheckedCreateWithoutRoomInput> | ReadProgramCreateWithoutRoomInput[] | ReadProgramUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: ReadProgramCreateOrConnectWithoutRoomInput | ReadProgramCreateOrConnectWithoutRoomInput[]
+    upsert?: ReadProgramUpsertWithWhereUniqueWithoutRoomInput | ReadProgramUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: ReadProgramCreateManyRoomInputEnvelope
+    set?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    disconnect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    delete?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    update?: ReadProgramUpdateWithWhereUniqueWithoutRoomInput | ReadProgramUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: ReadProgramUpdateManyWithWhereWithoutRoomInput | ReadProgramUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: ReadProgramScalarWhereInput | ReadProgramScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutMemberGroupsInput = {
@@ -15471,10 +15614,11 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
-  export type ReadProgramCreateNestedOneWithoutUserInput = {
-    create?: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ReadProgramCreateOrConnectWithoutUserInput
-    connect?: ReadProgramWhereUniqueInput
+  export type ReadProgramCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput> | ReadProgramCreateWithoutUserInput[] | ReadProgramUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReadProgramCreateOrConnectWithoutUserInput | ReadProgramCreateOrConnectWithoutUserInput[]
+    createMany?: ReadProgramCreateManyUserInputEnvelope
+    connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
   }
 
   export type SessionUncheckedCreateNestedOneWithoutUserInput = {
@@ -15510,10 +15654,11 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
-  export type ReadProgramUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ReadProgramCreateOrConnectWithoutUserInput
-    connect?: ReadProgramWhereUniqueInput
+  export type ReadProgramUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput> | ReadProgramCreateWithoutUserInput[] | ReadProgramUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReadProgramCreateOrConnectWithoutUserInput | ReadProgramCreateOrConnectWithoutUserInput[]
+    createMany?: ReadProgramCreateManyUserInputEnvelope
+    connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -15590,14 +15735,18 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
-  export type ReadProgramUpdateOneWithoutUserNestedInput = {
-    create?: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ReadProgramCreateOrConnectWithoutUserInput
-    upsert?: ReadProgramUpsertWithoutUserInput
-    disconnect?: ReadProgramWhereInput | boolean
-    delete?: ReadProgramWhereInput | boolean
-    connect?: ReadProgramWhereUniqueInput
-    update?: XOR<XOR<ReadProgramUpdateToOneWithWhereWithoutUserInput, ReadProgramUpdateWithoutUserInput>, ReadProgramUncheckedUpdateWithoutUserInput>
+  export type ReadProgramUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput> | ReadProgramCreateWithoutUserInput[] | ReadProgramUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReadProgramCreateOrConnectWithoutUserInput | ReadProgramCreateOrConnectWithoutUserInput[]
+    upsert?: ReadProgramUpsertWithWhereUniqueWithoutUserInput | ReadProgramUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReadProgramCreateManyUserInputEnvelope
+    set?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    disconnect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    delete?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    update?: ReadProgramUpdateWithWhereUniqueWithoutUserInput | ReadProgramUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReadProgramUpdateManyWithWhereWithoutUserInput | ReadProgramUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReadProgramScalarWhereInput | ReadProgramScalarWhereInput[]
   }
 
   export type SessionUncheckedUpdateOneWithoutUserNestedInput = {
@@ -15662,14 +15811,18 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
-  export type ReadProgramUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ReadProgramCreateOrConnectWithoutUserInput
-    upsert?: ReadProgramUpsertWithoutUserInput
-    disconnect?: ReadProgramWhereInput | boolean
-    delete?: ReadProgramWhereInput | boolean
-    connect?: ReadProgramWhereUniqueInput
-    update?: XOR<XOR<ReadProgramUpdateToOneWithWhereWithoutUserInput, ReadProgramUpdateWithoutUserInput>, ReadProgramUncheckedUpdateWithoutUserInput>
+  export type ReadProgramUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput> | ReadProgramCreateWithoutUserInput[] | ReadProgramUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReadProgramCreateOrConnectWithoutUserInput | ReadProgramCreateOrConnectWithoutUserInput[]
+    upsert?: ReadProgramUpsertWithWhereUniqueWithoutUserInput | ReadProgramUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReadProgramCreateManyUserInputEnvelope
+    set?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    disconnect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    delete?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
+    update?: ReadProgramUpdateWithWhereUniqueWithoutUserInput | ReadProgramUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReadProgramUpdateManyWithWhereWithoutUserInput | ReadProgramUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReadProgramScalarWhereInput | ReadProgramScalarWhereInput[]
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -15990,7 +16143,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
@@ -16009,7 +16162,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramUncheckedCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -16044,7 +16197,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
@@ -16063,7 +16216,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUncheckedUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCodeInput = {
@@ -16082,7 +16235,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCodeInput = {
@@ -16101,7 +16254,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramUncheckedCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCodeInput = {
@@ -16136,7 +16289,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCodeInput = {
@@ -16155,7 +16308,7 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUncheckedUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutMessagesInput = {
@@ -16174,7 +16327,7 @@ export namespace Prisma {
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
-    readProgram?: ReadProgramCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -16193,7 +16346,7 @@ export namespace Prisma {
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
-    readProgram?: ReadProgramUncheckedCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -16228,7 +16381,7 @@ export namespace Prisma {
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
-    readProgram?: ReadProgramUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -16247,7 +16400,7 @@ export namespace Prisma {
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
-    readProgram?: ReadProgramUncheckedUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutReadProgramInput = {
@@ -16291,6 +16444,31 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutReadProgramInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutReadProgramInput, UserUncheckedCreateWithoutReadProgramInput>
+  }
+
+  export type RoomCreateWithoutReadProgramsInput = {
+    id?: string
+    name: string
+    linkRoom?: string | null
+    createAt?: Date | string
+    updateAt?: Date | string
+    author?: UserCreateNestedOneWithoutCreatedGroupsInput
+    members?: GroupMemberCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutReadProgramsInput = {
+    id?: string
+    name: string
+    linkRoom?: string | null
+    createAt?: Date | string
+    updateAt?: Date | string
+    authorId?: string | null
+    members?: GroupMemberUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutReadProgramsInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutReadProgramsInput, RoomUncheckedCreateWithoutReadProgramsInput>
   }
 
   export type UserUpsertWithoutReadProgramInput = {
@@ -16342,6 +16520,37 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type RoomUpsertWithoutReadProgramsInput = {
+    update: XOR<RoomUpdateWithoutReadProgramsInput, RoomUncheckedUpdateWithoutReadProgramsInput>
+    create: XOR<RoomCreateWithoutReadProgramsInput, RoomUncheckedCreateWithoutReadProgramsInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutReadProgramsInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutReadProgramsInput, RoomUncheckedUpdateWithoutReadProgramsInput>
+  }
+
+  export type RoomUpdateWithoutReadProgramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneWithoutCreatedGroupsNestedInput
+    members?: GroupMemberUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutReadProgramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    members?: GroupMemberUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
   export type UserCreateWithoutCreatedGroupsInput = {
     id?: string
     name?: string | null
@@ -16358,7 +16567,7 @@ export namespace Prisma {
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     messages?: MessageCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupsInput = {
@@ -16377,7 +16586,7 @@ export namespace Prisma {
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramUncheckedCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupsInput = {
@@ -16409,6 +16618,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ReadProgramCreateWithoutRoomInput = {
+    id?: string
+    lastestMessgaId?: number | null
+    user: UserCreateNestedOneWithoutReadProgramInput
+  }
+
+  export type ReadProgramUncheckedCreateWithoutRoomInput = {
+    id?: string
+    lastestMessgaId?: number | null
+    userId: string
+  }
+
+  export type ReadProgramCreateOrConnectWithoutRoomInput = {
+    where: ReadProgramWhereUniqueInput
+    create: XOR<ReadProgramCreateWithoutRoomInput, ReadProgramUncheckedCreateWithoutRoomInput>
+  }
+
+  export type ReadProgramCreateManyRoomInputEnvelope = {
+    data: ReadProgramCreateManyRoomInput | ReadProgramCreateManyRoomInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutCreatedGroupsInput = {
     update: XOR<UserUpdateWithoutCreatedGroupsInput, UserUncheckedUpdateWithoutCreatedGroupsInput>
     create: XOR<UserCreateWithoutCreatedGroupsInput, UserUncheckedCreateWithoutCreatedGroupsInput>
@@ -16436,7 +16667,7 @@ export namespace Prisma {
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
@@ -16455,7 +16686,7 @@ export namespace Prisma {
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUncheckedUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupMemberUpsertWithWhereUniqueWithoutRoomInput = {
@@ -16485,6 +16716,32 @@ export namespace Prisma {
     roleId?: UuidFilter<"GroupMember"> | string
   }
 
+  export type ReadProgramUpsertWithWhereUniqueWithoutRoomInput = {
+    where: ReadProgramWhereUniqueInput
+    update: XOR<ReadProgramUpdateWithoutRoomInput, ReadProgramUncheckedUpdateWithoutRoomInput>
+    create: XOR<ReadProgramCreateWithoutRoomInput, ReadProgramUncheckedCreateWithoutRoomInput>
+  }
+
+  export type ReadProgramUpdateWithWhereUniqueWithoutRoomInput = {
+    where: ReadProgramWhereUniqueInput
+    data: XOR<ReadProgramUpdateWithoutRoomInput, ReadProgramUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type ReadProgramUpdateManyWithWhereWithoutRoomInput = {
+    where: ReadProgramScalarWhereInput
+    data: XOR<ReadProgramUpdateManyMutationInput, ReadProgramUncheckedUpdateManyWithoutRoomInput>
+  }
+
+  export type ReadProgramScalarWhereInput = {
+    AND?: ReadProgramScalarWhereInput | ReadProgramScalarWhereInput[]
+    OR?: ReadProgramScalarWhereInput[]
+    NOT?: ReadProgramScalarWhereInput | ReadProgramScalarWhereInput[]
+    id?: UuidFilter<"ReadProgram"> | string
+    lastestMessgaId?: IntNullableFilter<"ReadProgram"> | number | null
+    userId?: UuidFilter<"ReadProgram"> | string
+    roomId?: UuidFilter<"ReadProgram"> | string
+  }
+
   export type UserCreateWithoutMemberGroupsInput = {
     id?: string
     name?: string | null
@@ -16501,7 +16758,7 @@ export namespace Prisma {
     code?: CodeCreateNestedOneWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMemberGroupsInput = {
@@ -16520,7 +16777,7 @@ export namespace Prisma {
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
-    readProgram?: ReadProgramUncheckedCreateNestedOneWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMemberGroupsInput = {
@@ -16535,6 +16792,7 @@ export namespace Prisma {
     createAt?: Date | string
     updateAt?: Date | string
     author?: UserCreateNestedOneWithoutCreatedGroupsInput
+    readPrograms?: ReadProgramCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutMembersInput = {
@@ -16544,6 +16802,7 @@ export namespace Prisma {
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
+    readPrograms?: ReadProgramUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutMembersInput = {
@@ -16595,7 +16854,7 @@ export namespace Prisma {
     code?: CodeUpdateOneWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMemberGroupsInput = {
@@ -16614,7 +16873,7 @@ export namespace Prisma {
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
-    readProgram?: ReadProgramUncheckedUpdateOneWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomUpsertWithoutMembersInput = {
@@ -16635,6 +16894,7 @@ export namespace Prisma {
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneWithoutCreatedGroupsNestedInput
+    readPrograms?: ReadProgramUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutMembersInput = {
@@ -16644,6 +16904,7 @@ export namespace Prisma {
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    readPrograms?: ReadProgramUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoleUpsertWithoutUserRolesInput = {
@@ -16948,6 +17209,7 @@ export namespace Prisma {
     createAt?: Date | string
     updateAt?: Date | string
     members?: GroupMemberCreateNestedManyWithoutRoomInput
+    readPrograms?: ReadProgramCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutAuthorInput = {
@@ -16957,6 +17219,7 @@ export namespace Prisma {
     createAt?: Date | string
     updateAt?: Date | string
     members?: GroupMemberUncheckedCreateNestedManyWithoutRoomInput
+    readPrograms?: ReadProgramUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutAuthorInput = {
@@ -17001,16 +17264,23 @@ export namespace Prisma {
   export type ReadProgramCreateWithoutUserInput = {
     id?: string
     lastestMessgaId?: number | null
+    room: RoomCreateNestedOneWithoutReadProgramsInput
   }
 
   export type ReadProgramUncheckedCreateWithoutUserInput = {
     id?: string
     lastestMessgaId?: number | null
+    roomId: string
   }
 
   export type ReadProgramCreateOrConnectWithoutUserInput = {
     where: ReadProgramWhereUniqueInput
     create: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput>
+  }
+
+  export type ReadProgramCreateManyUserInputEnvelope = {
+    data: ReadProgramCreateManyUserInput | ReadProgramCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type SessionUpsertWithoutUserInput = {
@@ -17139,25 +17409,20 @@ export namespace Prisma {
     userId?: UuidFilter<"Message"> | string
   }
 
-  export type ReadProgramUpsertWithoutUserInput = {
+  export type ReadProgramUpsertWithWhereUniqueWithoutUserInput = {
+    where: ReadProgramWhereUniqueInput
     update: XOR<ReadProgramUpdateWithoutUserInput, ReadProgramUncheckedUpdateWithoutUserInput>
     create: XOR<ReadProgramCreateWithoutUserInput, ReadProgramUncheckedCreateWithoutUserInput>
-    where?: ReadProgramWhereInput
   }
 
-  export type ReadProgramUpdateToOneWithWhereWithoutUserInput = {
-    where?: ReadProgramWhereInput
+  export type ReadProgramUpdateWithWhereUniqueWithoutUserInput = {
+    where: ReadProgramWhereUniqueInput
     data: XOR<ReadProgramUpdateWithoutUserInput, ReadProgramUncheckedUpdateWithoutUserInput>
   }
 
-  export type ReadProgramUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type ReadProgramUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
+  export type ReadProgramUpdateManyWithWhereWithoutUserInput = {
+    where: ReadProgramScalarWhereInput
+    data: XOR<ReadProgramUpdateManyMutationInput, ReadProgramUncheckedUpdateManyWithoutUserInput>
   }
 
   export type GroupMemberCreateManyRoomInput = {
@@ -17165,6 +17430,12 @@ export namespace Prisma {
     userId: string
     joinAt?: Date | string
     roleId: string
+  }
+
+  export type ReadProgramCreateManyRoomInput = {
+    id?: string
+    lastestMessgaId?: number | null
+    userId: string
   }
 
   export type GroupMemberUpdateWithoutRoomInput = {
@@ -17186,6 +17457,24 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     joinAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roleId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReadProgramUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
+    user?: UserUpdateOneRequiredWithoutReadProgramNestedInput
+  }
+
+  export type ReadProgramUncheckedUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReadProgramUncheckedUpdateManyWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type GroupMemberCreateManyRoleInput = {
@@ -17283,6 +17572,12 @@ export namespace Prisma {
     addressId?: string | null
   }
 
+  export type ReadProgramCreateManyUserInput = {
+    id?: string
+    lastestMessgaId?: number | null
+    roomId: string
+  }
+
   export type GroupMemberUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     joinAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17311,6 +17606,7 @@ export namespace Prisma {
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: GroupMemberUpdateManyWithoutRoomNestedInput
+    readPrograms?: ReadProgramUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutAuthorInput = {
@@ -17320,6 +17616,7 @@ export namespace Prisma {
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: GroupMemberUncheckedUpdateManyWithoutRoomNestedInput
+    readPrograms?: ReadProgramUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateManyWithoutAuthorInput = {
@@ -17357,6 +17654,24 @@ export namespace Prisma {
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roomId?: NullableStringFieldUpdateOperationsInput | string | null
     addressId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ReadProgramUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
+    room?: RoomUpdateOneRequiredWithoutReadProgramsNestedInput
+  }
+
+  export type ReadProgramUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReadProgramUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: StringFieldUpdateOperationsInput | string
   }
 
 

@@ -31,9 +31,9 @@ export class AuthController {
     }
 
     @Public()
-    @Post('send-notificaiton-account')
-    async sendVerifyAccount(email: string, userName: string) {
-        return this.authService.sendVerifyAccount(email, userName)
+    @Post('send-notification-account')
+    async sendVerifyAccount(@Body() body: { email: string, userName: string }) {
+        return this.authService.sendVerifyAccount(body.email, body.userName)
     }
 
     @Public()

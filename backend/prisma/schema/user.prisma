@@ -21,7 +21,7 @@ model User {
     memberGroups  GroupMember[]
     createdGroups Room[]
     messages      Message[]
-    readProgram   ReadProgram?
+    readProgram   ReadProgram[]
 }
 
 enum Gender {

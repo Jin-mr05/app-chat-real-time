@@ -38,6 +38,7 @@
     "amqplib": "^0.10.8",
     "argon2": "^0.43.1",
     "cache-manager": "^7.1.0",
+    "class-validator": "^0.14.2",
     "cookie-parser": "^1.4.7",
     "helmet": "^8.1.0",
     "i": "^0.3.7",

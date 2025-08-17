@@ -6,6 +6,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { AUTH_CONSTANTS } from "../auth/auth.constants";
 import { ROOM_CONSTANTS } from "../room/room.constants";
 import { UserWithRoom } from "../room/type.room";
+import { USER_CONSTANTS } from "../user/user.constants";
 
 @Injectable()
 export class CustomCacheService {
@@ -34,7 +35,8 @@ export class CustomCacheService {
 
         // fallback to database
         const existingUser = await this.prismaService.user.findUnique({
-            where: { email: email }
+            where: { email: email },
+            omit: { hashedPassword: false }
         });
 
         if (existingUser) {
@@ -79,6 +81,40 @@ export class CustomCacheService {
         })
 
         return exitingUser
+    }
+
+    // find list user in cache
+    async getListUserInCache(userName: string) {
+        // get in cache
+        const key = USER_CONSTANTS.CACHE_KEYS.KeyListUser(userName)
+        const cached = await this.cacheManager.get(key)
+
+        if (cached) return cached
+
+        // fall back
+        const exitingListUsers = await this.prismaService.user.findMany({
+            where: {
+                name: {
+                    contains: userName,
+                    mode: 'insensitive'
+                },
+                AND: {
+                    isActive: true,
+                    idDelete: false
+                },
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                birthday: true,
+                gender: true,
+                createAt: true
+            },
+            take: 20
+        })
+
+        return exitingListUsers
     }
 
     // update cache user

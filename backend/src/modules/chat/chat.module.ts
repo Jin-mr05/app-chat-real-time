@@ -3,13 +3,13 @@ import { CustomCacheModule } from '../custom-cache/custom-cache.module';
 import { ChatService } from './chat.service';
 import { ChatGateway } from './chat.gateway';
 import { AuthModule } from '../auth/auth.module';
-import { ChatController } from './chat.controller';
-import { GroupModule } from '../room/room.module';
+import { RoomModule } from '../room/room.module';
+import { chatController } from './chat.controller';
 
 @Module({
-    imports: [CustomCacheModule, AuthModule, GroupModule],
-    controllers: [ChatController],
+    imports: [CustomCacheModule, AuthModule, RoomModule],
     providers: [ChatService, ChatGateway],
+    controllers: [chatController],
     exports: [ChatService]
 })
 export class ChatModule { }

@@ -49,13 +49,17 @@ model Message {
 }
 
 model ReadProgram {
-  id String @id @default(uuid()) @db.Uuid
+  id              String @id @default(uuid()) @db.Uuid
+  lastestMessgaId Int?   @default(0)
 
-  lastestMessgaId Int? @default(0)
+  userId String @unique @db.Uuid
+  roomId String @db.Uuid
 
   // realtion
-  userId String? @unique @db.Uuid
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([userId, roomId])
 }
 
 enum MessageType {
@@ -101,7 +105,8 @@ model Room {
   author   User?   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   // realtion
-  members GroupMember[]
+  members      GroupMember[]
+  readPrograms ReadProgram[]
 }
 
 model GroupMember {
@@ -173,7 +178,7 @@ model User {
   memberGroups  GroupMember[]
   createdGroups Room[]
   messages      Message[]
-  readProgram   ReadProgram?
+  readProgram   ReadProgram[]
 }
 
 enum Gender {

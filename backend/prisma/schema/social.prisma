@@ -11,7 +11,9 @@ model Room {
     author   User?   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
     // realtion
-    members GroupMember[]
+    members      GroupMember[]
+    readPrograms ReadProgram[]
+
 }
 
 model GroupMember {

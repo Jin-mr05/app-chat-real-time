@@ -3,160 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Verify Your Registration</title>
+  <title>Confirm Your Email</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f4f4;
-      padding: 20px;
-      margin: 0;
+      background-color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px 20px;
       color: #333;
     }
 
     .container {
-      max-width: 600px;
-      margin: auto;
-      background-color: #ffffff;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .logo {
       font-size: 32px;
       font-weight: bold;
-      color: #2c3e50;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .email-img {
+      width: 120px;
+      margin-bottom: 20px;
     }
 
     h1 {
-      text-align: center;
-      font-size: 28px;
-      color: #2c3e50;
-      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
     }
 
-    .greeting {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #555;
-    }
-
-    .message {
+    p {
       font-size: 16px;
       margin-bottom: 30px;
-      line-height: 1.8;
-      color: #444;
     }
 
-    .verify-button {
-      display: inline-block;
-      background-color: #3498db;
-      color: #fff;
-      padding: 14px 28px;
-      font-size: 16px;
-      font-weight: bold;
+    .button {
+      background-color: #1cb0f6;
+      color: white;
       text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+      padding: 12px 24px;
+      font-weight: bold;
+      border-radius: 6px;
+      display: inline-block;
+      transition: background-color 0.2s;
     }
 
-    .verify-button:hover {
-      background-color: #2980b9;
-    }
-
-    .button-container {
-      text-align: center;
-      margin: 30px 0;
-    }
-
-    .link-text {
-      word-break: break-word;
-      font-family: monospace;
-      font-size: 14px;
-      padding: 12px;
-      background-color: #f8f9fa;
-      border-radius: 4px;
-      margin-bottom: 20px;
-    }
-
-    .important {
-      background-color: #fff3cd;
-      border: 1px solid #ffeaa7;
-      border-radius: 4px;
-      padding: 15px;
-      color: #856404;
-      margin-bottom: 30px;
+    .button:hover {
+      background-color: #1393cc;
     }
 
     .footer {
       font-size: 14px;
-      color: #666;
-      text-align: center;
-      border-top: 1px solid #eee;
-      padding-top: 20px;
+      margin-top: 30px;
+      color: #777;
     }
 
-    @media (max-width: 600px) {
-      .container {
-        padding: 30px 20px;
-      }
+    .footer a {
+      color: #1cb0f6;
+      text-decoration: none;
+    }
 
-      h1 {
-        font-size: 24px;
-      }
-
-      .greeting, .message {
-        font-size: 16px;
-      }
-
-      .verify-button {
-        padding: 12px 24px;
-        font-size: 15px;
-      }
+    .footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <div class="logo">Welcome!</div>
-    </div>
-
-    <h1>Verify Your Registration</h1>
-
-    <div class="greeting">
-      Hello,
-    </div>
-
-    <div class="message">
-      Thank you for registering with us! To complete your registration and activate your account, please verify your email address by clicking the button below.
-    </div>
-
-    <div class="button-container">
-      <a href="{LINK_VERIFY}" class="verify-button">Verify My Account</a>
-    </div>
-
-    <div class="message">
-      If the button above doesn't work, you can copy and paste the following link into your browser:
-    </div>
-
-    <div class="link-text">
-      {LINK_VERIFY}
-    </div>
-
-    <div class="important">
-      <strong>Important:</strong> This verification link will expire in 24 hours. If you didn’t create an account, please ignore this email.
-    </div>
-
+    <div class="logo">Blogify</div>
+    <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Email Icon" class="email-img" />
+    <h1>Verify your email</h1>
+    <p>Thanks for signing up with Blogify! Click the button below to finish verifying your email address.</p>
+    <a href="{verify_link}" class="button">CONFIRM EMAIL</a>
     <div class="footer">
-      <p>If you have any questions or need help, feel free to contact our support team.</p>
-      <p>Thanks for choosing our service!</p>
-      <p><em>This is an automated message, please do not reply.</em></p>
+      Didn't create an account?
+      <a href="{delete_link}">Click here</a>
+      to remove this email address.
     </div>
   </div>
 </body>
