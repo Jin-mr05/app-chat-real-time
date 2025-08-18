@@ -10,9 +10,9 @@ export class UserService {
     ) { }
 
     // find user 
-    async findUserByName(userName: string) {
+    async findUserByName(name: string) {
         // middleware find
-        if (!userName || userName.trim() === '') {
+        if (!name || name.trim() === '') {
             return {
                 success: true,
                 users: []
@@ -20,13 +20,13 @@ export class UserService {
         }
 
         // transform input data
-        const searchTerm = userName.trim().toLowerCase()
+        const searchTerm = name.trim().toLowerCase()
 
         const exitingListUsers = await this.customCacheService.getListUserInCache(searchTerm)
 
         // fall back
         if (!exitingListUsers) {
-            const key = USER_CONSTANTS.CACHE_KEYS.KeyUserWithName(userName)
+            const key = USER_CONSTANTS.CACHE_KEYS.KeyUserWithName(name)
             await this.customCacheService.setCacheTempObject(key, null)
             throw new NotFoundException("User not found")
         }

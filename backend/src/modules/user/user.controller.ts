@@ -11,8 +11,8 @@ export class UserController {
     ) { }
 
     @Get('find-user-by-name')
-    async findUserByName(@Query('userName') userName: string) {
-        return this.userService.findUserByName(userName)
+    async findUserByName(@Query('name') name: string) {
+        return this.userService.findUserByName(name)
     }
 
     @Post('create-room')

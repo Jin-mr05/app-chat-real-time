@@ -1,21 +1,38 @@
 "use client"
+import { AuthProvider, useAuth } from "@/components/auth-provider"
+import { ChatInterface } from "@/components/chat-interface"
+import { LoginForm } from "@/components/login-form"
+import { TestValidation } from "@/components/test-validation"
 
-// Loại bỏ import ChatProvider vì nó đã được render bên trong AuthGuard
-import { AuthGuard } from "@/components/auth/auth-guard"
-import { ChatSidebar } from "@/components/chat-sidebar"
-import { ChatWindow } from "@/components/chat-window"
-import { ChatHeader } from "@/components/chat-header"
+function ChatApp() {
+  const { user, loading } = useAuth()
 
-export default function FacebookChatApp() {
-  return (
-    <AuthGuard>
-      <div className="h-screen flex flex-col bg-gray-50">
-        <ChatHeader />
-        <div className="flex-1 flex">
-          <ChatSidebar />
-          <ChatWindow />
-        </div>
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
-    </AuthGuard>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {user ? (
+        <ChatInterface />
+      ) : (
+        <div>
+          <LoginForm />
+          <TestValidation />
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function Home() {
+  return (
+    <AuthProvider>
+      <ChatApp />
+    </AuthProvider>
   )
 }
