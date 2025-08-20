@@ -2,26 +2,33 @@ model User {
     id String @id @default(uuid()) @db.Uuid
 
     // basic detail 
-    name     String?
-    birthday DateTime?
-    gender   Gender?
+    name       String?
+    birthday   DateTime?
+    gender     Gender?
+    lastSeenAt DateTime?
 
     //auth 
-    email          String    @unique
+    email          String  @unique
     hashedPassword String
-    isActive       Boolean   @default(false)
-    idDelete       Boolean   @default(false)
-    createAt       DateTime  @default(now())
-    updateAt       DateTime  @updatedAt
-    deleteAt       DateTime?
+    isActive       Boolean @default(false)
 
-    // realtion
+    idDelete Boolean   @default(false)
+    createAt DateTime  @default(now())
+    updateAt DateTime  @updatedAt
+    deleteAt DateTime?
+
+    // realtion 
     session       Session?
     code          Code?
     memberGroups  GroupMember[]
     createdGroups Room[]
     messages      Message[]
     readProgram   ReadProgram[]
+    chatsUser1    PrivateChat[] @relation("User1Chats")
+    chatsUser2    PrivateChat[] @relation("User2Chats")
+    sentMessages PrivateMessage[] @relation("SentMessages")
+    typingStatus TypingStatus[]
+    @@map("users")
 }
 
 enum Gender {

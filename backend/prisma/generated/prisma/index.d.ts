@@ -24,6 +24,21 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type Code = $Result.DefaultSelection<Prisma.$CodePayload>
 /**
+ * Model PrivateChat
+ * 
+ */
+export type PrivateChat = $Result.DefaultSelection<Prisma.$PrivateChatPayload>
+/**
+ * Model PrivateMessage
+ * 
+ */
+export type PrivateMessage = $Result.DefaultSelection<Prisma.$PrivateMessagePayload>
+/**
+ * Model TypingStatus
+ * 
+ */
+export type TypingStatus = $Result.DefaultSelection<Prisma.$TypingStatusPayload>
+/**
  * Model Message
  * 
  */
@@ -79,9 +94,13 @@ export type CodeType = (typeof CodeType)[keyof typeof CodeType]
 export const MessageType: {
   TEXT: 'TEXT',
   IMAGE: 'IMAGE',
+  FILE: 'FILE',
   VIDEO: 'VIDEO',
   AUDIO: 'AUDIO',
-  FILE: 'FILE'
+  EMOJI: 'EMOJI',
+  STICKER: 'STICKER',
+  LOCATION: 'LOCATION',
+  SYSTEM: 'SYSTEM'
 };
 
 export type MessageType = (typeof MessageType)[keyof typeof MessageType]
@@ -266,6 +285,36 @@ export class PrismaClient<
     * ```
     */
   get code(): Prisma.CodeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.privateChat`: Exposes CRUD operations for the **PrivateChat** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PrivateChats
+    * const privateChats = await prisma.privateChat.findMany()
+    * ```
+    */
+  get privateChat(): Prisma.PrivateChatDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.privateMessage`: Exposes CRUD operations for the **PrivateMessage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PrivateMessages
+    * const privateMessages = await prisma.privateMessage.findMany()
+    * ```
+    */
+  get privateMessage(): Prisma.PrivateMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.typingStatus`: Exposes CRUD operations for the **TypingStatus** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TypingStatuses
+    * const typingStatuses = await prisma.typingStatus.findMany()
+    * ```
+    */
+  get typingStatus(): Prisma.TypingStatusDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.message`: Exposes CRUD operations for the **Message** model.
@@ -788,6 +837,9 @@ export namespace Prisma {
   export const ModelName: {
     Session: 'Session',
     Code: 'Code',
+    PrivateChat: 'PrivateChat',
+    PrivateMessage: 'PrivateMessage',
+    TypingStatus: 'TypingStatus',
     Message: 'Message',
     ReadProgram: 'ReadProgram',
     Room: 'Room',
@@ -814,7 +866,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "session" | "code" | "message" | "readProgram" | "room" | "groupMember" | "role" | "permission" | "rolePermisson" | "user"
+      modelProps: "session" | "code" | "privateChat" | "privateMessage" | "typingStatus" | "message" | "readProgram" | "room" | "groupMember" | "role" | "permission" | "rolePermisson" | "user"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -963,6 +1015,228 @@ export namespace Prisma {
           count: {
             args: Prisma.CodeCountArgs<ExtArgs>
             result: $Utils.Optional<CodeCountAggregateOutputType> | number
+          }
+        }
+      }
+      PrivateChat: {
+        payload: Prisma.$PrivateChatPayload<ExtArgs>
+        fields: Prisma.PrivateChatFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PrivateChatFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PrivateChatFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>
+          }
+          findFirst: {
+            args: Prisma.PrivateChatFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PrivateChatFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>
+          }
+          findMany: {
+            args: Prisma.PrivateChatFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>[]
+          }
+          create: {
+            args: Prisma.PrivateChatCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>
+          }
+          createMany: {
+            args: Prisma.PrivateChatCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PrivateChatCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>[]
+          }
+          delete: {
+            args: Prisma.PrivateChatDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>
+          }
+          update: {
+            args: Prisma.PrivateChatUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>
+          }
+          deleteMany: {
+            args: Prisma.PrivateChatDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PrivateChatUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PrivateChatUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>[]
+          }
+          upsert: {
+            args: Prisma.PrivateChatUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateChatPayload>
+          }
+          aggregate: {
+            args: Prisma.PrivateChatAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePrivateChat>
+          }
+          groupBy: {
+            args: Prisma.PrivateChatGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PrivateChatGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PrivateChatCountArgs<ExtArgs>
+            result: $Utils.Optional<PrivateChatCountAggregateOutputType> | number
+          }
+        }
+      }
+      PrivateMessage: {
+        payload: Prisma.$PrivateMessagePayload<ExtArgs>
+        fields: Prisma.PrivateMessageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PrivateMessageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PrivateMessageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>
+          }
+          findFirst: {
+            args: Prisma.PrivateMessageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PrivateMessageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>
+          }
+          findMany: {
+            args: Prisma.PrivateMessageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>[]
+          }
+          create: {
+            args: Prisma.PrivateMessageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>
+          }
+          createMany: {
+            args: Prisma.PrivateMessageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PrivateMessageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>[]
+          }
+          delete: {
+            args: Prisma.PrivateMessageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>
+          }
+          update: {
+            args: Prisma.PrivateMessageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>
+          }
+          deleteMany: {
+            args: Prisma.PrivateMessageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PrivateMessageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PrivateMessageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>[]
+          }
+          upsert: {
+            args: Prisma.PrivateMessageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrivateMessagePayload>
+          }
+          aggregate: {
+            args: Prisma.PrivateMessageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePrivateMessage>
+          }
+          groupBy: {
+            args: Prisma.PrivateMessageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PrivateMessageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PrivateMessageCountArgs<ExtArgs>
+            result: $Utils.Optional<PrivateMessageCountAggregateOutputType> | number
+          }
+        }
+      }
+      TypingStatus: {
+        payload: Prisma.$TypingStatusPayload<ExtArgs>
+        fields: Prisma.TypingStatusFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TypingStatusFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TypingStatusFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>
+          }
+          findFirst: {
+            args: Prisma.TypingStatusFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TypingStatusFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>
+          }
+          findMany: {
+            args: Prisma.TypingStatusFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>[]
+          }
+          create: {
+            args: Prisma.TypingStatusCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>
+          }
+          createMany: {
+            args: Prisma.TypingStatusCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TypingStatusCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>[]
+          }
+          delete: {
+            args: Prisma.TypingStatusDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>
+          }
+          update: {
+            args: Prisma.TypingStatusUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>
+          }
+          deleteMany: {
+            args: Prisma.TypingStatusDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TypingStatusUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TypingStatusUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>[]
+          }
+          upsert: {
+            args: Prisma.TypingStatusUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TypingStatusPayload>
+          }
+          aggregate: {
+            args: Prisma.TypingStatusAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTypingStatus>
+          }
+          groupBy: {
+            args: Prisma.TypingStatusGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TypingStatusGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TypingStatusCountArgs<ExtArgs>
+            result: $Utils.Optional<TypingStatusCountAggregateOutputType> | number
           }
         }
       }
@@ -1652,6 +1926,9 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     session?: SessionOmit
     code?: CodeOmit
+    privateChat?: PrivateChatOmit
+    privateMessage?: PrivateMessageOmit
+    typingStatus?: TypingStatusOmit
     message?: MessageOmit
     readProgram?: ReadProgramOmit
     room?: RoomOmit
@@ -1752,6 +2029,77 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type PrivateChatCountOutputType
+   */
+
+  export type PrivateChatCountOutputType = {
+    PrivateMessage: number
+    TypingStatus: number
+  }
+
+  export type PrivateChatCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    PrivateMessage?: boolean | PrivateChatCountOutputTypeCountPrivateMessageArgs
+    TypingStatus?: boolean | PrivateChatCountOutputTypeCountTypingStatusArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PrivateChatCountOutputType without action
+   */
+  export type PrivateChatCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChatCountOutputType
+     */
+    select?: PrivateChatCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PrivateChatCountOutputType without action
+   */
+  export type PrivateChatCountOutputTypeCountPrivateMessageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrivateMessageWhereInput
+  }
+
+  /**
+   * PrivateChatCountOutputType without action
+   */
+  export type PrivateChatCountOutputTypeCountTypingStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TypingStatusWhereInput
+  }
+
+
+  /**
+   * Count Type PrivateMessageCountOutputType
+   */
+
+  export type PrivateMessageCountOutputType = {
+    replies: number
+  }
+
+  export type PrivateMessageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replies?: boolean | PrivateMessageCountOutputTypeCountRepliesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PrivateMessageCountOutputType without action
+   */
+  export type PrivateMessageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessageCountOutputType
+     */
+    select?: PrivateMessageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PrivateMessageCountOutputType without action
+   */
+  export type PrivateMessageCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrivateMessageWhereInput
+  }
 
 
   /**
@@ -1874,6 +2222,10 @@ export namespace Prisma {
     createdGroups: number
     messages: number
     readProgram: number
+    chatsUser1: number
+    chatsUser2: number
+    sentMessages: number
+    typingStatus: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1881,6 +2233,10 @@ export namespace Prisma {
     createdGroups?: boolean | UserCountOutputTypeCountCreatedGroupsArgs
     messages?: boolean | UserCountOutputTypeCountMessagesArgs
     readProgram?: boolean | UserCountOutputTypeCountReadProgramArgs
+    chatsUser1?: boolean | UserCountOutputTypeCountChatsUser1Args
+    chatsUser2?: boolean | UserCountOutputTypeCountChatsUser2Args
+    sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
+    typingStatus?: boolean | UserCountOutputTypeCountTypingStatusArgs
   }
 
   // Custom InputTypes
@@ -1922,6 +2278,34 @@ export namespace Prisma {
     where?: ReadProgramWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountChatsUser1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrivateChatWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountChatsUser2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrivateChatWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrivateMessageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTypingStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TypingStatusWhereInput
+  }
+
 
   /**
    * Models
@@ -1939,52 +2323,52 @@ export namespace Prisma {
 
   export type SessionMinAggregateOutputType = {
     id: string | null
-    hasedRefreshToken: string | null
+    hashedRefreshToken: string | null
     userId: string | null
-    createAt: Date | null
-    updateAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type SessionMaxAggregateOutputType = {
     id: string | null
-    hasedRefreshToken: string | null
+    hashedRefreshToken: string | null
     userId: string | null
-    createAt: Date | null
-    updateAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type SessionCountAggregateOutputType = {
     id: number
-    hasedRefreshToken: number
+    hashedRefreshToken: number
     userId: number
-    createAt: number
-    updateAt: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type SessionMinAggregateInputType = {
     id?: true
-    hasedRefreshToken?: true
+    hashedRefreshToken?: true
     userId?: true
-    createAt?: true
-    updateAt?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type SessionMaxAggregateInputType = {
     id?: true
-    hasedRefreshToken?: true
+    hashedRefreshToken?: true
     userId?: true
-    createAt?: true
-    updateAt?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type SessionCountAggregateInputType = {
     id?: true
-    hasedRefreshToken?: true
+    hashedRefreshToken?: true
     userId?: true
-    createAt?: true
-    updateAt?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -2062,10 +2446,10 @@ export namespace Prisma {
 
   export type SessionGroupByOutputType = {
     id: string
-    hasedRefreshToken: string | null
-    userId: string | null
-    createAt: Date
-    updateAt: Date
+    hashedRefreshToken: string | null
+    userId: string
+    createdAt: Date
+    updatedAt: Date
     _count: SessionCountAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
@@ -2087,61 +2471,61 @@ export namespace Prisma {
 
   export type SessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    hasedRefreshToken?: boolean
+    hashedRefreshToken?: boolean
     userId?: boolean
-    createAt?: boolean
-    updateAt?: boolean
-    user?: boolean | Session$userArgs<ExtArgs>
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    hasedRefreshToken?: boolean
+    hashedRefreshToken?: boolean
     userId?: boolean
-    createAt?: boolean
-    updateAt?: boolean
-    user?: boolean | Session$userArgs<ExtArgs>
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    hasedRefreshToken?: boolean
+    hashedRefreshToken?: boolean
     userId?: boolean
-    createAt?: boolean
-    updateAt?: boolean
-    user?: boolean | Session$userArgs<ExtArgs>
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectScalar = {
     id?: boolean
-    hasedRefreshToken?: boolean
+    hashedRefreshToken?: boolean
     userId?: boolean
-    createAt?: boolean
-    updateAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hasedRefreshToken" | "userId" | "createAt" | "updateAt", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hashedRefreshToken" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type SessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type SessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $SessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Session"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      hasedRefreshToken: string | null
-      userId: string | null
-      createAt: Date
-      updateAt: Date
+      hashedRefreshToken: string | null
+      userId: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["session"]>
     composites: {}
   }
@@ -2536,7 +2920,7 @@ export namespace Prisma {
    */
   export interface Prisma__SessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends Session$userArgs<ExtArgs> = {}>(args?: Subset<T, Session$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2567,10 +2951,10 @@ export namespace Prisma {
    */
   interface SessionFieldRefs {
     readonly id: FieldRef<"Session", 'String'>
-    readonly hasedRefreshToken: FieldRef<"Session", 'String'>
+    readonly hashedRefreshToken: FieldRef<"Session", 'String'>
     readonly userId: FieldRef<"Session", 'String'>
-    readonly createAt: FieldRef<"Session", 'DateTime'>
-    readonly updateAt: FieldRef<"Session", 'DateTime'>
+    readonly createdAt: FieldRef<"Session", 'DateTime'>
+    readonly updatedAt: FieldRef<"Session", 'DateTime'>
   }
     
 
@@ -2967,25 +3351,6 @@ export namespace Prisma {
   }
 
   /**
-   * Session.user
-   */
-  export type Session$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
    * Session without action
    */
   export type SessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3019,8 +3384,8 @@ export namespace Prisma {
     code: string | null
     type: $Enums.CodeType | null
     userId: string | null
-    createAt: Date | null
-    updateAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CodeMaxAggregateOutputType = {
@@ -3028,8 +3393,8 @@ export namespace Prisma {
     code: string | null
     type: $Enums.CodeType | null
     userId: string | null
-    createAt: Date | null
-    updateAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CodeCountAggregateOutputType = {
@@ -3037,8 +3402,8 @@ export namespace Prisma {
     code: number
     type: number
     userId: number
-    createAt: number
-    updateAt: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -3048,8 +3413,8 @@ export namespace Prisma {
     code?: true
     type?: true
     userId?: true
-    createAt?: true
-    updateAt?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CodeMaxAggregateInputType = {
@@ -3057,8 +3422,8 @@ export namespace Prisma {
     code?: true
     type?: true
     userId?: true
-    createAt?: true
-    updateAt?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CodeCountAggregateInputType = {
@@ -3066,8 +3431,8 @@ export namespace Prisma {
     code?: true
     type?: true
     userId?: true
-    createAt?: true
-    updateAt?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3148,8 +3513,8 @@ export namespace Prisma {
     code: string | null
     type: $Enums.CodeType
     userId: string | null
-    createAt: Date
-    updateAt: Date
+    createdAt: Date
+    updatedAt: Date
     _count: CodeCountAggregateOutputType | null
     _min: CodeMinAggregateOutputType | null
     _max: CodeMaxAggregateOutputType | null
@@ -3174,8 +3539,8 @@ export namespace Prisma {
     code?: boolean
     type?: boolean
     userId?: boolean
-    createAt?: boolean
-    updateAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | Code$userArgs<ExtArgs>
   }, ExtArgs["result"]["code"]>
 
@@ -3184,8 +3549,8 @@ export namespace Prisma {
     code?: boolean
     type?: boolean
     userId?: boolean
-    createAt?: boolean
-    updateAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | Code$userArgs<ExtArgs>
   }, ExtArgs["result"]["code"]>
 
@@ -3194,8 +3559,8 @@ export namespace Prisma {
     code?: boolean
     type?: boolean
     userId?: boolean
-    createAt?: boolean
-    updateAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | Code$userArgs<ExtArgs>
   }, ExtArgs["result"]["code"]>
 
@@ -3204,11 +3569,11 @@ export namespace Prisma {
     code?: boolean
     type?: boolean
     userId?: boolean
-    createAt?: boolean
-    updateAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type CodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "type" | "userId" | "createAt" | "updateAt", ExtArgs["result"]["code"]>
+  export type CodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "type" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["code"]>
   export type CodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Code$userArgs<ExtArgs>
   }
@@ -3229,8 +3594,8 @@ export namespace Prisma {
       code: string | null
       type: $Enums.CodeType
       userId: string | null
-      createAt: Date
-      updateAt: Date
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["code"]>
     composites: {}
   }
@@ -3659,8 +4024,8 @@ export namespace Prisma {
     readonly code: FieldRef<"Code", 'String'>
     readonly type: FieldRef<"Code", 'CodeType'>
     readonly userId: FieldRef<"Code", 'String'>
-    readonly createAt: FieldRef<"Code", 'DateTime'>
-    readonly updateAt: FieldRef<"Code", 'DateTime'>
+    readonly createdAt: FieldRef<"Code", 'DateTime'>
+    readonly updatedAt: FieldRef<"Code", 'DateTime'>
   }
     
 
@@ -4091,6 +4456,3555 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CodeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PrivateChat
+   */
+
+  export type AggregatePrivateChat = {
+    _count: PrivateChatCountAggregateOutputType | null
+    _avg: PrivateChatAvgAggregateOutputType | null
+    _sum: PrivateChatSumAggregateOutputType | null
+    _min: PrivateChatMinAggregateOutputType | null
+    _max: PrivateChatMaxAggregateOutputType | null
+  }
+
+  export type PrivateChatAvgAggregateOutputType = {
+    user1LastReadIndex: number | null
+    user2LastReadIndex: number | null
+    totalMessages: number | null
+  }
+
+  export type PrivateChatSumAggregateOutputType = {
+    user1LastReadIndex: number | null
+    user2LastReadIndex: number | null
+    totalMessages: number | null
+  }
+
+  export type PrivateChatMinAggregateOutputType = {
+    id: string | null
+    user1Id: string | null
+    user2Id: string | null
+    lastMessage: string | null
+    lastMessageAt: Date | null
+    user1LastReadIndex: number | null
+    user2LastReadIndex: number | null
+    totalMessages: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PrivateChatMaxAggregateOutputType = {
+    id: string | null
+    user1Id: string | null
+    user2Id: string | null
+    lastMessage: string | null
+    lastMessageAt: Date | null
+    user1LastReadIndex: number | null
+    user2LastReadIndex: number | null
+    totalMessages: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PrivateChatCountAggregateOutputType = {
+    id: number
+    user1Id: number
+    user2Id: number
+    lastMessage: number
+    lastMessageAt: number
+    user1LastReadIndex: number
+    user2LastReadIndex: number
+    totalMessages: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PrivateChatAvgAggregateInputType = {
+    user1LastReadIndex?: true
+    user2LastReadIndex?: true
+    totalMessages?: true
+  }
+
+  export type PrivateChatSumAggregateInputType = {
+    user1LastReadIndex?: true
+    user2LastReadIndex?: true
+    totalMessages?: true
+  }
+
+  export type PrivateChatMinAggregateInputType = {
+    id?: true
+    user1Id?: true
+    user2Id?: true
+    lastMessage?: true
+    lastMessageAt?: true
+    user1LastReadIndex?: true
+    user2LastReadIndex?: true
+    totalMessages?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PrivateChatMaxAggregateInputType = {
+    id?: true
+    user1Id?: true
+    user2Id?: true
+    lastMessage?: true
+    lastMessageAt?: true
+    user1LastReadIndex?: true
+    user2LastReadIndex?: true
+    totalMessages?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PrivateChatCountAggregateInputType = {
+    id?: true
+    user1Id?: true
+    user2Id?: true
+    lastMessage?: true
+    lastMessageAt?: true
+    user1LastReadIndex?: true
+    user2LastReadIndex?: true
+    totalMessages?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PrivateChatAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PrivateChat to aggregate.
+     */
+    where?: PrivateChatWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrivateChats to fetch.
+     */
+    orderBy?: PrivateChatOrderByWithRelationInput | PrivateChatOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PrivateChatWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrivateChats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrivateChats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PrivateChats
+    **/
+    _count?: true | PrivateChatCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PrivateChatAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PrivateChatSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PrivateChatMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PrivateChatMaxAggregateInputType
+  }
+
+  export type GetPrivateChatAggregateType<T extends PrivateChatAggregateArgs> = {
+        [P in keyof T & keyof AggregatePrivateChat]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePrivateChat[P]>
+      : GetScalarType<T[P], AggregatePrivateChat[P]>
+  }
+
+
+
+
+  export type PrivateChatGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrivateChatWhereInput
+    orderBy?: PrivateChatOrderByWithAggregationInput | PrivateChatOrderByWithAggregationInput[]
+    by: PrivateChatScalarFieldEnum[] | PrivateChatScalarFieldEnum
+    having?: PrivateChatScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PrivateChatCountAggregateInputType | true
+    _avg?: PrivateChatAvgAggregateInputType
+    _sum?: PrivateChatSumAggregateInputType
+    _min?: PrivateChatMinAggregateInputType
+    _max?: PrivateChatMaxAggregateInputType
+  }
+
+  export type PrivateChatGroupByOutputType = {
+    id: string
+    user1Id: string
+    user2Id: string
+    lastMessage: string | null
+    lastMessageAt: Date | null
+    user1LastReadIndex: number
+    user2LastReadIndex: number
+    totalMessages: number
+    createdAt: Date
+    updatedAt: Date
+    _count: PrivateChatCountAggregateOutputType | null
+    _avg: PrivateChatAvgAggregateOutputType | null
+    _sum: PrivateChatSumAggregateOutputType | null
+    _min: PrivateChatMinAggregateOutputType | null
+    _max: PrivateChatMaxAggregateOutputType | null
+  }
+
+  type GetPrivateChatGroupByPayload<T extends PrivateChatGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PrivateChatGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PrivateChatGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PrivateChatGroupByOutputType[P]>
+            : GetScalarType<T[P], PrivateChatGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PrivateChatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user1Id?: boolean
+    user2Id?: boolean
+    lastMessage?: boolean
+    lastMessageAt?: boolean
+    user1LastReadIndex?: boolean
+    user2LastReadIndex?: boolean
+    totalMessages?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user1?: boolean | UserDefaultArgs<ExtArgs>
+    user2?: boolean | UserDefaultArgs<ExtArgs>
+    PrivateMessage?: boolean | PrivateChat$PrivateMessageArgs<ExtArgs>
+    TypingStatus?: boolean | PrivateChat$TypingStatusArgs<ExtArgs>
+    _count?: boolean | PrivateChatCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["privateChat"]>
+
+  export type PrivateChatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user1Id?: boolean
+    user2Id?: boolean
+    lastMessage?: boolean
+    lastMessageAt?: boolean
+    user1LastReadIndex?: boolean
+    user2LastReadIndex?: boolean
+    totalMessages?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user1?: boolean | UserDefaultArgs<ExtArgs>
+    user2?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["privateChat"]>
+
+  export type PrivateChatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user1Id?: boolean
+    user2Id?: boolean
+    lastMessage?: boolean
+    lastMessageAt?: boolean
+    user1LastReadIndex?: boolean
+    user2LastReadIndex?: boolean
+    totalMessages?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user1?: boolean | UserDefaultArgs<ExtArgs>
+    user2?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["privateChat"]>
+
+  export type PrivateChatSelectScalar = {
+    id?: boolean
+    user1Id?: boolean
+    user2Id?: boolean
+    lastMessage?: boolean
+    lastMessageAt?: boolean
+    user1LastReadIndex?: boolean
+    user2LastReadIndex?: boolean
+    totalMessages?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PrivateChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user1Id" | "user2Id" | "lastMessage" | "lastMessageAt" | "user1LastReadIndex" | "user2LastReadIndex" | "totalMessages" | "createdAt" | "updatedAt", ExtArgs["result"]["privateChat"]>
+  export type PrivateChatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user1?: boolean | UserDefaultArgs<ExtArgs>
+    user2?: boolean | UserDefaultArgs<ExtArgs>
+    PrivateMessage?: boolean | PrivateChat$PrivateMessageArgs<ExtArgs>
+    TypingStatus?: boolean | PrivateChat$TypingStatusArgs<ExtArgs>
+    _count?: boolean | PrivateChatCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PrivateChatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user1?: boolean | UserDefaultArgs<ExtArgs>
+    user2?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PrivateChatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user1?: boolean | UserDefaultArgs<ExtArgs>
+    user2?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PrivateChatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PrivateChat"
+    objects: {
+      user1: Prisma.$UserPayload<ExtArgs>
+      user2: Prisma.$UserPayload<ExtArgs>
+      PrivateMessage: Prisma.$PrivateMessagePayload<ExtArgs>[]
+      TypingStatus: Prisma.$TypingStatusPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      user1Id: string
+      user2Id: string
+      lastMessage: string | null
+      lastMessageAt: Date | null
+      user1LastReadIndex: number
+      user2LastReadIndex: number
+      totalMessages: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["privateChat"]>
+    composites: {}
+  }
+
+  type PrivateChatGetPayload<S extends boolean | null | undefined | PrivateChatDefaultArgs> = $Result.GetResult<Prisma.$PrivateChatPayload, S>
+
+  type PrivateChatCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PrivateChatFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PrivateChatCountAggregateInputType | true
+    }
+
+  export interface PrivateChatDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PrivateChat'], meta: { name: 'PrivateChat' } }
+    /**
+     * Find zero or one PrivateChat that matches the filter.
+     * @param {PrivateChatFindUniqueArgs} args - Arguments to find a PrivateChat
+     * @example
+     * // Get one PrivateChat
+     * const privateChat = await prisma.privateChat.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PrivateChatFindUniqueArgs>(args: SelectSubset<T, PrivateChatFindUniqueArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PrivateChat that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PrivateChatFindUniqueOrThrowArgs} args - Arguments to find a PrivateChat
+     * @example
+     * // Get one PrivateChat
+     * const privateChat = await prisma.privateChat.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PrivateChatFindUniqueOrThrowArgs>(args: SelectSubset<T, PrivateChatFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PrivateChat that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateChatFindFirstArgs} args - Arguments to find a PrivateChat
+     * @example
+     * // Get one PrivateChat
+     * const privateChat = await prisma.privateChat.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PrivateChatFindFirstArgs>(args?: SelectSubset<T, PrivateChatFindFirstArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PrivateChat that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateChatFindFirstOrThrowArgs} args - Arguments to find a PrivateChat
+     * @example
+     * // Get one PrivateChat
+     * const privateChat = await prisma.privateChat.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PrivateChatFindFirstOrThrowArgs>(args?: SelectSubset<T, PrivateChatFindFirstOrThrowArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PrivateChats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateChatFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PrivateChats
+     * const privateChats = await prisma.privateChat.findMany()
+     * 
+     * // Get first 10 PrivateChats
+     * const privateChats = await prisma.privateChat.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const privateChatWithIdOnly = await prisma.privateChat.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PrivateChatFindManyArgs>(args?: SelectSubset<T, PrivateChatFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PrivateChat.
+     * @param {PrivateChatCreateArgs} args - Arguments to create a PrivateChat.
+     * @example
+     * // Create one PrivateChat
+     * const PrivateChat = await prisma.privateChat.create({
+     *   data: {
+     *     // ... data to create a PrivateChat
+     *   }
+     * })
+     * 
+     */
+    create<T extends PrivateChatCreateArgs>(args: SelectSubset<T, PrivateChatCreateArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PrivateChats.
+     * @param {PrivateChatCreateManyArgs} args - Arguments to create many PrivateChats.
+     * @example
+     * // Create many PrivateChats
+     * const privateChat = await prisma.privateChat.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PrivateChatCreateManyArgs>(args?: SelectSubset<T, PrivateChatCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PrivateChats and returns the data saved in the database.
+     * @param {PrivateChatCreateManyAndReturnArgs} args - Arguments to create many PrivateChats.
+     * @example
+     * // Create many PrivateChats
+     * const privateChat = await prisma.privateChat.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PrivateChats and only return the `id`
+     * const privateChatWithIdOnly = await prisma.privateChat.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PrivateChatCreateManyAndReturnArgs>(args?: SelectSubset<T, PrivateChatCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PrivateChat.
+     * @param {PrivateChatDeleteArgs} args - Arguments to delete one PrivateChat.
+     * @example
+     * // Delete one PrivateChat
+     * const PrivateChat = await prisma.privateChat.delete({
+     *   where: {
+     *     // ... filter to delete one PrivateChat
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PrivateChatDeleteArgs>(args: SelectSubset<T, PrivateChatDeleteArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PrivateChat.
+     * @param {PrivateChatUpdateArgs} args - Arguments to update one PrivateChat.
+     * @example
+     * // Update one PrivateChat
+     * const privateChat = await prisma.privateChat.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PrivateChatUpdateArgs>(args: SelectSubset<T, PrivateChatUpdateArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PrivateChats.
+     * @param {PrivateChatDeleteManyArgs} args - Arguments to filter PrivateChats to delete.
+     * @example
+     * // Delete a few PrivateChats
+     * const { count } = await prisma.privateChat.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PrivateChatDeleteManyArgs>(args?: SelectSubset<T, PrivateChatDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PrivateChats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateChatUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PrivateChats
+     * const privateChat = await prisma.privateChat.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PrivateChatUpdateManyArgs>(args: SelectSubset<T, PrivateChatUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PrivateChats and returns the data updated in the database.
+     * @param {PrivateChatUpdateManyAndReturnArgs} args - Arguments to update many PrivateChats.
+     * @example
+     * // Update many PrivateChats
+     * const privateChat = await prisma.privateChat.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PrivateChats and only return the `id`
+     * const privateChatWithIdOnly = await prisma.privateChat.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PrivateChatUpdateManyAndReturnArgs>(args: SelectSubset<T, PrivateChatUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PrivateChat.
+     * @param {PrivateChatUpsertArgs} args - Arguments to update or create a PrivateChat.
+     * @example
+     * // Update or create a PrivateChat
+     * const privateChat = await prisma.privateChat.upsert({
+     *   create: {
+     *     // ... data to create a PrivateChat
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PrivateChat we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PrivateChatUpsertArgs>(args: SelectSubset<T, PrivateChatUpsertArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PrivateChats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateChatCountArgs} args - Arguments to filter PrivateChats to count.
+     * @example
+     * // Count the number of PrivateChats
+     * const count = await prisma.privateChat.count({
+     *   where: {
+     *     // ... the filter for the PrivateChats we want to count
+     *   }
+     * })
+    **/
+    count<T extends PrivateChatCountArgs>(
+      args?: Subset<T, PrivateChatCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PrivateChatCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PrivateChat.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateChatAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PrivateChatAggregateArgs>(args: Subset<T, PrivateChatAggregateArgs>): Prisma.PrismaPromise<GetPrivateChatAggregateType<T>>
+
+    /**
+     * Group by PrivateChat.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateChatGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PrivateChatGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PrivateChatGroupByArgs['orderBy'] }
+        : { orderBy?: PrivateChatGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PrivateChatGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPrivateChatGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PrivateChat model
+   */
+  readonly fields: PrivateChatFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PrivateChat.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PrivateChatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user1<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user2<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    PrivateMessage<T extends PrivateChat$PrivateMessageArgs<ExtArgs> = {}>(args?: Subset<T, PrivateChat$PrivateMessageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    TypingStatus<T extends PrivateChat$TypingStatusArgs<ExtArgs> = {}>(args?: Subset<T, PrivateChat$TypingStatusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PrivateChat model
+   */
+  interface PrivateChatFieldRefs {
+    readonly id: FieldRef<"PrivateChat", 'String'>
+    readonly user1Id: FieldRef<"PrivateChat", 'String'>
+    readonly user2Id: FieldRef<"PrivateChat", 'String'>
+    readonly lastMessage: FieldRef<"PrivateChat", 'String'>
+    readonly lastMessageAt: FieldRef<"PrivateChat", 'DateTime'>
+    readonly user1LastReadIndex: FieldRef<"PrivateChat", 'Int'>
+    readonly user2LastReadIndex: FieldRef<"PrivateChat", 'Int'>
+    readonly totalMessages: FieldRef<"PrivateChat", 'Int'>
+    readonly createdAt: FieldRef<"PrivateChat", 'DateTime'>
+    readonly updatedAt: FieldRef<"PrivateChat", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PrivateChat findUnique
+   */
+  export type PrivateChatFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateChat to fetch.
+     */
+    where: PrivateChatWhereUniqueInput
+  }
+
+  /**
+   * PrivateChat findUniqueOrThrow
+   */
+  export type PrivateChatFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateChat to fetch.
+     */
+    where: PrivateChatWhereUniqueInput
+  }
+
+  /**
+   * PrivateChat findFirst
+   */
+  export type PrivateChatFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateChat to fetch.
+     */
+    where?: PrivateChatWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrivateChats to fetch.
+     */
+    orderBy?: PrivateChatOrderByWithRelationInput | PrivateChatOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PrivateChats.
+     */
+    cursor?: PrivateChatWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrivateChats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrivateChats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PrivateChats.
+     */
+    distinct?: PrivateChatScalarFieldEnum | PrivateChatScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateChat findFirstOrThrow
+   */
+  export type PrivateChatFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateChat to fetch.
+     */
+    where?: PrivateChatWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrivateChats to fetch.
+     */
+    orderBy?: PrivateChatOrderByWithRelationInput | PrivateChatOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PrivateChats.
+     */
+    cursor?: PrivateChatWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrivateChats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrivateChats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PrivateChats.
+     */
+    distinct?: PrivateChatScalarFieldEnum | PrivateChatScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateChat findMany
+   */
+  export type PrivateChatFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateChats to fetch.
+     */
+    where?: PrivateChatWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrivateChats to fetch.
+     */
+    orderBy?: PrivateChatOrderByWithRelationInput | PrivateChatOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PrivateChats.
+     */
+    cursor?: PrivateChatWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrivateChats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrivateChats.
+     */
+    skip?: number
+    distinct?: PrivateChatScalarFieldEnum | PrivateChatScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateChat create
+   */
+  export type PrivateChatCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PrivateChat.
+     */
+    data: XOR<PrivateChatCreateInput, PrivateChatUncheckedCreateInput>
+  }
+
+  /**
+   * PrivateChat createMany
+   */
+  export type PrivateChatCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PrivateChats.
+     */
+    data: PrivateChatCreateManyInput | PrivateChatCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PrivateChat createManyAndReturn
+   */
+  export type PrivateChatCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * The data used to create many PrivateChats.
+     */
+    data: PrivateChatCreateManyInput | PrivateChatCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PrivateChat update
+   */
+  export type PrivateChatUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PrivateChat.
+     */
+    data: XOR<PrivateChatUpdateInput, PrivateChatUncheckedUpdateInput>
+    /**
+     * Choose, which PrivateChat to update.
+     */
+    where: PrivateChatWhereUniqueInput
+  }
+
+  /**
+   * PrivateChat updateMany
+   */
+  export type PrivateChatUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PrivateChats.
+     */
+    data: XOR<PrivateChatUpdateManyMutationInput, PrivateChatUncheckedUpdateManyInput>
+    /**
+     * Filter which PrivateChats to update
+     */
+    where?: PrivateChatWhereInput
+    /**
+     * Limit how many PrivateChats to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PrivateChat updateManyAndReturn
+   */
+  export type PrivateChatUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * The data used to update PrivateChats.
+     */
+    data: XOR<PrivateChatUpdateManyMutationInput, PrivateChatUncheckedUpdateManyInput>
+    /**
+     * Filter which PrivateChats to update
+     */
+    where?: PrivateChatWhereInput
+    /**
+     * Limit how many PrivateChats to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PrivateChat upsert
+   */
+  export type PrivateChatUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PrivateChat to update in case it exists.
+     */
+    where: PrivateChatWhereUniqueInput
+    /**
+     * In case the PrivateChat found by the `where` argument doesn't exist, create a new PrivateChat with this data.
+     */
+    create: XOR<PrivateChatCreateInput, PrivateChatUncheckedCreateInput>
+    /**
+     * In case the PrivateChat was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PrivateChatUpdateInput, PrivateChatUncheckedUpdateInput>
+  }
+
+  /**
+   * PrivateChat delete
+   */
+  export type PrivateChatDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    /**
+     * Filter which PrivateChat to delete.
+     */
+    where: PrivateChatWhereUniqueInput
+  }
+
+  /**
+   * PrivateChat deleteMany
+   */
+  export type PrivateChatDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PrivateChats to delete
+     */
+    where?: PrivateChatWhereInput
+    /**
+     * Limit how many PrivateChats to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PrivateChat.PrivateMessage
+   */
+  export type PrivateChat$PrivateMessageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    where?: PrivateMessageWhereInput
+    orderBy?: PrivateMessageOrderByWithRelationInput | PrivateMessageOrderByWithRelationInput[]
+    cursor?: PrivateMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PrivateMessageScalarFieldEnum | PrivateMessageScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateChat.TypingStatus
+   */
+  export type PrivateChat$TypingStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    where?: TypingStatusWhereInput
+    orderBy?: TypingStatusOrderByWithRelationInput | TypingStatusOrderByWithRelationInput[]
+    cursor?: TypingStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TypingStatusScalarFieldEnum | TypingStatusScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateChat without action
+   */
+  export type PrivateChatDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PrivateMessage
+   */
+
+  export type AggregatePrivateMessage = {
+    _count: PrivateMessageCountAggregateOutputType | null
+    _avg: PrivateMessageAvgAggregateOutputType | null
+    _sum: PrivateMessageSumAggregateOutputType | null
+    _min: PrivateMessageMinAggregateOutputType | null
+    _max: PrivateMessageMaxAggregateOutputType | null
+  }
+
+  export type PrivateMessageAvgAggregateOutputType = {
+    messageIndex: number | null
+    fileSize: number | null
+  }
+
+  export type PrivateMessageSumAggregateOutputType = {
+    messageIndex: number | null
+    fileSize: number | null
+  }
+
+  export type PrivateMessageMinAggregateOutputType = {
+    id: string | null
+    content: string | null
+    type: $Enums.MessageType | null
+    chatId: string | null
+    senderId: string | null
+    messageIndex: number | null
+    fileUrl: string | null
+    fileName: string | null
+    fileSize: number | null
+    mimeType: string | null
+    replyToId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PrivateMessageMaxAggregateOutputType = {
+    id: string | null
+    content: string | null
+    type: $Enums.MessageType | null
+    chatId: string | null
+    senderId: string | null
+    messageIndex: number | null
+    fileUrl: string | null
+    fileName: string | null
+    fileSize: number | null
+    mimeType: string | null
+    replyToId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PrivateMessageCountAggregateOutputType = {
+    id: number
+    content: number
+    type: number
+    chatId: number
+    senderId: number
+    messageIndex: number
+    fileUrl: number
+    fileName: number
+    fileSize: number
+    mimeType: number
+    replyToId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PrivateMessageAvgAggregateInputType = {
+    messageIndex?: true
+    fileSize?: true
+  }
+
+  export type PrivateMessageSumAggregateInputType = {
+    messageIndex?: true
+    fileSize?: true
+  }
+
+  export type PrivateMessageMinAggregateInputType = {
+    id?: true
+    content?: true
+    type?: true
+    chatId?: true
+    senderId?: true
+    messageIndex?: true
+    fileUrl?: true
+    fileName?: true
+    fileSize?: true
+    mimeType?: true
+    replyToId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PrivateMessageMaxAggregateInputType = {
+    id?: true
+    content?: true
+    type?: true
+    chatId?: true
+    senderId?: true
+    messageIndex?: true
+    fileUrl?: true
+    fileName?: true
+    fileSize?: true
+    mimeType?: true
+    replyToId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PrivateMessageCountAggregateInputType = {
+    id?: true
+    content?: true
+    type?: true
+    chatId?: true
+    senderId?: true
+    messageIndex?: true
+    fileUrl?: true
+    fileName?: true
+    fileSize?: true
+    mimeType?: true
+    replyToId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PrivateMessageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PrivateMessage to aggregate.
+     */
+    where?: PrivateMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrivateMessages to fetch.
+     */
+    orderBy?: PrivateMessageOrderByWithRelationInput | PrivateMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PrivateMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrivateMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrivateMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PrivateMessages
+    **/
+    _count?: true | PrivateMessageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PrivateMessageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PrivateMessageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PrivateMessageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PrivateMessageMaxAggregateInputType
+  }
+
+  export type GetPrivateMessageAggregateType<T extends PrivateMessageAggregateArgs> = {
+        [P in keyof T & keyof AggregatePrivateMessage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePrivateMessage[P]>
+      : GetScalarType<T[P], AggregatePrivateMessage[P]>
+  }
+
+
+
+
+  export type PrivateMessageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrivateMessageWhereInput
+    orderBy?: PrivateMessageOrderByWithAggregationInput | PrivateMessageOrderByWithAggregationInput[]
+    by: PrivateMessageScalarFieldEnum[] | PrivateMessageScalarFieldEnum
+    having?: PrivateMessageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PrivateMessageCountAggregateInputType | true
+    _avg?: PrivateMessageAvgAggregateInputType
+    _sum?: PrivateMessageSumAggregateInputType
+    _min?: PrivateMessageMinAggregateInputType
+    _max?: PrivateMessageMaxAggregateInputType
+  }
+
+  export type PrivateMessageGroupByOutputType = {
+    id: string
+    content: string
+    type: $Enums.MessageType
+    chatId: string
+    senderId: string
+    messageIndex: number
+    fileUrl: string | null
+    fileName: string | null
+    fileSize: number | null
+    mimeType: string | null
+    replyToId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PrivateMessageCountAggregateOutputType | null
+    _avg: PrivateMessageAvgAggregateOutputType | null
+    _sum: PrivateMessageSumAggregateOutputType | null
+    _min: PrivateMessageMinAggregateOutputType | null
+    _max: PrivateMessageMaxAggregateOutputType | null
+  }
+
+  type GetPrivateMessageGroupByPayload<T extends PrivateMessageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PrivateMessageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PrivateMessageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PrivateMessageGroupByOutputType[P]>
+            : GetScalarType<T[P], PrivateMessageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PrivateMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    type?: boolean
+    chatId?: boolean
+    senderId?: boolean
+    messageIndex?: boolean
+    fileUrl?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    replyToId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    replyTo?: boolean | PrivateMessage$replyToArgs<ExtArgs>
+    replies?: boolean | PrivateMessage$repliesArgs<ExtArgs>
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | PrivateMessageCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["privateMessage"]>
+
+  export type PrivateMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    type?: boolean
+    chatId?: boolean
+    senderId?: boolean
+    messageIndex?: boolean
+    fileUrl?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    replyToId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    replyTo?: boolean | PrivateMessage$replyToArgs<ExtArgs>
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["privateMessage"]>
+
+  export type PrivateMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    type?: boolean
+    chatId?: boolean
+    senderId?: boolean
+    messageIndex?: boolean
+    fileUrl?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    replyToId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    replyTo?: boolean | PrivateMessage$replyToArgs<ExtArgs>
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["privateMessage"]>
+
+  export type PrivateMessageSelectScalar = {
+    id?: boolean
+    content?: boolean
+    type?: boolean
+    chatId?: boolean
+    senderId?: boolean
+    messageIndex?: boolean
+    fileUrl?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    replyToId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PrivateMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "type" | "chatId" | "senderId" | "messageIndex" | "fileUrl" | "fileName" | "fileSize" | "mimeType" | "replyToId" | "createdAt" | "updatedAt", ExtArgs["result"]["privateMessage"]>
+  export type PrivateMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replyTo?: boolean | PrivateMessage$replyToArgs<ExtArgs>
+    replies?: boolean | PrivateMessage$repliesArgs<ExtArgs>
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | PrivateMessageCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PrivateMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replyTo?: boolean | PrivateMessage$replyToArgs<ExtArgs>
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PrivateMessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replyTo?: boolean | PrivateMessage$replyToArgs<ExtArgs>
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    sender?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PrivateMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PrivateMessage"
+    objects: {
+      replyTo: Prisma.$PrivateMessagePayload<ExtArgs> | null
+      replies: Prisma.$PrivateMessagePayload<ExtArgs>[]
+      chat: Prisma.$PrivateChatPayload<ExtArgs>
+      sender: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      content: string
+      type: $Enums.MessageType
+      chatId: string
+      senderId: string
+      messageIndex: number
+      fileUrl: string | null
+      fileName: string | null
+      fileSize: number | null
+      mimeType: string | null
+      replyToId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["privateMessage"]>
+    composites: {}
+  }
+
+  type PrivateMessageGetPayload<S extends boolean | null | undefined | PrivateMessageDefaultArgs> = $Result.GetResult<Prisma.$PrivateMessagePayload, S>
+
+  type PrivateMessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PrivateMessageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PrivateMessageCountAggregateInputType | true
+    }
+
+  export interface PrivateMessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PrivateMessage'], meta: { name: 'PrivateMessage' } }
+    /**
+     * Find zero or one PrivateMessage that matches the filter.
+     * @param {PrivateMessageFindUniqueArgs} args - Arguments to find a PrivateMessage
+     * @example
+     * // Get one PrivateMessage
+     * const privateMessage = await prisma.privateMessage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PrivateMessageFindUniqueArgs>(args: SelectSubset<T, PrivateMessageFindUniqueArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PrivateMessage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PrivateMessageFindUniqueOrThrowArgs} args - Arguments to find a PrivateMessage
+     * @example
+     * // Get one PrivateMessage
+     * const privateMessage = await prisma.privateMessage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PrivateMessageFindUniqueOrThrowArgs>(args: SelectSubset<T, PrivateMessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PrivateMessage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateMessageFindFirstArgs} args - Arguments to find a PrivateMessage
+     * @example
+     * // Get one PrivateMessage
+     * const privateMessage = await prisma.privateMessage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PrivateMessageFindFirstArgs>(args?: SelectSubset<T, PrivateMessageFindFirstArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PrivateMessage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateMessageFindFirstOrThrowArgs} args - Arguments to find a PrivateMessage
+     * @example
+     * // Get one PrivateMessage
+     * const privateMessage = await prisma.privateMessage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PrivateMessageFindFirstOrThrowArgs>(args?: SelectSubset<T, PrivateMessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PrivateMessages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateMessageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PrivateMessages
+     * const privateMessages = await prisma.privateMessage.findMany()
+     * 
+     * // Get first 10 PrivateMessages
+     * const privateMessages = await prisma.privateMessage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const privateMessageWithIdOnly = await prisma.privateMessage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PrivateMessageFindManyArgs>(args?: SelectSubset<T, PrivateMessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PrivateMessage.
+     * @param {PrivateMessageCreateArgs} args - Arguments to create a PrivateMessage.
+     * @example
+     * // Create one PrivateMessage
+     * const PrivateMessage = await prisma.privateMessage.create({
+     *   data: {
+     *     // ... data to create a PrivateMessage
+     *   }
+     * })
+     * 
+     */
+    create<T extends PrivateMessageCreateArgs>(args: SelectSubset<T, PrivateMessageCreateArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PrivateMessages.
+     * @param {PrivateMessageCreateManyArgs} args - Arguments to create many PrivateMessages.
+     * @example
+     * // Create many PrivateMessages
+     * const privateMessage = await prisma.privateMessage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PrivateMessageCreateManyArgs>(args?: SelectSubset<T, PrivateMessageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PrivateMessages and returns the data saved in the database.
+     * @param {PrivateMessageCreateManyAndReturnArgs} args - Arguments to create many PrivateMessages.
+     * @example
+     * // Create many PrivateMessages
+     * const privateMessage = await prisma.privateMessage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PrivateMessages and only return the `id`
+     * const privateMessageWithIdOnly = await prisma.privateMessage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PrivateMessageCreateManyAndReturnArgs>(args?: SelectSubset<T, PrivateMessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PrivateMessage.
+     * @param {PrivateMessageDeleteArgs} args - Arguments to delete one PrivateMessage.
+     * @example
+     * // Delete one PrivateMessage
+     * const PrivateMessage = await prisma.privateMessage.delete({
+     *   where: {
+     *     // ... filter to delete one PrivateMessage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PrivateMessageDeleteArgs>(args: SelectSubset<T, PrivateMessageDeleteArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PrivateMessage.
+     * @param {PrivateMessageUpdateArgs} args - Arguments to update one PrivateMessage.
+     * @example
+     * // Update one PrivateMessage
+     * const privateMessage = await prisma.privateMessage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PrivateMessageUpdateArgs>(args: SelectSubset<T, PrivateMessageUpdateArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PrivateMessages.
+     * @param {PrivateMessageDeleteManyArgs} args - Arguments to filter PrivateMessages to delete.
+     * @example
+     * // Delete a few PrivateMessages
+     * const { count } = await prisma.privateMessage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PrivateMessageDeleteManyArgs>(args?: SelectSubset<T, PrivateMessageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PrivateMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateMessageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PrivateMessages
+     * const privateMessage = await prisma.privateMessage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PrivateMessageUpdateManyArgs>(args: SelectSubset<T, PrivateMessageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PrivateMessages and returns the data updated in the database.
+     * @param {PrivateMessageUpdateManyAndReturnArgs} args - Arguments to update many PrivateMessages.
+     * @example
+     * // Update many PrivateMessages
+     * const privateMessage = await prisma.privateMessage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PrivateMessages and only return the `id`
+     * const privateMessageWithIdOnly = await prisma.privateMessage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PrivateMessageUpdateManyAndReturnArgs>(args: SelectSubset<T, PrivateMessageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PrivateMessage.
+     * @param {PrivateMessageUpsertArgs} args - Arguments to update or create a PrivateMessage.
+     * @example
+     * // Update or create a PrivateMessage
+     * const privateMessage = await prisma.privateMessage.upsert({
+     *   create: {
+     *     // ... data to create a PrivateMessage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PrivateMessage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PrivateMessageUpsertArgs>(args: SelectSubset<T, PrivateMessageUpsertArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PrivateMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateMessageCountArgs} args - Arguments to filter PrivateMessages to count.
+     * @example
+     * // Count the number of PrivateMessages
+     * const count = await prisma.privateMessage.count({
+     *   where: {
+     *     // ... the filter for the PrivateMessages we want to count
+     *   }
+     * })
+    **/
+    count<T extends PrivateMessageCountArgs>(
+      args?: Subset<T, PrivateMessageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PrivateMessageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PrivateMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateMessageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PrivateMessageAggregateArgs>(args: Subset<T, PrivateMessageAggregateArgs>): Prisma.PrismaPromise<GetPrivateMessageAggregateType<T>>
+
+    /**
+     * Group by PrivateMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrivateMessageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PrivateMessageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PrivateMessageGroupByArgs['orderBy'] }
+        : { orderBy?: PrivateMessageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PrivateMessageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPrivateMessageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PrivateMessage model
+   */
+  readonly fields: PrivateMessageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PrivateMessage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PrivateMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    replyTo<T extends PrivateMessage$replyToArgs<ExtArgs> = {}>(args?: Subset<T, PrivateMessage$replyToArgs<ExtArgs>>): Prisma__PrivateMessageClient<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    replies<T extends PrivateMessage$repliesArgs<ExtArgs> = {}>(args?: Subset<T, PrivateMessage$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chat<T extends PrivateChatDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PrivateChatDefaultArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    sender<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PrivateMessage model
+   */
+  interface PrivateMessageFieldRefs {
+    readonly id: FieldRef<"PrivateMessage", 'String'>
+    readonly content: FieldRef<"PrivateMessage", 'String'>
+    readonly type: FieldRef<"PrivateMessage", 'MessageType'>
+    readonly chatId: FieldRef<"PrivateMessage", 'String'>
+    readonly senderId: FieldRef<"PrivateMessage", 'String'>
+    readonly messageIndex: FieldRef<"PrivateMessage", 'Int'>
+    readonly fileUrl: FieldRef<"PrivateMessage", 'String'>
+    readonly fileName: FieldRef<"PrivateMessage", 'String'>
+    readonly fileSize: FieldRef<"PrivateMessage", 'Int'>
+    readonly mimeType: FieldRef<"PrivateMessage", 'String'>
+    readonly replyToId: FieldRef<"PrivateMessage", 'String'>
+    readonly createdAt: FieldRef<"PrivateMessage", 'DateTime'>
+    readonly updatedAt: FieldRef<"PrivateMessage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PrivateMessage findUnique
+   */
+  export type PrivateMessageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateMessage to fetch.
+     */
+    where: PrivateMessageWhereUniqueInput
+  }
+
+  /**
+   * PrivateMessage findUniqueOrThrow
+   */
+  export type PrivateMessageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateMessage to fetch.
+     */
+    where: PrivateMessageWhereUniqueInput
+  }
+
+  /**
+   * PrivateMessage findFirst
+   */
+  export type PrivateMessageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateMessage to fetch.
+     */
+    where?: PrivateMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrivateMessages to fetch.
+     */
+    orderBy?: PrivateMessageOrderByWithRelationInput | PrivateMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PrivateMessages.
+     */
+    cursor?: PrivateMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrivateMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrivateMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PrivateMessages.
+     */
+    distinct?: PrivateMessageScalarFieldEnum | PrivateMessageScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateMessage findFirstOrThrow
+   */
+  export type PrivateMessageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateMessage to fetch.
+     */
+    where?: PrivateMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrivateMessages to fetch.
+     */
+    orderBy?: PrivateMessageOrderByWithRelationInput | PrivateMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PrivateMessages.
+     */
+    cursor?: PrivateMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrivateMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrivateMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PrivateMessages.
+     */
+    distinct?: PrivateMessageScalarFieldEnum | PrivateMessageScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateMessage findMany
+   */
+  export type PrivateMessageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which PrivateMessages to fetch.
+     */
+    where?: PrivateMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrivateMessages to fetch.
+     */
+    orderBy?: PrivateMessageOrderByWithRelationInput | PrivateMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PrivateMessages.
+     */
+    cursor?: PrivateMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrivateMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrivateMessages.
+     */
+    skip?: number
+    distinct?: PrivateMessageScalarFieldEnum | PrivateMessageScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateMessage create
+   */
+  export type PrivateMessageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PrivateMessage.
+     */
+    data: XOR<PrivateMessageCreateInput, PrivateMessageUncheckedCreateInput>
+  }
+
+  /**
+   * PrivateMessage createMany
+   */
+  export type PrivateMessageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PrivateMessages.
+     */
+    data: PrivateMessageCreateManyInput | PrivateMessageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PrivateMessage createManyAndReturn
+   */
+  export type PrivateMessageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * The data used to create many PrivateMessages.
+     */
+    data: PrivateMessageCreateManyInput | PrivateMessageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PrivateMessage update
+   */
+  export type PrivateMessageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PrivateMessage.
+     */
+    data: XOR<PrivateMessageUpdateInput, PrivateMessageUncheckedUpdateInput>
+    /**
+     * Choose, which PrivateMessage to update.
+     */
+    where: PrivateMessageWhereUniqueInput
+  }
+
+  /**
+   * PrivateMessage updateMany
+   */
+  export type PrivateMessageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PrivateMessages.
+     */
+    data: XOR<PrivateMessageUpdateManyMutationInput, PrivateMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which PrivateMessages to update
+     */
+    where?: PrivateMessageWhereInput
+    /**
+     * Limit how many PrivateMessages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PrivateMessage updateManyAndReturn
+   */
+  export type PrivateMessageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * The data used to update PrivateMessages.
+     */
+    data: XOR<PrivateMessageUpdateManyMutationInput, PrivateMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which PrivateMessages to update
+     */
+    where?: PrivateMessageWhereInput
+    /**
+     * Limit how many PrivateMessages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PrivateMessage upsert
+   */
+  export type PrivateMessageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PrivateMessage to update in case it exists.
+     */
+    where: PrivateMessageWhereUniqueInput
+    /**
+     * In case the PrivateMessage found by the `where` argument doesn't exist, create a new PrivateMessage with this data.
+     */
+    create: XOR<PrivateMessageCreateInput, PrivateMessageUncheckedCreateInput>
+    /**
+     * In case the PrivateMessage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PrivateMessageUpdateInput, PrivateMessageUncheckedUpdateInput>
+  }
+
+  /**
+   * PrivateMessage delete
+   */
+  export type PrivateMessageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    /**
+     * Filter which PrivateMessage to delete.
+     */
+    where: PrivateMessageWhereUniqueInput
+  }
+
+  /**
+   * PrivateMessage deleteMany
+   */
+  export type PrivateMessageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PrivateMessages to delete
+     */
+    where?: PrivateMessageWhereInput
+    /**
+     * Limit how many PrivateMessages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PrivateMessage.replyTo
+   */
+  export type PrivateMessage$replyToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    where?: PrivateMessageWhereInput
+  }
+
+  /**
+   * PrivateMessage.replies
+   */
+  export type PrivateMessage$repliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    where?: PrivateMessageWhereInput
+    orderBy?: PrivateMessageOrderByWithRelationInput | PrivateMessageOrderByWithRelationInput[]
+    cursor?: PrivateMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PrivateMessageScalarFieldEnum | PrivateMessageScalarFieldEnum[]
+  }
+
+  /**
+   * PrivateMessage without action
+   */
+  export type PrivateMessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TypingStatus
+   */
+
+  export type AggregateTypingStatus = {
+    _count: TypingStatusCountAggregateOutputType | null
+    _min: TypingStatusMinAggregateOutputType | null
+    _max: TypingStatusMaxAggregateOutputType | null
+  }
+
+  export type TypingStatusMinAggregateOutputType = {
+    id: string | null
+    chatId: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type TypingStatusMaxAggregateOutputType = {
+    id: string | null
+    chatId: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type TypingStatusCountAggregateOutputType = {
+    id: number
+    chatId: number
+    userId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TypingStatusMinAggregateInputType = {
+    id?: true
+    chatId?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type TypingStatusMaxAggregateInputType = {
+    id?: true
+    chatId?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type TypingStatusCountAggregateInputType = {
+    id?: true
+    chatId?: true
+    userId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TypingStatusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TypingStatus to aggregate.
+     */
+    where?: TypingStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TypingStatuses to fetch.
+     */
+    orderBy?: TypingStatusOrderByWithRelationInput | TypingStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TypingStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TypingStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TypingStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TypingStatuses
+    **/
+    _count?: true | TypingStatusCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TypingStatusMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TypingStatusMaxAggregateInputType
+  }
+
+  export type GetTypingStatusAggregateType<T extends TypingStatusAggregateArgs> = {
+        [P in keyof T & keyof AggregateTypingStatus]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTypingStatus[P]>
+      : GetScalarType<T[P], AggregateTypingStatus[P]>
+  }
+
+
+
+
+  export type TypingStatusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TypingStatusWhereInput
+    orderBy?: TypingStatusOrderByWithAggregationInput | TypingStatusOrderByWithAggregationInput[]
+    by: TypingStatusScalarFieldEnum[] | TypingStatusScalarFieldEnum
+    having?: TypingStatusScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TypingStatusCountAggregateInputType | true
+    _min?: TypingStatusMinAggregateInputType
+    _max?: TypingStatusMaxAggregateInputType
+  }
+
+  export type TypingStatusGroupByOutputType = {
+    id: string
+    chatId: string
+    userId: string
+    createdAt: Date
+    _count: TypingStatusCountAggregateOutputType | null
+    _min: TypingStatusMinAggregateOutputType | null
+    _max: TypingStatusMaxAggregateOutputType | null
+  }
+
+  type GetTypingStatusGroupByPayload<T extends TypingStatusGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TypingStatusGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TypingStatusGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TypingStatusGroupByOutputType[P]>
+            : GetScalarType<T[P], TypingStatusGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TypingStatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    chatId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["typingStatus"]>
+
+  export type TypingStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    chatId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["typingStatus"]>
+
+  export type TypingStatusSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    chatId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["typingStatus"]>
+
+  export type TypingStatusSelectScalar = {
+    id?: boolean
+    chatId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+  }
+
+  export type TypingStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "chatId" | "userId" | "createdAt", ExtArgs["result"]["typingStatus"]>
+  export type TypingStatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TypingStatusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TypingStatusIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chat?: boolean | PrivateChatDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TypingStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TypingStatus"
+    objects: {
+      chat: Prisma.$PrivateChatPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      chatId: string
+      userId: string
+      createdAt: Date
+    }, ExtArgs["result"]["typingStatus"]>
+    composites: {}
+  }
+
+  type TypingStatusGetPayload<S extends boolean | null | undefined | TypingStatusDefaultArgs> = $Result.GetResult<Prisma.$TypingStatusPayload, S>
+
+  type TypingStatusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TypingStatusFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TypingStatusCountAggregateInputType | true
+    }
+
+  export interface TypingStatusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TypingStatus'], meta: { name: 'TypingStatus' } }
+    /**
+     * Find zero or one TypingStatus that matches the filter.
+     * @param {TypingStatusFindUniqueArgs} args - Arguments to find a TypingStatus
+     * @example
+     * // Get one TypingStatus
+     * const typingStatus = await prisma.typingStatus.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TypingStatusFindUniqueArgs>(args: SelectSubset<T, TypingStatusFindUniqueArgs<ExtArgs>>): Prisma__TypingStatusClient<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TypingStatus that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TypingStatusFindUniqueOrThrowArgs} args - Arguments to find a TypingStatus
+     * @example
+     * // Get one TypingStatus
+     * const typingStatus = await prisma.typingStatus.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TypingStatusFindUniqueOrThrowArgs>(args: SelectSubset<T, TypingStatusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TypingStatusClient<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TypingStatus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TypingStatusFindFirstArgs} args - Arguments to find a TypingStatus
+     * @example
+     * // Get one TypingStatus
+     * const typingStatus = await prisma.typingStatus.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TypingStatusFindFirstArgs>(args?: SelectSubset<T, TypingStatusFindFirstArgs<ExtArgs>>): Prisma__TypingStatusClient<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TypingStatus that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TypingStatusFindFirstOrThrowArgs} args - Arguments to find a TypingStatus
+     * @example
+     * // Get one TypingStatus
+     * const typingStatus = await prisma.typingStatus.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TypingStatusFindFirstOrThrowArgs>(args?: SelectSubset<T, TypingStatusFindFirstOrThrowArgs<ExtArgs>>): Prisma__TypingStatusClient<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TypingStatuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TypingStatusFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TypingStatuses
+     * const typingStatuses = await prisma.typingStatus.findMany()
+     * 
+     * // Get first 10 TypingStatuses
+     * const typingStatuses = await prisma.typingStatus.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const typingStatusWithIdOnly = await prisma.typingStatus.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TypingStatusFindManyArgs>(args?: SelectSubset<T, TypingStatusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TypingStatus.
+     * @param {TypingStatusCreateArgs} args - Arguments to create a TypingStatus.
+     * @example
+     * // Create one TypingStatus
+     * const TypingStatus = await prisma.typingStatus.create({
+     *   data: {
+     *     // ... data to create a TypingStatus
+     *   }
+     * })
+     * 
+     */
+    create<T extends TypingStatusCreateArgs>(args: SelectSubset<T, TypingStatusCreateArgs<ExtArgs>>): Prisma__TypingStatusClient<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TypingStatuses.
+     * @param {TypingStatusCreateManyArgs} args - Arguments to create many TypingStatuses.
+     * @example
+     * // Create many TypingStatuses
+     * const typingStatus = await prisma.typingStatus.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TypingStatusCreateManyArgs>(args?: SelectSubset<T, TypingStatusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TypingStatuses and returns the data saved in the database.
+     * @param {TypingStatusCreateManyAndReturnArgs} args - Arguments to create many TypingStatuses.
+     * @example
+     * // Create many TypingStatuses
+     * const typingStatus = await prisma.typingStatus.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TypingStatuses and only return the `id`
+     * const typingStatusWithIdOnly = await prisma.typingStatus.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TypingStatusCreateManyAndReturnArgs>(args?: SelectSubset<T, TypingStatusCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TypingStatus.
+     * @param {TypingStatusDeleteArgs} args - Arguments to delete one TypingStatus.
+     * @example
+     * // Delete one TypingStatus
+     * const TypingStatus = await prisma.typingStatus.delete({
+     *   where: {
+     *     // ... filter to delete one TypingStatus
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TypingStatusDeleteArgs>(args: SelectSubset<T, TypingStatusDeleteArgs<ExtArgs>>): Prisma__TypingStatusClient<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TypingStatus.
+     * @param {TypingStatusUpdateArgs} args - Arguments to update one TypingStatus.
+     * @example
+     * // Update one TypingStatus
+     * const typingStatus = await prisma.typingStatus.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TypingStatusUpdateArgs>(args: SelectSubset<T, TypingStatusUpdateArgs<ExtArgs>>): Prisma__TypingStatusClient<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TypingStatuses.
+     * @param {TypingStatusDeleteManyArgs} args - Arguments to filter TypingStatuses to delete.
+     * @example
+     * // Delete a few TypingStatuses
+     * const { count } = await prisma.typingStatus.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TypingStatusDeleteManyArgs>(args?: SelectSubset<T, TypingStatusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TypingStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TypingStatusUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TypingStatuses
+     * const typingStatus = await prisma.typingStatus.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TypingStatusUpdateManyArgs>(args: SelectSubset<T, TypingStatusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TypingStatuses and returns the data updated in the database.
+     * @param {TypingStatusUpdateManyAndReturnArgs} args - Arguments to update many TypingStatuses.
+     * @example
+     * // Update many TypingStatuses
+     * const typingStatus = await prisma.typingStatus.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TypingStatuses and only return the `id`
+     * const typingStatusWithIdOnly = await prisma.typingStatus.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TypingStatusUpdateManyAndReturnArgs>(args: SelectSubset<T, TypingStatusUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TypingStatus.
+     * @param {TypingStatusUpsertArgs} args - Arguments to update or create a TypingStatus.
+     * @example
+     * // Update or create a TypingStatus
+     * const typingStatus = await prisma.typingStatus.upsert({
+     *   create: {
+     *     // ... data to create a TypingStatus
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TypingStatus we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TypingStatusUpsertArgs>(args: SelectSubset<T, TypingStatusUpsertArgs<ExtArgs>>): Prisma__TypingStatusClient<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TypingStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TypingStatusCountArgs} args - Arguments to filter TypingStatuses to count.
+     * @example
+     * // Count the number of TypingStatuses
+     * const count = await prisma.typingStatus.count({
+     *   where: {
+     *     // ... the filter for the TypingStatuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends TypingStatusCountArgs>(
+      args?: Subset<T, TypingStatusCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TypingStatusCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TypingStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TypingStatusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TypingStatusAggregateArgs>(args: Subset<T, TypingStatusAggregateArgs>): Prisma.PrismaPromise<GetTypingStatusAggregateType<T>>
+
+    /**
+     * Group by TypingStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TypingStatusGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TypingStatusGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TypingStatusGroupByArgs['orderBy'] }
+        : { orderBy?: TypingStatusGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TypingStatusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTypingStatusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TypingStatus model
+   */
+  readonly fields: TypingStatusFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TypingStatus.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TypingStatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    chat<T extends PrivateChatDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PrivateChatDefaultArgs<ExtArgs>>): Prisma__PrivateChatClient<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TypingStatus model
+   */
+  interface TypingStatusFieldRefs {
+    readonly id: FieldRef<"TypingStatus", 'String'>
+    readonly chatId: FieldRef<"TypingStatus", 'String'>
+    readonly userId: FieldRef<"TypingStatus", 'String'>
+    readonly createdAt: FieldRef<"TypingStatus", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TypingStatus findUnique
+   */
+  export type TypingStatusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which TypingStatus to fetch.
+     */
+    where: TypingStatusWhereUniqueInput
+  }
+
+  /**
+   * TypingStatus findUniqueOrThrow
+   */
+  export type TypingStatusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which TypingStatus to fetch.
+     */
+    where: TypingStatusWhereUniqueInput
+  }
+
+  /**
+   * TypingStatus findFirst
+   */
+  export type TypingStatusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which TypingStatus to fetch.
+     */
+    where?: TypingStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TypingStatuses to fetch.
+     */
+    orderBy?: TypingStatusOrderByWithRelationInput | TypingStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TypingStatuses.
+     */
+    cursor?: TypingStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TypingStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TypingStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TypingStatuses.
+     */
+    distinct?: TypingStatusScalarFieldEnum | TypingStatusScalarFieldEnum[]
+  }
+
+  /**
+   * TypingStatus findFirstOrThrow
+   */
+  export type TypingStatusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which TypingStatus to fetch.
+     */
+    where?: TypingStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TypingStatuses to fetch.
+     */
+    orderBy?: TypingStatusOrderByWithRelationInput | TypingStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TypingStatuses.
+     */
+    cursor?: TypingStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TypingStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TypingStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TypingStatuses.
+     */
+    distinct?: TypingStatusScalarFieldEnum | TypingStatusScalarFieldEnum[]
+  }
+
+  /**
+   * TypingStatus findMany
+   */
+  export type TypingStatusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which TypingStatuses to fetch.
+     */
+    where?: TypingStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TypingStatuses to fetch.
+     */
+    orderBy?: TypingStatusOrderByWithRelationInput | TypingStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TypingStatuses.
+     */
+    cursor?: TypingStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TypingStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TypingStatuses.
+     */
+    skip?: number
+    distinct?: TypingStatusScalarFieldEnum | TypingStatusScalarFieldEnum[]
+  }
+
+  /**
+   * TypingStatus create
+   */
+  export type TypingStatusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TypingStatus.
+     */
+    data: XOR<TypingStatusCreateInput, TypingStatusUncheckedCreateInput>
+  }
+
+  /**
+   * TypingStatus createMany
+   */
+  export type TypingStatusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TypingStatuses.
+     */
+    data: TypingStatusCreateManyInput | TypingStatusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TypingStatus createManyAndReturn
+   */
+  export type TypingStatusCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * The data used to create many TypingStatuses.
+     */
+    data: TypingStatusCreateManyInput | TypingStatusCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TypingStatus update
+   */
+  export type TypingStatusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TypingStatus.
+     */
+    data: XOR<TypingStatusUpdateInput, TypingStatusUncheckedUpdateInput>
+    /**
+     * Choose, which TypingStatus to update.
+     */
+    where: TypingStatusWhereUniqueInput
+  }
+
+  /**
+   * TypingStatus updateMany
+   */
+  export type TypingStatusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TypingStatuses.
+     */
+    data: XOR<TypingStatusUpdateManyMutationInput, TypingStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which TypingStatuses to update
+     */
+    where?: TypingStatusWhereInput
+    /**
+     * Limit how many TypingStatuses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TypingStatus updateManyAndReturn
+   */
+  export type TypingStatusUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * The data used to update TypingStatuses.
+     */
+    data: XOR<TypingStatusUpdateManyMutationInput, TypingStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which TypingStatuses to update
+     */
+    where?: TypingStatusWhereInput
+    /**
+     * Limit how many TypingStatuses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TypingStatus upsert
+   */
+  export type TypingStatusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TypingStatus to update in case it exists.
+     */
+    where: TypingStatusWhereUniqueInput
+    /**
+     * In case the TypingStatus found by the `where` argument doesn't exist, create a new TypingStatus with this data.
+     */
+    create: XOR<TypingStatusCreateInput, TypingStatusUncheckedCreateInput>
+    /**
+     * In case the TypingStatus was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TypingStatusUpdateInput, TypingStatusUncheckedUpdateInput>
+  }
+
+  /**
+   * TypingStatus delete
+   */
+  export type TypingStatusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    /**
+     * Filter which TypingStatus to delete.
+     */
+    where: TypingStatusWhereUniqueInput
+  }
+
+  /**
+   * TypingStatus deleteMany
+   */
+  export type TypingStatusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TypingStatuses to delete
+     */
+    where?: TypingStatusWhereInput
+    /**
+     * Limit how many TypingStatuses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TypingStatus without action
+   */
+  export type TypingStatusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
   }
 
 
@@ -11755,6 +15669,7 @@ export namespace Prisma {
     name: string | null
     birthday: Date | null
     gender: $Enums.Gender | null
+    lastSeenAt: Date | null
     email: string | null
     hashedPassword: string | null
     isActive: boolean | null
@@ -11769,6 +15684,7 @@ export namespace Prisma {
     name: string | null
     birthday: Date | null
     gender: $Enums.Gender | null
+    lastSeenAt: Date | null
     email: string | null
     hashedPassword: string | null
     isActive: boolean | null
@@ -11783,6 +15699,7 @@ export namespace Prisma {
     name: number
     birthday: number
     gender: number
+    lastSeenAt: number
     email: number
     hashedPassword: number
     isActive: number
@@ -11799,6 +15716,7 @@ export namespace Prisma {
     name?: true
     birthday?: true
     gender?: true
+    lastSeenAt?: true
     email?: true
     hashedPassword?: true
     isActive?: true
@@ -11813,6 +15731,7 @@ export namespace Prisma {
     name?: true
     birthday?: true
     gender?: true
+    lastSeenAt?: true
     email?: true
     hashedPassword?: true
     isActive?: true
@@ -11827,6 +15746,7 @@ export namespace Prisma {
     name?: true
     birthday?: true
     gender?: true
+    lastSeenAt?: true
     email?: true
     hashedPassword?: true
     isActive?: true
@@ -11914,6 +15834,7 @@ export namespace Prisma {
     name: string | null
     birthday: Date | null
     gender: $Enums.Gender | null
+    lastSeenAt: Date | null
     email: string
     hashedPassword: string
     isActive: boolean
@@ -11945,6 +15866,7 @@ export namespace Prisma {
     name?: boolean
     birthday?: boolean
     gender?: boolean
+    lastSeenAt?: boolean
     email?: boolean
     hashedPassword?: boolean
     isActive?: boolean
@@ -11958,6 +15880,10 @@ export namespace Prisma {
     createdGroups?: boolean | User$createdGroupsArgs<ExtArgs>
     messages?: boolean | User$messagesArgs<ExtArgs>
     readProgram?: boolean | User$readProgramArgs<ExtArgs>
+    chatsUser1?: boolean | User$chatsUser1Args<ExtArgs>
+    chatsUser2?: boolean | User$chatsUser2Args<ExtArgs>
+    sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
+    typingStatus?: boolean | User$typingStatusArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -11966,6 +15892,7 @@ export namespace Prisma {
     name?: boolean
     birthday?: boolean
     gender?: boolean
+    lastSeenAt?: boolean
     email?: boolean
     hashedPassword?: boolean
     isActive?: boolean
@@ -11980,6 +15907,7 @@ export namespace Prisma {
     name?: boolean
     birthday?: boolean
     gender?: boolean
+    lastSeenAt?: boolean
     email?: boolean
     hashedPassword?: boolean
     isActive?: boolean
@@ -11994,6 +15922,7 @@ export namespace Prisma {
     name?: boolean
     birthday?: boolean
     gender?: boolean
+    lastSeenAt?: boolean
     email?: boolean
     hashedPassword?: boolean
     isActive?: boolean
@@ -12003,7 +15932,7 @@ export namespace Prisma {
     deleteAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "birthday" | "gender" | "email" | "hashedPassword" | "isActive" | "idDelete" | "createAt" | "updateAt" | "deleteAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "birthday" | "gender" | "lastSeenAt" | "email" | "hashedPassword" | "isActive" | "idDelete" | "createAt" | "updateAt" | "deleteAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     session?: boolean | User$sessionArgs<ExtArgs>
     code?: boolean | User$codeArgs<ExtArgs>
@@ -12011,6 +15940,10 @@ export namespace Prisma {
     createdGroups?: boolean | User$createdGroupsArgs<ExtArgs>
     messages?: boolean | User$messagesArgs<ExtArgs>
     readProgram?: boolean | User$readProgramArgs<ExtArgs>
+    chatsUser1?: boolean | User$chatsUser1Args<ExtArgs>
+    chatsUser2?: boolean | User$chatsUser2Args<ExtArgs>
+    sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
+    typingStatus?: boolean | User$typingStatusArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -12025,12 +15958,17 @@ export namespace Prisma {
       createdGroups: Prisma.$RoomPayload<ExtArgs>[]
       messages: Prisma.$MessagePayload<ExtArgs>[]
       readProgram: Prisma.$ReadProgramPayload<ExtArgs>[]
+      chatsUser1: Prisma.$PrivateChatPayload<ExtArgs>[]
+      chatsUser2: Prisma.$PrivateChatPayload<ExtArgs>[]
+      sentMessages: Prisma.$PrivateMessagePayload<ExtArgs>[]
+      typingStatus: Prisma.$TypingStatusPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string | null
       birthday: Date | null
       gender: $Enums.Gender | null
+      lastSeenAt: Date | null
       email: string
       hashedPassword: string
       isActive: boolean
@@ -12438,6 +16376,10 @@ export namespace Prisma {
     createdGroups<T extends User$createdGroupsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messages<T extends User$messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     readProgram<T extends User$readProgramArgs<ExtArgs> = {}>(args?: Subset<T, User$readProgramArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadProgramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chatsUser1<T extends User$chatsUser1Args<ExtArgs> = {}>(args?: Subset<T, User$chatsUser1Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chatsUser2<T extends User$chatsUser2Args<ExtArgs> = {}>(args?: Subset<T, User$chatsUser2Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    typingStatus<T extends User$typingStatusArgs<ExtArgs> = {}>(args?: Subset<T, User$typingStatusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12471,6 +16413,7 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly birthday: FieldRef<"User", 'DateTime'>
     readonly gender: FieldRef<"User", 'Gender'>
+    readonly lastSeenAt: FieldRef<"User", 'DateTime'>
     readonly email: FieldRef<"User", 'String'>
     readonly hashedPassword: FieldRef<"User", 'String'>
     readonly isActive: FieldRef<"User", 'Boolean'>
@@ -13000,6 +16943,102 @@ export namespace Prisma {
   }
 
   /**
+   * User.chatsUser1
+   */
+  export type User$chatsUser1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    where?: PrivateChatWhereInput
+    orderBy?: PrivateChatOrderByWithRelationInput | PrivateChatOrderByWithRelationInput[]
+    cursor?: PrivateChatWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PrivateChatScalarFieldEnum | PrivateChatScalarFieldEnum[]
+  }
+
+  /**
+   * User.chatsUser2
+   */
+  export type User$chatsUser2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateChat
+     */
+    select?: PrivateChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateChat
+     */
+    omit?: PrivateChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateChatInclude<ExtArgs> | null
+    where?: PrivateChatWhereInput
+    orderBy?: PrivateChatOrderByWithRelationInput | PrivateChatOrderByWithRelationInput[]
+    cursor?: PrivateChatWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PrivateChatScalarFieldEnum | PrivateChatScalarFieldEnum[]
+  }
+
+  /**
+   * User.sentMessages
+   */
+  export type User$sentMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrivateMessage
+     */
+    select?: PrivateMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrivateMessage
+     */
+    omit?: PrivateMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrivateMessageInclude<ExtArgs> | null
+    where?: PrivateMessageWhereInput
+    orderBy?: PrivateMessageOrderByWithRelationInput | PrivateMessageOrderByWithRelationInput[]
+    cursor?: PrivateMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PrivateMessageScalarFieldEnum | PrivateMessageScalarFieldEnum[]
+  }
+
+  /**
+   * User.typingStatus
+   */
+  export type User$typingStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TypingStatus
+     */
+    select?: TypingStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TypingStatus
+     */
+    omit?: TypingStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TypingStatusInclude<ExtArgs> | null
+    where?: TypingStatusWhereInput
+    orderBy?: TypingStatusOrderByWithRelationInput | TypingStatusOrderByWithRelationInput[]
+    cursor?: TypingStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TypingStatusScalarFieldEnum | TypingStatusScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13034,10 +17073,10 @@ export namespace Prisma {
 
   export const SessionScalarFieldEnum: {
     id: 'id',
-    hasedRefreshToken: 'hasedRefreshToken',
+    hashedRefreshToken: 'hashedRefreshToken',
     userId: 'userId',
-    createAt: 'createAt',
-    updateAt: 'updateAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -13048,11 +17087,56 @@ export namespace Prisma {
     code: 'code',
     type: 'type',
     userId: 'userId',
-    createAt: 'createAt',
-    updateAt: 'updateAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type CodeScalarFieldEnum = (typeof CodeScalarFieldEnum)[keyof typeof CodeScalarFieldEnum]
+
+
+  export const PrivateChatScalarFieldEnum: {
+    id: 'id',
+    user1Id: 'user1Id',
+    user2Id: 'user2Id',
+    lastMessage: 'lastMessage',
+    lastMessageAt: 'lastMessageAt',
+    user1LastReadIndex: 'user1LastReadIndex',
+    user2LastReadIndex: 'user2LastReadIndex',
+    totalMessages: 'totalMessages',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PrivateChatScalarFieldEnum = (typeof PrivateChatScalarFieldEnum)[keyof typeof PrivateChatScalarFieldEnum]
+
+
+  export const PrivateMessageScalarFieldEnum: {
+    id: 'id',
+    content: 'content',
+    type: 'type',
+    chatId: 'chatId',
+    senderId: 'senderId',
+    messageIndex: 'messageIndex',
+    fileUrl: 'fileUrl',
+    fileName: 'fileName',
+    fileSize: 'fileSize',
+    mimeType: 'mimeType',
+    replyToId: 'replyToId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PrivateMessageScalarFieldEnum = (typeof PrivateMessageScalarFieldEnum)[keyof typeof PrivateMessageScalarFieldEnum]
+
+
+  export const TypingStatusScalarFieldEnum: {
+    id: 'id',
+    chatId: 'chatId',
+    userId: 'userId',
+    createdAt: 'createdAt'
+  };
+
+  export type TypingStatusScalarFieldEnum = (typeof TypingStatusScalarFieldEnum)[keyof typeof TypingStatusScalarFieldEnum]
 
 
   export const MessageScalarFieldEnum: {
@@ -13133,6 +17217,7 @@ export namespace Prisma {
     name: 'name',
     birthday: 'birthday',
     gender: 'gender',
+    lastSeenAt: 'lastSeenAt',
     email: 'email',
     hashedPassword: 'hashedPassword',
     isActive: 'isActive',
@@ -13231,6 +17316,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'MessageType'
+   */
+  export type EnumMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageType'>
+    
+
+
+  /**
+   * Reference to a field of type 'MessageType[]'
+   */
+  export type ListEnumMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'StatusMessage'
    */
   export type EnumStatusMessageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusMessage'>
@@ -13287,19 +17386,19 @@ export namespace Prisma {
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
     id?: UuidFilter<"Session"> | string
-    hasedRefreshToken?: StringNullableFilter<"Session"> | string | null
-    userId?: UuidNullableFilter<"Session"> | string | null
-    createAt?: DateTimeFilter<"Session"> | Date | string
-    updateAt?: DateTimeFilter<"Session"> | Date | string
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    hashedRefreshToken?: StringNullableFilter<"Session"> | string | null
+    userId?: UuidFilter<"Session"> | string
+    createdAt?: DateTimeFilter<"Session"> | Date | string
+    updatedAt?: DateTimeFilter<"Session"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type SessionOrderByWithRelationInput = {
     id?: SortOrder
-    hasedRefreshToken?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    hashedRefreshToken?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -13309,18 +17408,18 @@ export namespace Prisma {
     AND?: SessionWhereInput | SessionWhereInput[]
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
-    hasedRefreshToken?: StringNullableFilter<"Session"> | string | null
-    createAt?: DateTimeFilter<"Session"> | Date | string
-    updateAt?: DateTimeFilter<"Session"> | Date | string
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    hashedRefreshToken?: StringNullableFilter<"Session"> | string | null
+    createdAt?: DateTimeFilter<"Session"> | Date | string
+    updatedAt?: DateTimeFilter<"Session"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
   export type SessionOrderByWithAggregationInput = {
     id?: SortOrder
-    hasedRefreshToken?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    hashedRefreshToken?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: SessionCountOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
     _min?: SessionMinOrderByAggregateInput
@@ -13331,10 +17430,10 @@ export namespace Prisma {
     OR?: SessionScalarWhereWithAggregatesInput[]
     NOT?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Session"> | string
-    hasedRefreshToken?: StringNullableWithAggregatesFilter<"Session"> | string | null
-    userId?: UuidNullableWithAggregatesFilter<"Session"> | string | null
-    createAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
-    updateAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    hashedRefreshToken?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    userId?: UuidWithAggregatesFilter<"Session"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
   }
 
   export type CodeWhereInput = {
@@ -13345,8 +17444,8 @@ export namespace Prisma {
     code?: StringNullableFilter<"Code"> | string | null
     type?: EnumCodeTypeFilter<"Code"> | $Enums.CodeType
     userId?: UuidNullableFilter<"Code"> | string | null
-    createAt?: DateTimeFilter<"Code"> | Date | string
-    updateAt?: DateTimeFilter<"Code"> | Date | string
+    createdAt?: DateTimeFilter<"Code"> | Date | string
+    updatedAt?: DateTimeFilter<"Code"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
@@ -13355,8 +17454,8 @@ export namespace Prisma {
     code?: SortOrderInput | SortOrder
     type?: SortOrder
     userId?: SortOrderInput | SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -13368,8 +17467,8 @@ export namespace Prisma {
     NOT?: CodeWhereInput | CodeWhereInput[]
     code?: StringNullableFilter<"Code"> | string | null
     type?: EnumCodeTypeFilter<"Code"> | $Enums.CodeType
-    createAt?: DateTimeFilter<"Code"> | Date | string
-    updateAt?: DateTimeFilter<"Code"> | Date | string
+    createdAt?: DateTimeFilter<"Code"> | Date | string
+    updatedAt?: DateTimeFilter<"Code"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "userId">
 
@@ -13378,8 +17477,8 @@ export namespace Prisma {
     code?: SortOrderInput | SortOrder
     type?: SortOrder
     userId?: SortOrderInput | SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: CodeCountOrderByAggregateInput
     _max?: CodeMaxOrderByAggregateInput
     _min?: CodeMinOrderByAggregateInput
@@ -13393,8 +17492,261 @@ export namespace Prisma {
     code?: StringNullableWithAggregatesFilter<"Code"> | string | null
     type?: EnumCodeTypeWithAggregatesFilter<"Code"> | $Enums.CodeType
     userId?: UuidNullableWithAggregatesFilter<"Code"> | string | null
-    createAt?: DateTimeWithAggregatesFilter<"Code"> | Date | string
-    updateAt?: DateTimeWithAggregatesFilter<"Code"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Code"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Code"> | Date | string
+  }
+
+  export type PrivateChatWhereInput = {
+    AND?: PrivateChatWhereInput | PrivateChatWhereInput[]
+    OR?: PrivateChatWhereInput[]
+    NOT?: PrivateChatWhereInput | PrivateChatWhereInput[]
+    id?: UuidFilter<"PrivateChat"> | string
+    user1Id?: UuidFilter<"PrivateChat"> | string
+    user2Id?: UuidFilter<"PrivateChat"> | string
+    lastMessage?: StringNullableFilter<"PrivateChat"> | string | null
+    lastMessageAt?: DateTimeNullableFilter<"PrivateChat"> | Date | string | null
+    user1LastReadIndex?: IntFilter<"PrivateChat"> | number
+    user2LastReadIndex?: IntFilter<"PrivateChat"> | number
+    totalMessages?: IntFilter<"PrivateChat"> | number
+    createdAt?: DateTimeFilter<"PrivateChat"> | Date | string
+    updatedAt?: DateTimeFilter<"PrivateChat"> | Date | string
+    user1?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user2?: XOR<UserScalarRelationFilter, UserWhereInput>
+    PrivateMessage?: PrivateMessageListRelationFilter
+    TypingStatus?: TypingStatusListRelationFilter
+  }
+
+  export type PrivateChatOrderByWithRelationInput = {
+    id?: SortOrder
+    user1Id?: SortOrder
+    user2Id?: SortOrder
+    lastMessage?: SortOrderInput | SortOrder
+    lastMessageAt?: SortOrderInput | SortOrder
+    user1LastReadIndex?: SortOrder
+    user2LastReadIndex?: SortOrder
+    totalMessages?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user1?: UserOrderByWithRelationInput
+    user2?: UserOrderByWithRelationInput
+    PrivateMessage?: PrivateMessageOrderByRelationAggregateInput
+    TypingStatus?: TypingStatusOrderByRelationAggregateInput
+  }
+
+  export type PrivateChatWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    user1Id_user2Id?: PrivateChatUser1IdUser2IdCompoundUniqueInput
+    AND?: PrivateChatWhereInput | PrivateChatWhereInput[]
+    OR?: PrivateChatWhereInput[]
+    NOT?: PrivateChatWhereInput | PrivateChatWhereInput[]
+    user1Id?: UuidFilter<"PrivateChat"> | string
+    user2Id?: UuidFilter<"PrivateChat"> | string
+    lastMessage?: StringNullableFilter<"PrivateChat"> | string | null
+    lastMessageAt?: DateTimeNullableFilter<"PrivateChat"> | Date | string | null
+    user1LastReadIndex?: IntFilter<"PrivateChat"> | number
+    user2LastReadIndex?: IntFilter<"PrivateChat"> | number
+    totalMessages?: IntFilter<"PrivateChat"> | number
+    createdAt?: DateTimeFilter<"PrivateChat"> | Date | string
+    updatedAt?: DateTimeFilter<"PrivateChat"> | Date | string
+    user1?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user2?: XOR<UserScalarRelationFilter, UserWhereInput>
+    PrivateMessage?: PrivateMessageListRelationFilter
+    TypingStatus?: TypingStatusListRelationFilter
+  }, "id" | "user1Id_user2Id">
+
+  export type PrivateChatOrderByWithAggregationInput = {
+    id?: SortOrder
+    user1Id?: SortOrder
+    user2Id?: SortOrder
+    lastMessage?: SortOrderInput | SortOrder
+    lastMessageAt?: SortOrderInput | SortOrder
+    user1LastReadIndex?: SortOrder
+    user2LastReadIndex?: SortOrder
+    totalMessages?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PrivateChatCountOrderByAggregateInput
+    _avg?: PrivateChatAvgOrderByAggregateInput
+    _max?: PrivateChatMaxOrderByAggregateInput
+    _min?: PrivateChatMinOrderByAggregateInput
+    _sum?: PrivateChatSumOrderByAggregateInput
+  }
+
+  export type PrivateChatScalarWhereWithAggregatesInput = {
+    AND?: PrivateChatScalarWhereWithAggregatesInput | PrivateChatScalarWhereWithAggregatesInput[]
+    OR?: PrivateChatScalarWhereWithAggregatesInput[]
+    NOT?: PrivateChatScalarWhereWithAggregatesInput | PrivateChatScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"PrivateChat"> | string
+    user1Id?: UuidWithAggregatesFilter<"PrivateChat"> | string
+    user2Id?: UuidWithAggregatesFilter<"PrivateChat"> | string
+    lastMessage?: StringNullableWithAggregatesFilter<"PrivateChat"> | string | null
+    lastMessageAt?: DateTimeNullableWithAggregatesFilter<"PrivateChat"> | Date | string | null
+    user1LastReadIndex?: IntWithAggregatesFilter<"PrivateChat"> | number
+    user2LastReadIndex?: IntWithAggregatesFilter<"PrivateChat"> | number
+    totalMessages?: IntWithAggregatesFilter<"PrivateChat"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"PrivateChat"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PrivateChat"> | Date | string
+  }
+
+  export type PrivateMessageWhereInput = {
+    AND?: PrivateMessageWhereInput | PrivateMessageWhereInput[]
+    OR?: PrivateMessageWhereInput[]
+    NOT?: PrivateMessageWhereInput | PrivateMessageWhereInput[]
+    id?: UuidFilter<"PrivateMessage"> | string
+    content?: StringFilter<"PrivateMessage"> | string
+    type?: EnumMessageTypeFilter<"PrivateMessage"> | $Enums.MessageType
+    chatId?: UuidFilter<"PrivateMessage"> | string
+    senderId?: UuidFilter<"PrivateMessage"> | string
+    messageIndex?: IntFilter<"PrivateMessage"> | number
+    fileUrl?: StringNullableFilter<"PrivateMessage"> | string | null
+    fileName?: StringNullableFilter<"PrivateMessage"> | string | null
+    fileSize?: IntNullableFilter<"PrivateMessage"> | number | null
+    mimeType?: StringNullableFilter<"PrivateMessage"> | string | null
+    replyToId?: UuidNullableFilter<"PrivateMessage"> | string | null
+    createdAt?: DateTimeFilter<"PrivateMessage"> | Date | string
+    updatedAt?: DateTimeFilter<"PrivateMessage"> | Date | string
+    replyTo?: XOR<PrivateMessageNullableScalarRelationFilter, PrivateMessageWhereInput> | null
+    replies?: PrivateMessageListRelationFilter
+    chat?: XOR<PrivateChatScalarRelationFilter, PrivateChatWhereInput>
+    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PrivateMessageOrderByWithRelationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    chatId?: SortOrder
+    senderId?: SortOrder
+    messageIndex?: SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    fileName?: SortOrderInput | SortOrder
+    fileSize?: SortOrderInput | SortOrder
+    mimeType?: SortOrderInput | SortOrder
+    replyToId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    replyTo?: PrivateMessageOrderByWithRelationInput
+    replies?: PrivateMessageOrderByRelationAggregateInput
+    chat?: PrivateChatOrderByWithRelationInput
+    sender?: UserOrderByWithRelationInput
+  }
+
+  export type PrivateMessageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    chatId_messageIndex?: PrivateMessageChatIdMessageIndexCompoundUniqueInput
+    AND?: PrivateMessageWhereInput | PrivateMessageWhereInput[]
+    OR?: PrivateMessageWhereInput[]
+    NOT?: PrivateMessageWhereInput | PrivateMessageWhereInput[]
+    content?: StringFilter<"PrivateMessage"> | string
+    type?: EnumMessageTypeFilter<"PrivateMessage"> | $Enums.MessageType
+    chatId?: UuidFilter<"PrivateMessage"> | string
+    senderId?: UuidFilter<"PrivateMessage"> | string
+    messageIndex?: IntFilter<"PrivateMessage"> | number
+    fileUrl?: StringNullableFilter<"PrivateMessage"> | string | null
+    fileName?: StringNullableFilter<"PrivateMessage"> | string | null
+    fileSize?: IntNullableFilter<"PrivateMessage"> | number | null
+    mimeType?: StringNullableFilter<"PrivateMessage"> | string | null
+    replyToId?: UuidNullableFilter<"PrivateMessage"> | string | null
+    createdAt?: DateTimeFilter<"PrivateMessage"> | Date | string
+    updatedAt?: DateTimeFilter<"PrivateMessage"> | Date | string
+    replyTo?: XOR<PrivateMessageNullableScalarRelationFilter, PrivateMessageWhereInput> | null
+    replies?: PrivateMessageListRelationFilter
+    chat?: XOR<PrivateChatScalarRelationFilter, PrivateChatWhereInput>
+    sender?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "chatId_messageIndex">
+
+  export type PrivateMessageOrderByWithAggregationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    chatId?: SortOrder
+    senderId?: SortOrder
+    messageIndex?: SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    fileName?: SortOrderInput | SortOrder
+    fileSize?: SortOrderInput | SortOrder
+    mimeType?: SortOrderInput | SortOrder
+    replyToId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PrivateMessageCountOrderByAggregateInput
+    _avg?: PrivateMessageAvgOrderByAggregateInput
+    _max?: PrivateMessageMaxOrderByAggregateInput
+    _min?: PrivateMessageMinOrderByAggregateInput
+    _sum?: PrivateMessageSumOrderByAggregateInput
+  }
+
+  export type PrivateMessageScalarWhereWithAggregatesInput = {
+    AND?: PrivateMessageScalarWhereWithAggregatesInput | PrivateMessageScalarWhereWithAggregatesInput[]
+    OR?: PrivateMessageScalarWhereWithAggregatesInput[]
+    NOT?: PrivateMessageScalarWhereWithAggregatesInput | PrivateMessageScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"PrivateMessage"> | string
+    content?: StringWithAggregatesFilter<"PrivateMessage"> | string
+    type?: EnumMessageTypeWithAggregatesFilter<"PrivateMessage"> | $Enums.MessageType
+    chatId?: UuidWithAggregatesFilter<"PrivateMessage"> | string
+    senderId?: UuidWithAggregatesFilter<"PrivateMessage"> | string
+    messageIndex?: IntWithAggregatesFilter<"PrivateMessage"> | number
+    fileUrl?: StringNullableWithAggregatesFilter<"PrivateMessage"> | string | null
+    fileName?: StringNullableWithAggregatesFilter<"PrivateMessage"> | string | null
+    fileSize?: IntNullableWithAggregatesFilter<"PrivateMessage"> | number | null
+    mimeType?: StringNullableWithAggregatesFilter<"PrivateMessage"> | string | null
+    replyToId?: UuidNullableWithAggregatesFilter<"PrivateMessage"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PrivateMessage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PrivateMessage"> | Date | string
+  }
+
+  export type TypingStatusWhereInput = {
+    AND?: TypingStatusWhereInput | TypingStatusWhereInput[]
+    OR?: TypingStatusWhereInput[]
+    NOT?: TypingStatusWhereInput | TypingStatusWhereInput[]
+    id?: UuidFilter<"TypingStatus"> | string
+    chatId?: UuidFilter<"TypingStatus"> | string
+    userId?: UuidFilter<"TypingStatus"> | string
+    createdAt?: DateTimeFilter<"TypingStatus"> | Date | string
+    chat?: XOR<PrivateChatScalarRelationFilter, PrivateChatWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type TypingStatusOrderByWithRelationInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    chat?: PrivateChatOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type TypingStatusWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    chatId_userId?: TypingStatusChatIdUserIdCompoundUniqueInput
+    AND?: TypingStatusWhereInput | TypingStatusWhereInput[]
+    OR?: TypingStatusWhereInput[]
+    NOT?: TypingStatusWhereInput | TypingStatusWhereInput[]
+    chatId?: UuidFilter<"TypingStatus"> | string
+    userId?: UuidFilter<"TypingStatus"> | string
+    createdAt?: DateTimeFilter<"TypingStatus"> | Date | string
+    chat?: XOR<PrivateChatScalarRelationFilter, PrivateChatWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "chatId_userId">
+
+  export type TypingStatusOrderByWithAggregationInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    _count?: TypingStatusCountOrderByAggregateInput
+    _max?: TypingStatusMaxOrderByAggregateInput
+    _min?: TypingStatusMinOrderByAggregateInput
+  }
+
+  export type TypingStatusScalarWhereWithAggregatesInput = {
+    AND?: TypingStatusScalarWhereWithAggregatesInput | TypingStatusScalarWhereWithAggregatesInput[]
+    OR?: TypingStatusScalarWhereWithAggregatesInput[]
+    NOT?: TypingStatusScalarWhereWithAggregatesInput | TypingStatusScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"TypingStatus"> | string
+    chatId?: UuidWithAggregatesFilter<"TypingStatus"> | string
+    userId?: UuidWithAggregatesFilter<"TypingStatus"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TypingStatus"> | Date | string
   }
 
   export type MessageWhereInput = {
@@ -13799,6 +18151,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     birthday?: DateTimeNullableFilter<"User"> | Date | string | null
     gender?: EnumGenderNullableFilter<"User"> | $Enums.Gender | null
+    lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     email?: StringFilter<"User"> | string
     hashedPassword?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
@@ -13812,6 +18165,10 @@ export namespace Prisma {
     createdGroups?: RoomListRelationFilter
     messages?: MessageListRelationFilter
     readProgram?: ReadProgramListRelationFilter
+    chatsUser1?: PrivateChatListRelationFilter
+    chatsUser2?: PrivateChatListRelationFilter
+    sentMessages?: PrivateMessageListRelationFilter
+    typingStatus?: TypingStatusListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13819,6 +18176,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     birthday?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
+    lastSeenAt?: SortOrderInput | SortOrder
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
@@ -13832,6 +18190,10 @@ export namespace Prisma {
     createdGroups?: RoomOrderByRelationAggregateInput
     messages?: MessageOrderByRelationAggregateInput
     readProgram?: ReadProgramOrderByRelationAggregateInput
+    chatsUser1?: PrivateChatOrderByRelationAggregateInput
+    chatsUser2?: PrivateChatOrderByRelationAggregateInput
+    sentMessages?: PrivateMessageOrderByRelationAggregateInput
+    typingStatus?: TypingStatusOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13843,6 +18205,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     birthday?: DateTimeNullableFilter<"User"> | Date | string | null
     gender?: EnumGenderNullableFilter<"User"> | $Enums.Gender | null
+    lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     hashedPassword?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
     idDelete?: BoolFilter<"User"> | boolean
@@ -13855,6 +18218,10 @@ export namespace Prisma {
     createdGroups?: RoomListRelationFilter
     messages?: MessageListRelationFilter
     readProgram?: ReadProgramListRelationFilter
+    chatsUser1?: PrivateChatListRelationFilter
+    chatsUser2?: PrivateChatListRelationFilter
+    sentMessages?: PrivateMessageListRelationFilter
+    typingStatus?: TypingStatusListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -13862,6 +18229,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     birthday?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
+    lastSeenAt?: SortOrderInput | SortOrder
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
@@ -13882,6 +18250,7 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     birthday?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     gender?: EnumGenderNullableWithAggregatesFilter<"User"> | $Enums.Gender | null
+    lastSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     hashedPassword?: StringWithAggregatesFilter<"User"> | string
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
@@ -13893,65 +18262,65 @@ export namespace Prisma {
 
   export type SessionCreateInput = {
     id?: string
-    hasedRefreshToken?: string | null
-    createAt?: Date | string
-    updateAt?: Date | string
-    user?: UserCreateNestedOneWithoutSessionInput
+    hashedRefreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutSessionInput
   }
 
   export type SessionUncheckedCreateInput = {
     id?: string
-    hasedRefreshToken?: string | null
-    userId?: string | null
-    createAt?: Date | string
-    updateAt?: Date | string
+    hashedRefreshToken?: string | null
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    hasedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneWithoutSessionNestedInput
+    hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSessionNestedInput
   }
 
   export type SessionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    hasedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionCreateManyInput = {
     id?: string
-    hasedRefreshToken?: string | null
-    userId?: string | null
-    createAt?: Date | string
-    updateAt?: Date | string
+    hashedRefreshToken?: string | null
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    hasedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    hasedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CodeCreateInput = {
     id?: string
     code?: string | null
     type: $Enums.CodeType
-    createAt?: Date | string
-    updateAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutCodeInput
   }
 
@@ -13960,16 +18329,16 @@ export namespace Prisma {
     code?: string | null
     type: $Enums.CodeType
     userId?: string | null
-    createAt?: Date | string
-    updateAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CodeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumCodeTypeFieldUpdateOperationsInput | $Enums.CodeType
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutCodeNestedInput
   }
 
@@ -13978,8 +18347,8 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumCodeTypeFieldUpdateOperationsInput | $Enums.CodeType
     userId?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CodeCreateManyInput = {
@@ -13987,16 +18356,16 @@ export namespace Prisma {
     code?: string | null
     type: $Enums.CodeType
     userId?: string | null
-    createAt?: Date | string
-    updateAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CodeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumCodeTypeFieldUpdateOperationsInput | $Enums.CodeType
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CodeUncheckedUpdateManyInput = {
@@ -14004,8 +18373,265 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumCodeTypeFieldUpdateOperationsInput | $Enums.CodeType
     userId?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrivateChatCreateInput = {
+    id?: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user1: UserCreateNestedOneWithoutChatsUser1Input
+    user2: UserCreateNestedOneWithoutChatsUser2Input
+    PrivateMessage?: PrivateMessageCreateNestedManyWithoutChatInput
+    TypingStatus?: TypingStatusCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatUncheckedCreateInput = {
+    id?: string
+    user1Id: string
+    user2Id: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    PrivateMessage?: PrivateMessageUncheckedCreateNestedManyWithoutChatInput
+    TypingStatus?: TypingStatusUncheckedCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user1?: UserUpdateOneRequiredWithoutChatsUser1NestedInput
+    user2?: UserUpdateOneRequiredWithoutChatsUser2NestedInput
+    PrivateMessage?: PrivateMessageUpdateManyWithoutChatNestedInput
+    TypingStatus?: TypingStatusUpdateManyWithoutChatNestedInput
+  }
+
+  export type PrivateChatUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user1Id?: StringFieldUpdateOperationsInput | string
+    user2Id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    PrivateMessage?: PrivateMessageUncheckedUpdateManyWithoutChatNestedInput
+    TypingStatus?: TypingStatusUncheckedUpdateManyWithoutChatNestedInput
+  }
+
+  export type PrivateChatCreateManyInput = {
+    id?: string
+    user1Id: string
+    user2Id: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PrivateChatUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrivateChatUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user1Id?: StringFieldUpdateOperationsInput | string
+    user2Id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrivateMessageCreateInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replyTo?: PrivateMessageCreateNestedOneWithoutRepliesInput
+    replies?: PrivateMessageCreateNestedManyWithoutReplyToInput
+    chat: PrivateChatCreateNestedOneWithoutPrivateMessageInput
+    sender: UserCreateNestedOneWithoutSentMessagesInput
+  }
+
+  export type PrivateMessageUncheckedCreateInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    chatId: string
+    senderId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    replyToId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: PrivateMessageUncheckedCreateNestedManyWithoutReplyToInput
+  }
+
+  export type PrivateMessageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replyTo?: PrivateMessageUpdateOneWithoutRepliesNestedInput
+    replies?: PrivateMessageUpdateManyWithoutReplyToNestedInput
+    chat?: PrivateChatUpdateOneRequiredWithoutPrivateMessageNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+  }
+
+  export type PrivateMessageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    chatId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: PrivateMessageUncheckedUpdateManyWithoutReplyToNestedInput
+  }
+
+  export type PrivateMessageCreateManyInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    chatId: string
+    senderId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    replyToId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PrivateMessageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrivateMessageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    chatId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TypingStatusCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    chat: PrivateChatCreateNestedOneWithoutTypingStatusInput
+    user: UserCreateNestedOneWithoutTypingStatusInput
+  }
+
+  export type TypingStatusUncheckedCreateInput = {
+    id?: string
+    chatId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type TypingStatusUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    chat?: PrivateChatUpdateOneRequiredWithoutTypingStatusNestedInput
+    user?: UserUpdateOneRequiredWithoutTypingStatusNestedInput
+  }
+
+  export type TypingStatusUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TypingStatusCreateManyInput = {
+    id?: string
+    chatId: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type TypingStatusUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TypingStatusUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateInput = {
@@ -14385,6 +19011,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -14398,6 +19025,10 @@ export namespace Prisma {
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14405,6 +19036,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -14418,6 +19050,10 @@ export namespace Prisma {
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -14425,6 +19061,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -14438,6 +19075,10 @@ export namespace Prisma {
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14445,6 +19086,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -14458,6 +19100,10 @@ export namespace Prisma {
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14465,6 +19111,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -14479,6 +19126,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -14493,6 +19141,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -14529,18 +19178,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type UuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
-  }
-
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14552,9 +19189,9 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
   }
 
   export type SortOrderInput = {
@@ -14564,26 +19201,26 @@ export namespace Prisma {
 
   export type SessionCountOrderByAggregateInput = {
     id?: SortOrder
-    hasedRefreshToken?: SortOrder
+    hashedRefreshToken?: SortOrder
     userId?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SessionMaxOrderByAggregateInput = {
     id?: SortOrder
-    hasedRefreshToken?: SortOrder
+    hashedRefreshToken?: SortOrder
     userId?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SessionMinOrderByAggregateInput = {
     id?: SortOrder
-    hasedRefreshToken?: SortOrder
+    hashedRefreshToken?: SortOrder
     userId?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UuidWithAggregatesFilter<$PrismaModel = never> = {
@@ -14619,21 +19256,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14655,13 +19277,30 @@ export namespace Prisma {
     not?: NestedEnumCodeTypeFilter<$PrismaModel> | $Enums.CodeType
   }
 
+  export type UuidNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type CodeCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
     type?: SortOrder
     userId?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CodeMaxOrderByAggregateInput = {
@@ -14669,8 +19308,8 @@ export namespace Prisma {
     code?: SortOrder
     type?: SortOrder
     userId?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CodeMinOrderByAggregateInput = {
@@ -14678,8 +19317,8 @@ export namespace Prisma {
     code?: SortOrder
     type?: SortOrder
     userId?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumCodeTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -14692,6 +19331,32 @@ export namespace Prisma {
     _max?: NestedEnumCodeTypeFilter<$PrismaModel>
   }
 
+  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -14701,6 +19366,112 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PrivateMessageListRelationFilter = {
+    every?: PrivateMessageWhereInput
+    some?: PrivateMessageWhereInput
+    none?: PrivateMessageWhereInput
+  }
+
+  export type TypingStatusListRelationFilter = {
+    every?: TypingStatusWhereInput
+    some?: TypingStatusWhereInput
+    none?: TypingStatusWhereInput
+  }
+
+  export type PrivateMessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TypingStatusOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PrivateChatUser1IdUser2IdCompoundUniqueInput = {
+    user1Id: string
+    user2Id: string
+  }
+
+  export type PrivateChatCountOrderByAggregateInput = {
+    id?: SortOrder
+    user1Id?: SortOrder
+    user2Id?: SortOrder
+    lastMessage?: SortOrder
+    lastMessageAt?: SortOrder
+    user1LastReadIndex?: SortOrder
+    user2LastReadIndex?: SortOrder
+    totalMessages?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PrivateChatAvgOrderByAggregateInput = {
+    user1LastReadIndex?: SortOrder
+    user2LastReadIndex?: SortOrder
+    totalMessages?: SortOrder
+  }
+
+  export type PrivateChatMaxOrderByAggregateInput = {
+    id?: SortOrder
+    user1Id?: SortOrder
+    user2Id?: SortOrder
+    lastMessage?: SortOrder
+    lastMessageAt?: SortOrder
+    user1LastReadIndex?: SortOrder
+    user2LastReadIndex?: SortOrder
+    totalMessages?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PrivateChatMinOrderByAggregateInput = {
+    id?: SortOrder
+    user1Id?: SortOrder
+    user2Id?: SortOrder
+    lastMessage?: SortOrder
+    lastMessageAt?: SortOrder
+    user1LastReadIndex?: SortOrder
+    user2LastReadIndex?: SortOrder
+    totalMessages?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PrivateChatSumOrderByAggregateInput = {
+    user1LastReadIndex?: SortOrder
+    user2LastReadIndex?: SortOrder
+    totalMessages?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -14718,16 +19489,172 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type EnumMessageTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageType | EnumMessageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMessageTypeFilter<$PrismaModel> | $Enums.MessageType
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type PrivateMessageNullableScalarRelationFilter = {
+    is?: PrivateMessageWhereInput | null
+    isNot?: PrivateMessageWhereInput | null
+  }
+
+  export type PrivateChatScalarRelationFilter = {
+    is?: PrivateChatWhereInput
+    isNot?: PrivateChatWhereInput
+  }
+
+  export type PrivateMessageChatIdMessageIndexCompoundUniqueInput = {
+    chatId: string
+    messageIndex: number
+  }
+
+  export type PrivateMessageCountOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    chatId?: SortOrder
+    senderId?: SortOrder
+    messageIndex?: SortOrder
+    fileUrl?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    replyToId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PrivateMessageAvgOrderByAggregateInput = {
+    messageIndex?: SortOrder
+    fileSize?: SortOrder
+  }
+
+  export type PrivateMessageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    chatId?: SortOrder
+    senderId?: SortOrder
+    messageIndex?: SortOrder
+    fileUrl?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    replyToId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PrivateMessageMinOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    chatId?: SortOrder
+    senderId?: SortOrder
+    messageIndex?: SortOrder
+    fileUrl?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    replyToId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PrivateMessageSumOrderByAggregateInput = {
+    messageIndex?: SortOrder
+    fileSize?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type EnumMessageTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageType | EnumMessageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMessageTypeWithAggregatesFilter<$PrismaModel> | $Enums.MessageType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMessageTypeFilter<$PrismaModel>
+    _max?: NestedEnumMessageTypeFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type TypingStatusChatIdUserIdCompoundUniqueInput = {
+    chatId: string
+    userId: string
+  }
+
+  export type TypingStatusCountOrderByAggregateInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TypingStatusMaxOrderByAggregateInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TypingStatusMinOrderByAggregateInput = {
+    id?: SortOrder
+    chatId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type EnumStatusMessageFilter<$PrismaModel = never> = {
     equals?: $Enums.StatusMessage | EnumStatusMessageFieldRefInput<$PrismaModel>
     in?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
     notIn?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
     not?: NestedEnumStatusMessageFilter<$PrismaModel> | $Enums.StatusMessage
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type MessageCountOrderByAggregateInput = {
@@ -14771,40 +19698,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
   export type EnumStatusMessageWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.StatusMessage | EnumStatusMessageFieldRefInput<$PrismaModel>
     in?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
@@ -14813,17 +19706,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusMessageFilter<$PrismaModel>
     _max?: NestedEnumStatusMessageFilter<$PrismaModel>
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type RoomScalarRelationFilter = {
@@ -14863,22 +19745,6 @@ export namespace Prisma {
 
   export type ReadProgramSumOrderByAggregateInput = {
     lastestMessgaId?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type GroupMemberListRelationFilter = {
@@ -15046,17 +19912,6 @@ export namespace Prisma {
     roleId?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type EnumGenderNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
     in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
@@ -15091,6 +19946,12 @@ export namespace Prisma {
     none?: MessageWhereInput
   }
 
+  export type PrivateChatListRelationFilter = {
+    every?: PrivateChatWhereInput
+    some?: PrivateChatWhereInput
+    none?: PrivateChatWhereInput
+  }
+
   export type RoomOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -15099,11 +19960,16 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type PrivateChatOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     birthday?: SortOrder
     gender?: SortOrder
+    lastSeenAt?: SortOrder
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
@@ -15118,6 +19984,7 @@ export namespace Prisma {
     name?: SortOrder
     birthday?: SortOrder
     gender?: SortOrder
+    lastSeenAt?: SortOrder
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
@@ -15132,6 +19999,7 @@ export namespace Prisma {
     name?: SortOrder
     birthday?: SortOrder
     gender?: SortOrder
+    lastSeenAt?: SortOrder
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
@@ -15139,20 +20007,6 @@ export namespace Prisma {
     createAt?: SortOrder
     updateAt?: SortOrder
     deleteAt?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15191,12 +20045,10 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type UserUpdateOneWithoutSessionNestedInput = {
+  export type UserUpdateOneRequiredWithoutSessionNestedInput = {
     create?: XOR<UserCreateWithoutSessionInput, UserUncheckedCreateWithoutSessionInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionInput
     upsert?: UserUpsertWithoutSessionInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionInput, UserUpdateWithoutSessionInput>, UserUncheckedUpdateWithoutSessionInput>
   }
@@ -15221,6 +20073,256 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCodeInput, UserUpdateWithoutCodeInput>, UserUncheckedUpdateWithoutCodeInput>
   }
 
+  export type UserCreateNestedOneWithoutChatsUser1Input = {
+    create?: XOR<UserCreateWithoutChatsUser1Input, UserUncheckedCreateWithoutChatsUser1Input>
+    connectOrCreate?: UserCreateOrConnectWithoutChatsUser1Input
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutChatsUser2Input = {
+    create?: XOR<UserCreateWithoutChatsUser2Input, UserUncheckedCreateWithoutChatsUser2Input>
+    connectOrCreate?: UserCreateOrConnectWithoutChatsUser2Input
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PrivateMessageCreateNestedManyWithoutChatInput = {
+    create?: XOR<PrivateMessageCreateWithoutChatInput, PrivateMessageUncheckedCreateWithoutChatInput> | PrivateMessageCreateWithoutChatInput[] | PrivateMessageUncheckedCreateWithoutChatInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutChatInput | PrivateMessageCreateOrConnectWithoutChatInput[]
+    createMany?: PrivateMessageCreateManyChatInputEnvelope
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+  }
+
+  export type TypingStatusCreateNestedManyWithoutChatInput = {
+    create?: XOR<TypingStatusCreateWithoutChatInput, TypingStatusUncheckedCreateWithoutChatInput> | TypingStatusCreateWithoutChatInput[] | TypingStatusUncheckedCreateWithoutChatInput[]
+    connectOrCreate?: TypingStatusCreateOrConnectWithoutChatInput | TypingStatusCreateOrConnectWithoutChatInput[]
+    createMany?: TypingStatusCreateManyChatInputEnvelope
+    connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+  }
+
+  export type PrivateMessageUncheckedCreateNestedManyWithoutChatInput = {
+    create?: XOR<PrivateMessageCreateWithoutChatInput, PrivateMessageUncheckedCreateWithoutChatInput> | PrivateMessageCreateWithoutChatInput[] | PrivateMessageUncheckedCreateWithoutChatInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutChatInput | PrivateMessageCreateOrConnectWithoutChatInput[]
+    createMany?: PrivateMessageCreateManyChatInputEnvelope
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+  }
+
+  export type TypingStatusUncheckedCreateNestedManyWithoutChatInput = {
+    create?: XOR<TypingStatusCreateWithoutChatInput, TypingStatusUncheckedCreateWithoutChatInput> | TypingStatusCreateWithoutChatInput[] | TypingStatusUncheckedCreateWithoutChatInput[]
+    connectOrCreate?: TypingStatusCreateOrConnectWithoutChatInput | TypingStatusCreateOrConnectWithoutChatInput[]
+    createMany?: TypingStatusCreateManyChatInputEnvelope
+    connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutChatsUser1NestedInput = {
+    create?: XOR<UserCreateWithoutChatsUser1Input, UserUncheckedCreateWithoutChatsUser1Input>
+    connectOrCreate?: UserCreateOrConnectWithoutChatsUser1Input
+    upsert?: UserUpsertWithoutChatsUser1Input
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChatsUser1Input, UserUpdateWithoutChatsUser1Input>, UserUncheckedUpdateWithoutChatsUser1Input>
+  }
+
+  export type UserUpdateOneRequiredWithoutChatsUser2NestedInput = {
+    create?: XOR<UserCreateWithoutChatsUser2Input, UserUncheckedCreateWithoutChatsUser2Input>
+    connectOrCreate?: UserCreateOrConnectWithoutChatsUser2Input
+    upsert?: UserUpsertWithoutChatsUser2Input
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChatsUser2Input, UserUpdateWithoutChatsUser2Input>, UserUncheckedUpdateWithoutChatsUser2Input>
+  }
+
+  export type PrivateMessageUpdateManyWithoutChatNestedInput = {
+    create?: XOR<PrivateMessageCreateWithoutChatInput, PrivateMessageUncheckedCreateWithoutChatInput> | PrivateMessageCreateWithoutChatInput[] | PrivateMessageUncheckedCreateWithoutChatInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutChatInput | PrivateMessageCreateOrConnectWithoutChatInput[]
+    upsert?: PrivateMessageUpsertWithWhereUniqueWithoutChatInput | PrivateMessageUpsertWithWhereUniqueWithoutChatInput[]
+    createMany?: PrivateMessageCreateManyChatInputEnvelope
+    set?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    disconnect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    delete?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    update?: PrivateMessageUpdateWithWhereUniqueWithoutChatInput | PrivateMessageUpdateWithWhereUniqueWithoutChatInput[]
+    updateMany?: PrivateMessageUpdateManyWithWhereWithoutChatInput | PrivateMessageUpdateManyWithWhereWithoutChatInput[]
+    deleteMany?: PrivateMessageScalarWhereInput | PrivateMessageScalarWhereInput[]
+  }
+
+  export type TypingStatusUpdateManyWithoutChatNestedInput = {
+    create?: XOR<TypingStatusCreateWithoutChatInput, TypingStatusUncheckedCreateWithoutChatInput> | TypingStatusCreateWithoutChatInput[] | TypingStatusUncheckedCreateWithoutChatInput[]
+    connectOrCreate?: TypingStatusCreateOrConnectWithoutChatInput | TypingStatusCreateOrConnectWithoutChatInput[]
+    upsert?: TypingStatusUpsertWithWhereUniqueWithoutChatInput | TypingStatusUpsertWithWhereUniqueWithoutChatInput[]
+    createMany?: TypingStatusCreateManyChatInputEnvelope
+    set?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    disconnect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    delete?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    update?: TypingStatusUpdateWithWhereUniqueWithoutChatInput | TypingStatusUpdateWithWhereUniqueWithoutChatInput[]
+    updateMany?: TypingStatusUpdateManyWithWhereWithoutChatInput | TypingStatusUpdateManyWithWhereWithoutChatInput[]
+    deleteMany?: TypingStatusScalarWhereInput | TypingStatusScalarWhereInput[]
+  }
+
+  export type PrivateMessageUncheckedUpdateManyWithoutChatNestedInput = {
+    create?: XOR<PrivateMessageCreateWithoutChatInput, PrivateMessageUncheckedCreateWithoutChatInput> | PrivateMessageCreateWithoutChatInput[] | PrivateMessageUncheckedCreateWithoutChatInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutChatInput | PrivateMessageCreateOrConnectWithoutChatInput[]
+    upsert?: PrivateMessageUpsertWithWhereUniqueWithoutChatInput | PrivateMessageUpsertWithWhereUniqueWithoutChatInput[]
+    createMany?: PrivateMessageCreateManyChatInputEnvelope
+    set?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    disconnect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    delete?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    update?: PrivateMessageUpdateWithWhereUniqueWithoutChatInput | PrivateMessageUpdateWithWhereUniqueWithoutChatInput[]
+    updateMany?: PrivateMessageUpdateManyWithWhereWithoutChatInput | PrivateMessageUpdateManyWithWhereWithoutChatInput[]
+    deleteMany?: PrivateMessageScalarWhereInput | PrivateMessageScalarWhereInput[]
+  }
+
+  export type TypingStatusUncheckedUpdateManyWithoutChatNestedInput = {
+    create?: XOR<TypingStatusCreateWithoutChatInput, TypingStatusUncheckedCreateWithoutChatInput> | TypingStatusCreateWithoutChatInput[] | TypingStatusUncheckedCreateWithoutChatInput[]
+    connectOrCreate?: TypingStatusCreateOrConnectWithoutChatInput | TypingStatusCreateOrConnectWithoutChatInput[]
+    upsert?: TypingStatusUpsertWithWhereUniqueWithoutChatInput | TypingStatusUpsertWithWhereUniqueWithoutChatInput[]
+    createMany?: TypingStatusCreateManyChatInputEnvelope
+    set?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    disconnect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    delete?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    update?: TypingStatusUpdateWithWhereUniqueWithoutChatInput | TypingStatusUpdateWithWhereUniqueWithoutChatInput[]
+    updateMany?: TypingStatusUpdateManyWithWhereWithoutChatInput | TypingStatusUpdateManyWithWhereWithoutChatInput[]
+    deleteMany?: TypingStatusScalarWhereInput | TypingStatusScalarWhereInput[]
+  }
+
+  export type PrivateMessageCreateNestedOneWithoutRepliesInput = {
+    create?: XOR<PrivateMessageCreateWithoutRepliesInput, PrivateMessageUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutRepliesInput
+    connect?: PrivateMessageWhereUniqueInput
+  }
+
+  export type PrivateMessageCreateNestedManyWithoutReplyToInput = {
+    create?: XOR<PrivateMessageCreateWithoutReplyToInput, PrivateMessageUncheckedCreateWithoutReplyToInput> | PrivateMessageCreateWithoutReplyToInput[] | PrivateMessageUncheckedCreateWithoutReplyToInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutReplyToInput | PrivateMessageCreateOrConnectWithoutReplyToInput[]
+    createMany?: PrivateMessageCreateManyReplyToInputEnvelope
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+  }
+
+  export type PrivateChatCreateNestedOneWithoutPrivateMessageInput = {
+    create?: XOR<PrivateChatCreateWithoutPrivateMessageInput, PrivateChatUncheckedCreateWithoutPrivateMessageInput>
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutPrivateMessageInput
+    connect?: PrivateChatWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSentMessagesInput = {
+    create?: XOR<UserCreateWithoutSentMessagesInput, UserUncheckedCreateWithoutSentMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSentMessagesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PrivateMessageUncheckedCreateNestedManyWithoutReplyToInput = {
+    create?: XOR<PrivateMessageCreateWithoutReplyToInput, PrivateMessageUncheckedCreateWithoutReplyToInput> | PrivateMessageCreateWithoutReplyToInput[] | PrivateMessageUncheckedCreateWithoutReplyToInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutReplyToInput | PrivateMessageCreateOrConnectWithoutReplyToInput[]
+    createMany?: PrivateMessageCreateManyReplyToInputEnvelope
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+  }
+
+  export type EnumMessageTypeFieldUpdateOperationsInput = {
+    set?: $Enums.MessageType
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type PrivateMessageUpdateOneWithoutRepliesNestedInput = {
+    create?: XOR<PrivateMessageCreateWithoutRepliesInput, PrivateMessageUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutRepliesInput
+    upsert?: PrivateMessageUpsertWithoutRepliesInput
+    disconnect?: PrivateMessageWhereInput | boolean
+    delete?: PrivateMessageWhereInput | boolean
+    connect?: PrivateMessageWhereUniqueInput
+    update?: XOR<XOR<PrivateMessageUpdateToOneWithWhereWithoutRepliesInput, PrivateMessageUpdateWithoutRepliesInput>, PrivateMessageUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type PrivateMessageUpdateManyWithoutReplyToNestedInput = {
+    create?: XOR<PrivateMessageCreateWithoutReplyToInput, PrivateMessageUncheckedCreateWithoutReplyToInput> | PrivateMessageCreateWithoutReplyToInput[] | PrivateMessageUncheckedCreateWithoutReplyToInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutReplyToInput | PrivateMessageCreateOrConnectWithoutReplyToInput[]
+    upsert?: PrivateMessageUpsertWithWhereUniqueWithoutReplyToInput | PrivateMessageUpsertWithWhereUniqueWithoutReplyToInput[]
+    createMany?: PrivateMessageCreateManyReplyToInputEnvelope
+    set?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    disconnect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    delete?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    update?: PrivateMessageUpdateWithWhereUniqueWithoutReplyToInput | PrivateMessageUpdateWithWhereUniqueWithoutReplyToInput[]
+    updateMany?: PrivateMessageUpdateManyWithWhereWithoutReplyToInput | PrivateMessageUpdateManyWithWhereWithoutReplyToInput[]
+    deleteMany?: PrivateMessageScalarWhereInput | PrivateMessageScalarWhereInput[]
+  }
+
+  export type PrivateChatUpdateOneRequiredWithoutPrivateMessageNestedInput = {
+    create?: XOR<PrivateChatCreateWithoutPrivateMessageInput, PrivateChatUncheckedCreateWithoutPrivateMessageInput>
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutPrivateMessageInput
+    upsert?: PrivateChatUpsertWithoutPrivateMessageInput
+    connect?: PrivateChatWhereUniqueInput
+    update?: XOR<XOR<PrivateChatUpdateToOneWithWhereWithoutPrivateMessageInput, PrivateChatUpdateWithoutPrivateMessageInput>, PrivateChatUncheckedUpdateWithoutPrivateMessageInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSentMessagesNestedInput = {
+    create?: XOR<UserCreateWithoutSentMessagesInput, UserUncheckedCreateWithoutSentMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSentMessagesInput
+    upsert?: UserUpsertWithoutSentMessagesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSentMessagesInput, UserUpdateWithoutSentMessagesInput>, UserUncheckedUpdateWithoutSentMessagesInput>
+  }
+
+  export type PrivateMessageUncheckedUpdateManyWithoutReplyToNestedInput = {
+    create?: XOR<PrivateMessageCreateWithoutReplyToInput, PrivateMessageUncheckedCreateWithoutReplyToInput> | PrivateMessageCreateWithoutReplyToInput[] | PrivateMessageUncheckedCreateWithoutReplyToInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutReplyToInput | PrivateMessageCreateOrConnectWithoutReplyToInput[]
+    upsert?: PrivateMessageUpsertWithWhereUniqueWithoutReplyToInput | PrivateMessageUpsertWithWhereUniqueWithoutReplyToInput[]
+    createMany?: PrivateMessageCreateManyReplyToInputEnvelope
+    set?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    disconnect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    delete?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    update?: PrivateMessageUpdateWithWhereUniqueWithoutReplyToInput | PrivateMessageUpdateWithWhereUniqueWithoutReplyToInput[]
+    updateMany?: PrivateMessageUpdateManyWithWhereWithoutReplyToInput | PrivateMessageUpdateManyWithWhereWithoutReplyToInput[]
+    deleteMany?: PrivateMessageScalarWhereInput | PrivateMessageScalarWhereInput[]
+  }
+
+  export type PrivateChatCreateNestedOneWithoutTypingStatusInput = {
+    create?: XOR<PrivateChatCreateWithoutTypingStatusInput, PrivateChatUncheckedCreateWithoutTypingStatusInput>
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutTypingStatusInput
+    connect?: PrivateChatWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTypingStatusInput = {
+    create?: XOR<UserCreateWithoutTypingStatusInput, UserUncheckedCreateWithoutTypingStatusInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTypingStatusInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PrivateChatUpdateOneRequiredWithoutTypingStatusNestedInput = {
+    create?: XOR<PrivateChatCreateWithoutTypingStatusInput, PrivateChatUncheckedCreateWithoutTypingStatusInput>
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutTypingStatusInput
+    upsert?: PrivateChatUpsertWithoutTypingStatusInput
+    connect?: PrivateChatWhereUniqueInput
+    update?: XOR<XOR<PrivateChatUpdateToOneWithWhereWithoutTypingStatusInput, PrivateChatUpdateWithoutTypingStatusInput>, PrivateChatUncheckedUpdateWithoutTypingStatusInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTypingStatusNestedInput = {
+    create?: XOR<UserCreateWithoutTypingStatusInput, UserUncheckedCreateWithoutTypingStatusInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTypingStatusInput
+    upsert?: UserUpsertWithoutTypingStatusInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTypingStatusInput, UserUpdateWithoutTypingStatusInput>, UserUncheckedUpdateWithoutTypingStatusInput>
+  }
+
   export type UserCreateNestedOneWithoutMessagesInput = {
     create?: XOR<UserCreateWithoutMessagesInput, UserUncheckedCreateWithoutMessagesInput>
     connectOrCreate?: UserCreateOrConnectWithoutMessagesInput
@@ -15239,14 +20341,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMessagesInput, UserUpdateWithoutMessagesInput>, UserUncheckedUpdateWithoutMessagesInput>
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserCreateNestedOneWithoutReadProgramInput = {
     create?: XOR<UserCreateWithoutReadProgramInput, UserUncheckedCreateWithoutReadProgramInput>
     connectOrCreate?: UserCreateOrConnectWithoutReadProgramInput
@@ -15257,14 +20351,6 @@ export namespace Prisma {
     create?: XOR<RoomCreateWithoutReadProgramsInput, RoomUncheckedCreateWithoutReadProgramsInput>
     connectOrCreate?: RoomCreateOrConnectWithoutReadProgramsInput
     connect?: RoomWhereUniqueInput
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutReadProgramNestedInput = {
@@ -15621,6 +20707,34 @@ export namespace Prisma {
     connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
   }
 
+  export type PrivateChatCreateNestedManyWithoutUser1Input = {
+    create?: XOR<PrivateChatCreateWithoutUser1Input, PrivateChatUncheckedCreateWithoutUser1Input> | PrivateChatCreateWithoutUser1Input[] | PrivateChatUncheckedCreateWithoutUser1Input[]
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutUser1Input | PrivateChatCreateOrConnectWithoutUser1Input[]
+    createMany?: PrivateChatCreateManyUser1InputEnvelope
+    connect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+  }
+
+  export type PrivateChatCreateNestedManyWithoutUser2Input = {
+    create?: XOR<PrivateChatCreateWithoutUser2Input, PrivateChatUncheckedCreateWithoutUser2Input> | PrivateChatCreateWithoutUser2Input[] | PrivateChatUncheckedCreateWithoutUser2Input[]
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutUser2Input | PrivateChatCreateOrConnectWithoutUser2Input[]
+    createMany?: PrivateChatCreateManyUser2InputEnvelope
+    connect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+  }
+
+  export type PrivateMessageCreateNestedManyWithoutSenderInput = {
+    create?: XOR<PrivateMessageCreateWithoutSenderInput, PrivateMessageUncheckedCreateWithoutSenderInput> | PrivateMessageCreateWithoutSenderInput[] | PrivateMessageUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutSenderInput | PrivateMessageCreateOrConnectWithoutSenderInput[]
+    createMany?: PrivateMessageCreateManySenderInputEnvelope
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+  }
+
+  export type TypingStatusCreateNestedManyWithoutUserInput = {
+    create?: XOR<TypingStatusCreateWithoutUserInput, TypingStatusUncheckedCreateWithoutUserInput> | TypingStatusCreateWithoutUserInput[] | TypingStatusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TypingStatusCreateOrConnectWithoutUserInput | TypingStatusCreateOrConnectWithoutUserInput[]
+    createMany?: TypingStatusCreateManyUserInputEnvelope
+    connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput
@@ -15661,8 +20775,32 @@ export namespace Prisma {
     connect?: ReadProgramWhereUniqueInput | ReadProgramWhereUniqueInput[]
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type PrivateChatUncheckedCreateNestedManyWithoutUser1Input = {
+    create?: XOR<PrivateChatCreateWithoutUser1Input, PrivateChatUncheckedCreateWithoutUser1Input> | PrivateChatCreateWithoutUser1Input[] | PrivateChatUncheckedCreateWithoutUser1Input[]
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutUser1Input | PrivateChatCreateOrConnectWithoutUser1Input[]
+    createMany?: PrivateChatCreateManyUser1InputEnvelope
+    connect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+  }
+
+  export type PrivateChatUncheckedCreateNestedManyWithoutUser2Input = {
+    create?: XOR<PrivateChatCreateWithoutUser2Input, PrivateChatUncheckedCreateWithoutUser2Input> | PrivateChatCreateWithoutUser2Input[] | PrivateChatUncheckedCreateWithoutUser2Input[]
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutUser2Input | PrivateChatCreateOrConnectWithoutUser2Input[]
+    createMany?: PrivateChatCreateManyUser2InputEnvelope
+    connect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+  }
+
+  export type PrivateMessageUncheckedCreateNestedManyWithoutSenderInput = {
+    create?: XOR<PrivateMessageCreateWithoutSenderInput, PrivateMessageUncheckedCreateWithoutSenderInput> | PrivateMessageCreateWithoutSenderInput[] | PrivateMessageUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutSenderInput | PrivateMessageCreateOrConnectWithoutSenderInput[]
+    createMany?: PrivateMessageCreateManySenderInputEnvelope
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+  }
+
+  export type TypingStatusUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TypingStatusCreateWithoutUserInput, TypingStatusUncheckedCreateWithoutUserInput> | TypingStatusCreateWithoutUserInput[] | TypingStatusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TypingStatusCreateOrConnectWithoutUserInput | TypingStatusCreateOrConnectWithoutUserInput[]
+    createMany?: TypingStatusCreateManyUserInputEnvelope
+    connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
   }
 
   export type NullableEnumGenderFieldUpdateOperationsInput = {
@@ -15749,6 +20887,62 @@ export namespace Prisma {
     deleteMany?: ReadProgramScalarWhereInput | ReadProgramScalarWhereInput[]
   }
 
+  export type PrivateChatUpdateManyWithoutUser1NestedInput = {
+    create?: XOR<PrivateChatCreateWithoutUser1Input, PrivateChatUncheckedCreateWithoutUser1Input> | PrivateChatCreateWithoutUser1Input[] | PrivateChatUncheckedCreateWithoutUser1Input[]
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutUser1Input | PrivateChatCreateOrConnectWithoutUser1Input[]
+    upsert?: PrivateChatUpsertWithWhereUniqueWithoutUser1Input | PrivateChatUpsertWithWhereUniqueWithoutUser1Input[]
+    createMany?: PrivateChatCreateManyUser1InputEnvelope
+    set?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    disconnect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    delete?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    connect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    update?: PrivateChatUpdateWithWhereUniqueWithoutUser1Input | PrivateChatUpdateWithWhereUniqueWithoutUser1Input[]
+    updateMany?: PrivateChatUpdateManyWithWhereWithoutUser1Input | PrivateChatUpdateManyWithWhereWithoutUser1Input[]
+    deleteMany?: PrivateChatScalarWhereInput | PrivateChatScalarWhereInput[]
+  }
+
+  export type PrivateChatUpdateManyWithoutUser2NestedInput = {
+    create?: XOR<PrivateChatCreateWithoutUser2Input, PrivateChatUncheckedCreateWithoutUser2Input> | PrivateChatCreateWithoutUser2Input[] | PrivateChatUncheckedCreateWithoutUser2Input[]
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutUser2Input | PrivateChatCreateOrConnectWithoutUser2Input[]
+    upsert?: PrivateChatUpsertWithWhereUniqueWithoutUser2Input | PrivateChatUpsertWithWhereUniqueWithoutUser2Input[]
+    createMany?: PrivateChatCreateManyUser2InputEnvelope
+    set?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    disconnect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    delete?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    connect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    update?: PrivateChatUpdateWithWhereUniqueWithoutUser2Input | PrivateChatUpdateWithWhereUniqueWithoutUser2Input[]
+    updateMany?: PrivateChatUpdateManyWithWhereWithoutUser2Input | PrivateChatUpdateManyWithWhereWithoutUser2Input[]
+    deleteMany?: PrivateChatScalarWhereInput | PrivateChatScalarWhereInput[]
+  }
+
+  export type PrivateMessageUpdateManyWithoutSenderNestedInput = {
+    create?: XOR<PrivateMessageCreateWithoutSenderInput, PrivateMessageUncheckedCreateWithoutSenderInput> | PrivateMessageCreateWithoutSenderInput[] | PrivateMessageUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutSenderInput | PrivateMessageCreateOrConnectWithoutSenderInput[]
+    upsert?: PrivateMessageUpsertWithWhereUniqueWithoutSenderInput | PrivateMessageUpsertWithWhereUniqueWithoutSenderInput[]
+    createMany?: PrivateMessageCreateManySenderInputEnvelope
+    set?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    disconnect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    delete?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    update?: PrivateMessageUpdateWithWhereUniqueWithoutSenderInput | PrivateMessageUpdateWithWhereUniqueWithoutSenderInput[]
+    updateMany?: PrivateMessageUpdateManyWithWhereWithoutSenderInput | PrivateMessageUpdateManyWithWhereWithoutSenderInput[]
+    deleteMany?: PrivateMessageScalarWhereInput | PrivateMessageScalarWhereInput[]
+  }
+
+  export type TypingStatusUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TypingStatusCreateWithoutUserInput, TypingStatusUncheckedCreateWithoutUserInput> | TypingStatusCreateWithoutUserInput[] | TypingStatusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TypingStatusCreateOrConnectWithoutUserInput | TypingStatusCreateOrConnectWithoutUserInput[]
+    upsert?: TypingStatusUpsertWithWhereUniqueWithoutUserInput | TypingStatusUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TypingStatusCreateManyUserInputEnvelope
+    set?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    disconnect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    delete?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    update?: TypingStatusUpdateWithWhereUniqueWithoutUserInput | TypingStatusUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TypingStatusUpdateManyWithWhereWithoutUserInput | TypingStatusUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TypingStatusScalarWhereInput | TypingStatusScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput
@@ -15825,6 +21019,62 @@ export namespace Prisma {
     deleteMany?: ReadProgramScalarWhereInput | ReadProgramScalarWhereInput[]
   }
 
+  export type PrivateChatUncheckedUpdateManyWithoutUser1NestedInput = {
+    create?: XOR<PrivateChatCreateWithoutUser1Input, PrivateChatUncheckedCreateWithoutUser1Input> | PrivateChatCreateWithoutUser1Input[] | PrivateChatUncheckedCreateWithoutUser1Input[]
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutUser1Input | PrivateChatCreateOrConnectWithoutUser1Input[]
+    upsert?: PrivateChatUpsertWithWhereUniqueWithoutUser1Input | PrivateChatUpsertWithWhereUniqueWithoutUser1Input[]
+    createMany?: PrivateChatCreateManyUser1InputEnvelope
+    set?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    disconnect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    delete?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    connect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    update?: PrivateChatUpdateWithWhereUniqueWithoutUser1Input | PrivateChatUpdateWithWhereUniqueWithoutUser1Input[]
+    updateMany?: PrivateChatUpdateManyWithWhereWithoutUser1Input | PrivateChatUpdateManyWithWhereWithoutUser1Input[]
+    deleteMany?: PrivateChatScalarWhereInput | PrivateChatScalarWhereInput[]
+  }
+
+  export type PrivateChatUncheckedUpdateManyWithoutUser2NestedInput = {
+    create?: XOR<PrivateChatCreateWithoutUser2Input, PrivateChatUncheckedCreateWithoutUser2Input> | PrivateChatCreateWithoutUser2Input[] | PrivateChatUncheckedCreateWithoutUser2Input[]
+    connectOrCreate?: PrivateChatCreateOrConnectWithoutUser2Input | PrivateChatCreateOrConnectWithoutUser2Input[]
+    upsert?: PrivateChatUpsertWithWhereUniqueWithoutUser2Input | PrivateChatUpsertWithWhereUniqueWithoutUser2Input[]
+    createMany?: PrivateChatCreateManyUser2InputEnvelope
+    set?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    disconnect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    delete?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    connect?: PrivateChatWhereUniqueInput | PrivateChatWhereUniqueInput[]
+    update?: PrivateChatUpdateWithWhereUniqueWithoutUser2Input | PrivateChatUpdateWithWhereUniqueWithoutUser2Input[]
+    updateMany?: PrivateChatUpdateManyWithWhereWithoutUser2Input | PrivateChatUpdateManyWithWhereWithoutUser2Input[]
+    deleteMany?: PrivateChatScalarWhereInput | PrivateChatScalarWhereInput[]
+  }
+
+  export type PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput = {
+    create?: XOR<PrivateMessageCreateWithoutSenderInput, PrivateMessageUncheckedCreateWithoutSenderInput> | PrivateMessageCreateWithoutSenderInput[] | PrivateMessageUncheckedCreateWithoutSenderInput[]
+    connectOrCreate?: PrivateMessageCreateOrConnectWithoutSenderInput | PrivateMessageCreateOrConnectWithoutSenderInput[]
+    upsert?: PrivateMessageUpsertWithWhereUniqueWithoutSenderInput | PrivateMessageUpsertWithWhereUniqueWithoutSenderInput[]
+    createMany?: PrivateMessageCreateManySenderInputEnvelope
+    set?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    disconnect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    delete?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    connect?: PrivateMessageWhereUniqueInput | PrivateMessageWhereUniqueInput[]
+    update?: PrivateMessageUpdateWithWhereUniqueWithoutSenderInput | PrivateMessageUpdateWithWhereUniqueWithoutSenderInput[]
+    updateMany?: PrivateMessageUpdateManyWithWhereWithoutSenderInput | PrivateMessageUpdateManyWithWhereWithoutSenderInput[]
+    deleteMany?: PrivateMessageScalarWhereInput | PrivateMessageScalarWhereInput[]
+  }
+
+  export type TypingStatusUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TypingStatusCreateWithoutUserInput, TypingStatusUncheckedCreateWithoutUserInput> | TypingStatusCreateWithoutUserInput[] | TypingStatusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TypingStatusCreateOrConnectWithoutUserInput | TypingStatusCreateOrConnectWithoutUserInput[]
+    upsert?: TypingStatusUpsertWithWhereUniqueWithoutUserInput | TypingStatusUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TypingStatusCreateManyUserInputEnvelope
+    set?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    disconnect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    delete?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+    update?: TypingStatusUpdateWithWhereUniqueWithoutUserInput | TypingStatusUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TypingStatusUpdateManyWithWhereWithoutUserInput | TypingStatusUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TypingStatusScalarWhereInput | TypingStatusScalarWhereInput[]
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15848,17 +21098,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedUuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -15939,20 +21178,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -15974,6 +21199,17 @@ export namespace Prisma {
     not?: NestedEnumCodeTypeFilter<$PrismaModel> | $Enums.CodeType
   }
 
+  export type NestedUuidNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedEnumCodeTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.CodeType | EnumCodeTypeFieldRefInput<$PrismaModel>
     in?: $Enums.CodeType[] | ListEnumCodeTypeFieldRefInput<$PrismaModel>
@@ -15984,11 +21220,43 @@ export namespace Prisma {
     _max?: NestedEnumCodeTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumStatusMessageFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusMessage | EnumStatusMessageFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusMessageFilter<$PrismaModel> | $Enums.StatusMessage
+  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -16018,6 +21286,13 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumMessageTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageType | EnumMessageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMessageTypeFilter<$PrismaModel> | $Enums.MessageType
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -16035,14 +21310,14 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedEnumStatusMessageWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusMessage | EnumStatusMessageFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusMessageWithAggregatesFilter<$PrismaModel> | $Enums.StatusMessage
+  export type NestedEnumMessageTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MessageType | EnumMessageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMessageTypeWithAggregatesFilter<$PrismaModel> | $Enums.MessageType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusMessageFilter<$PrismaModel>
-    _max?: NestedEnumStatusMessageFilter<$PrismaModel>
+    _min?: NestedEnumMessageTypeFilter<$PrismaModel>
+    _max?: NestedEnumMessageTypeFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16072,15 +21347,21 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type NestedEnumStatusMessageFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusMessage | EnumStatusMessageFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusMessageFilter<$PrismaModel> | $Enums.StatusMessage
+  }
+
+  export type NestedEnumStatusMessageWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusMessage | EnumStatusMessageFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusMessage[] | ListEnumStatusMessageFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusMessageWithAggregatesFilter<$PrismaModel> | $Enums.StatusMessage
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusMessageFilter<$PrismaModel>
+    _max?: NestedEnumStatusMessageFilter<$PrismaModel>
   }
 
   export type NestedEnumGenderNullableFilter<$PrismaModel = never> = {
@@ -16093,20 +21374,6 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16132,6 +21399,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16144,6 +21412,10 @@ export namespace Prisma {
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
@@ -16151,6 +21423,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16163,6 +21436,10 @@ export namespace Prisma {
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -16186,6 +21463,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16198,6 +21476,10 @@ export namespace Prisma {
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
@@ -16205,6 +21487,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16217,6 +21500,10 @@ export namespace Prisma {
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCodeInput = {
@@ -16224,6 +21511,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16236,6 +21524,10 @@ export namespace Prisma {
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCodeInput = {
@@ -16243,6 +21535,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16255,6 +21548,10 @@ export namespace Prisma {
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCodeInput = {
@@ -16278,6 +21575,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16290,6 +21588,10 @@ export namespace Prisma {
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCodeInput = {
@@ -16297,6 +21599,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16309,6 +21612,865 @@ export namespace Prisma {
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutChatsUser1Input = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    idDelete?: boolean
+    createAt?: Date | string
+    updateAt?: Date | string
+    deleteAt?: Date | string | null
+    session?: SessionCreateNestedOneWithoutUserInput
+    code?: CodeCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
+    createdGroups?: RoomCreateNestedManyWithoutAuthorInput
+    messages?: MessageCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutChatsUser1Input = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    idDelete?: boolean
+    createAt?: Date | string
+    updateAt?: Date | string
+    deleteAt?: Date | string | null
+    session?: SessionUncheckedCreateNestedOneWithoutUserInput
+    code?: CodeUncheckedCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
+    createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutChatsUser1Input = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutChatsUser1Input, UserUncheckedCreateWithoutChatsUser1Input>
+  }
+
+  export type UserCreateWithoutChatsUser2Input = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    idDelete?: boolean
+    createAt?: Date | string
+    updateAt?: Date | string
+    deleteAt?: Date | string | null
+    session?: SessionCreateNestedOneWithoutUserInput
+    code?: CodeCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
+    createdGroups?: RoomCreateNestedManyWithoutAuthorInput
+    messages?: MessageCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutChatsUser2Input = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    idDelete?: boolean
+    createAt?: Date | string
+    updateAt?: Date | string
+    deleteAt?: Date | string | null
+    session?: SessionUncheckedCreateNestedOneWithoutUserInput
+    code?: CodeUncheckedCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
+    createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutChatsUser2Input = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutChatsUser2Input, UserUncheckedCreateWithoutChatsUser2Input>
+  }
+
+  export type PrivateMessageCreateWithoutChatInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replyTo?: PrivateMessageCreateNestedOneWithoutRepliesInput
+    replies?: PrivateMessageCreateNestedManyWithoutReplyToInput
+    sender: UserCreateNestedOneWithoutSentMessagesInput
+  }
+
+  export type PrivateMessageUncheckedCreateWithoutChatInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    senderId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    replyToId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: PrivateMessageUncheckedCreateNestedManyWithoutReplyToInput
+  }
+
+  export type PrivateMessageCreateOrConnectWithoutChatInput = {
+    where: PrivateMessageWhereUniqueInput
+    create: XOR<PrivateMessageCreateWithoutChatInput, PrivateMessageUncheckedCreateWithoutChatInput>
+  }
+
+  export type PrivateMessageCreateManyChatInputEnvelope = {
+    data: PrivateMessageCreateManyChatInput | PrivateMessageCreateManyChatInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TypingStatusCreateWithoutChatInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutTypingStatusInput
+  }
+
+  export type TypingStatusUncheckedCreateWithoutChatInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type TypingStatusCreateOrConnectWithoutChatInput = {
+    where: TypingStatusWhereUniqueInput
+    create: XOR<TypingStatusCreateWithoutChatInput, TypingStatusUncheckedCreateWithoutChatInput>
+  }
+
+  export type TypingStatusCreateManyChatInputEnvelope = {
+    data: TypingStatusCreateManyChatInput | TypingStatusCreateManyChatInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutChatsUser1Input = {
+    update: XOR<UserUpdateWithoutChatsUser1Input, UserUncheckedUpdateWithoutChatsUser1Input>
+    create: XOR<UserCreateWithoutChatsUser1Input, UserUncheckedCreateWithoutChatsUser1Input>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutChatsUser1Input = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutChatsUser1Input, UserUncheckedUpdateWithoutChatsUser1Input>
+  }
+
+  export type UserUpdateWithoutChatsUser1Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    idDelete?: BoolFieldUpdateOperationsInput | boolean
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUpdateOneWithoutUserNestedInput
+    code?: CodeUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutChatsUser1Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    idDelete?: BoolFieldUpdateOperationsInput | boolean
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUncheckedUpdateOneWithoutUserNestedInput
+    code?: CodeUncheckedUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutChatsUser2Input = {
+    update: XOR<UserUpdateWithoutChatsUser2Input, UserUncheckedUpdateWithoutChatsUser2Input>
+    create: XOR<UserCreateWithoutChatsUser2Input, UserUncheckedCreateWithoutChatsUser2Input>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutChatsUser2Input = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutChatsUser2Input, UserUncheckedUpdateWithoutChatsUser2Input>
+  }
+
+  export type UserUpdateWithoutChatsUser2Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    idDelete?: BoolFieldUpdateOperationsInput | boolean
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUpdateOneWithoutUserNestedInput
+    code?: CodeUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutChatsUser2Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    idDelete?: BoolFieldUpdateOperationsInput | boolean
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUncheckedUpdateOneWithoutUserNestedInput
+    code?: CodeUncheckedUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PrivateMessageUpsertWithWhereUniqueWithoutChatInput = {
+    where: PrivateMessageWhereUniqueInput
+    update: XOR<PrivateMessageUpdateWithoutChatInput, PrivateMessageUncheckedUpdateWithoutChatInput>
+    create: XOR<PrivateMessageCreateWithoutChatInput, PrivateMessageUncheckedCreateWithoutChatInput>
+  }
+
+  export type PrivateMessageUpdateWithWhereUniqueWithoutChatInput = {
+    where: PrivateMessageWhereUniqueInput
+    data: XOR<PrivateMessageUpdateWithoutChatInput, PrivateMessageUncheckedUpdateWithoutChatInput>
+  }
+
+  export type PrivateMessageUpdateManyWithWhereWithoutChatInput = {
+    where: PrivateMessageScalarWhereInput
+    data: XOR<PrivateMessageUpdateManyMutationInput, PrivateMessageUncheckedUpdateManyWithoutChatInput>
+  }
+
+  export type PrivateMessageScalarWhereInput = {
+    AND?: PrivateMessageScalarWhereInput | PrivateMessageScalarWhereInput[]
+    OR?: PrivateMessageScalarWhereInput[]
+    NOT?: PrivateMessageScalarWhereInput | PrivateMessageScalarWhereInput[]
+    id?: UuidFilter<"PrivateMessage"> | string
+    content?: StringFilter<"PrivateMessage"> | string
+    type?: EnumMessageTypeFilter<"PrivateMessage"> | $Enums.MessageType
+    chatId?: UuidFilter<"PrivateMessage"> | string
+    senderId?: UuidFilter<"PrivateMessage"> | string
+    messageIndex?: IntFilter<"PrivateMessage"> | number
+    fileUrl?: StringNullableFilter<"PrivateMessage"> | string | null
+    fileName?: StringNullableFilter<"PrivateMessage"> | string | null
+    fileSize?: IntNullableFilter<"PrivateMessage"> | number | null
+    mimeType?: StringNullableFilter<"PrivateMessage"> | string | null
+    replyToId?: UuidNullableFilter<"PrivateMessage"> | string | null
+    createdAt?: DateTimeFilter<"PrivateMessage"> | Date | string
+    updatedAt?: DateTimeFilter<"PrivateMessage"> | Date | string
+  }
+
+  export type TypingStatusUpsertWithWhereUniqueWithoutChatInput = {
+    where: TypingStatusWhereUniqueInput
+    update: XOR<TypingStatusUpdateWithoutChatInput, TypingStatusUncheckedUpdateWithoutChatInput>
+    create: XOR<TypingStatusCreateWithoutChatInput, TypingStatusUncheckedCreateWithoutChatInput>
+  }
+
+  export type TypingStatusUpdateWithWhereUniqueWithoutChatInput = {
+    where: TypingStatusWhereUniqueInput
+    data: XOR<TypingStatusUpdateWithoutChatInput, TypingStatusUncheckedUpdateWithoutChatInput>
+  }
+
+  export type TypingStatusUpdateManyWithWhereWithoutChatInput = {
+    where: TypingStatusScalarWhereInput
+    data: XOR<TypingStatusUpdateManyMutationInput, TypingStatusUncheckedUpdateManyWithoutChatInput>
+  }
+
+  export type TypingStatusScalarWhereInput = {
+    AND?: TypingStatusScalarWhereInput | TypingStatusScalarWhereInput[]
+    OR?: TypingStatusScalarWhereInput[]
+    NOT?: TypingStatusScalarWhereInput | TypingStatusScalarWhereInput[]
+    id?: UuidFilter<"TypingStatus"> | string
+    chatId?: UuidFilter<"TypingStatus"> | string
+    userId?: UuidFilter<"TypingStatus"> | string
+    createdAt?: DateTimeFilter<"TypingStatus"> | Date | string
+  }
+
+  export type PrivateMessageCreateWithoutRepliesInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replyTo?: PrivateMessageCreateNestedOneWithoutRepliesInput
+    chat: PrivateChatCreateNestedOneWithoutPrivateMessageInput
+    sender: UserCreateNestedOneWithoutSentMessagesInput
+  }
+
+  export type PrivateMessageUncheckedCreateWithoutRepliesInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    chatId: string
+    senderId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    replyToId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PrivateMessageCreateOrConnectWithoutRepliesInput = {
+    where: PrivateMessageWhereUniqueInput
+    create: XOR<PrivateMessageCreateWithoutRepliesInput, PrivateMessageUncheckedCreateWithoutRepliesInput>
+  }
+
+  export type PrivateMessageCreateWithoutReplyToInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: PrivateMessageCreateNestedManyWithoutReplyToInput
+    chat: PrivateChatCreateNestedOneWithoutPrivateMessageInput
+    sender: UserCreateNestedOneWithoutSentMessagesInput
+  }
+
+  export type PrivateMessageUncheckedCreateWithoutReplyToInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    chatId: string
+    senderId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: PrivateMessageUncheckedCreateNestedManyWithoutReplyToInput
+  }
+
+  export type PrivateMessageCreateOrConnectWithoutReplyToInput = {
+    where: PrivateMessageWhereUniqueInput
+    create: XOR<PrivateMessageCreateWithoutReplyToInput, PrivateMessageUncheckedCreateWithoutReplyToInput>
+  }
+
+  export type PrivateMessageCreateManyReplyToInputEnvelope = {
+    data: PrivateMessageCreateManyReplyToInput | PrivateMessageCreateManyReplyToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PrivateChatCreateWithoutPrivateMessageInput = {
+    id?: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user1: UserCreateNestedOneWithoutChatsUser1Input
+    user2: UserCreateNestedOneWithoutChatsUser2Input
+    TypingStatus?: TypingStatusCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatUncheckedCreateWithoutPrivateMessageInput = {
+    id?: string
+    user1Id: string
+    user2Id: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    TypingStatus?: TypingStatusUncheckedCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatCreateOrConnectWithoutPrivateMessageInput = {
+    where: PrivateChatWhereUniqueInput
+    create: XOR<PrivateChatCreateWithoutPrivateMessageInput, PrivateChatUncheckedCreateWithoutPrivateMessageInput>
+  }
+
+  export type UserCreateWithoutSentMessagesInput = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    idDelete?: boolean
+    createAt?: Date | string
+    updateAt?: Date | string
+    deleteAt?: Date | string | null
+    session?: SessionCreateNestedOneWithoutUserInput
+    code?: CodeCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
+    createdGroups?: RoomCreateNestedManyWithoutAuthorInput
+    messages?: MessageCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSentMessagesInput = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    idDelete?: boolean
+    createAt?: Date | string
+    updateAt?: Date | string
+    deleteAt?: Date | string | null
+    session?: SessionUncheckedCreateNestedOneWithoutUserInput
+    code?: CodeUncheckedCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
+    createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSentMessagesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSentMessagesInput, UserUncheckedCreateWithoutSentMessagesInput>
+  }
+
+  export type PrivateMessageUpsertWithoutRepliesInput = {
+    update: XOR<PrivateMessageUpdateWithoutRepliesInput, PrivateMessageUncheckedUpdateWithoutRepliesInput>
+    create: XOR<PrivateMessageCreateWithoutRepliesInput, PrivateMessageUncheckedCreateWithoutRepliesInput>
+    where?: PrivateMessageWhereInput
+  }
+
+  export type PrivateMessageUpdateToOneWithWhereWithoutRepliesInput = {
+    where?: PrivateMessageWhereInput
+    data: XOR<PrivateMessageUpdateWithoutRepliesInput, PrivateMessageUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type PrivateMessageUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replyTo?: PrivateMessageUpdateOneWithoutRepliesNestedInput
+    chat?: PrivateChatUpdateOneRequiredWithoutPrivateMessageNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+  }
+
+  export type PrivateMessageUncheckedUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    chatId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrivateMessageUpsertWithWhereUniqueWithoutReplyToInput = {
+    where: PrivateMessageWhereUniqueInput
+    update: XOR<PrivateMessageUpdateWithoutReplyToInput, PrivateMessageUncheckedUpdateWithoutReplyToInput>
+    create: XOR<PrivateMessageCreateWithoutReplyToInput, PrivateMessageUncheckedCreateWithoutReplyToInput>
+  }
+
+  export type PrivateMessageUpdateWithWhereUniqueWithoutReplyToInput = {
+    where: PrivateMessageWhereUniqueInput
+    data: XOR<PrivateMessageUpdateWithoutReplyToInput, PrivateMessageUncheckedUpdateWithoutReplyToInput>
+  }
+
+  export type PrivateMessageUpdateManyWithWhereWithoutReplyToInput = {
+    where: PrivateMessageScalarWhereInput
+    data: XOR<PrivateMessageUpdateManyMutationInput, PrivateMessageUncheckedUpdateManyWithoutReplyToInput>
+  }
+
+  export type PrivateChatUpsertWithoutPrivateMessageInput = {
+    update: XOR<PrivateChatUpdateWithoutPrivateMessageInput, PrivateChatUncheckedUpdateWithoutPrivateMessageInput>
+    create: XOR<PrivateChatCreateWithoutPrivateMessageInput, PrivateChatUncheckedCreateWithoutPrivateMessageInput>
+    where?: PrivateChatWhereInput
+  }
+
+  export type PrivateChatUpdateToOneWithWhereWithoutPrivateMessageInput = {
+    where?: PrivateChatWhereInput
+    data: XOR<PrivateChatUpdateWithoutPrivateMessageInput, PrivateChatUncheckedUpdateWithoutPrivateMessageInput>
+  }
+
+  export type PrivateChatUpdateWithoutPrivateMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user1?: UserUpdateOneRequiredWithoutChatsUser1NestedInput
+    user2?: UserUpdateOneRequiredWithoutChatsUser2NestedInput
+    TypingStatus?: TypingStatusUpdateManyWithoutChatNestedInput
+  }
+
+  export type PrivateChatUncheckedUpdateWithoutPrivateMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user1Id?: StringFieldUpdateOperationsInput | string
+    user2Id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    TypingStatus?: TypingStatusUncheckedUpdateManyWithoutChatNestedInput
+  }
+
+  export type UserUpsertWithoutSentMessagesInput = {
+    update: XOR<UserUpdateWithoutSentMessagesInput, UserUncheckedUpdateWithoutSentMessagesInput>
+    create: XOR<UserCreateWithoutSentMessagesInput, UserUncheckedCreateWithoutSentMessagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSentMessagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSentMessagesInput, UserUncheckedUpdateWithoutSentMessagesInput>
+  }
+
+  export type UserUpdateWithoutSentMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    idDelete?: BoolFieldUpdateOperationsInput | boolean
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUpdateOneWithoutUserNestedInput
+    code?: CodeUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSentMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    idDelete?: BoolFieldUpdateOperationsInput | boolean
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUncheckedUpdateOneWithoutUserNestedInput
+    code?: CodeUncheckedUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PrivateChatCreateWithoutTypingStatusInput = {
+    id?: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user1: UserCreateNestedOneWithoutChatsUser1Input
+    user2: UserCreateNestedOneWithoutChatsUser2Input
+    PrivateMessage?: PrivateMessageCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatUncheckedCreateWithoutTypingStatusInput = {
+    id?: string
+    user1Id: string
+    user2Id: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    PrivateMessage?: PrivateMessageUncheckedCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatCreateOrConnectWithoutTypingStatusInput = {
+    where: PrivateChatWhereUniqueInput
+    create: XOR<PrivateChatCreateWithoutTypingStatusInput, PrivateChatUncheckedCreateWithoutTypingStatusInput>
+  }
+
+  export type UserCreateWithoutTypingStatusInput = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    idDelete?: boolean
+    createAt?: Date | string
+    updateAt?: Date | string
+    deleteAt?: Date | string | null
+    session?: SessionCreateNestedOneWithoutUserInput
+    code?: CodeCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
+    createdGroups?: RoomCreateNestedManyWithoutAuthorInput
+    messages?: MessageCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+  }
+
+  export type UserUncheckedCreateWithoutTypingStatusInput = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    idDelete?: boolean
+    createAt?: Date | string
+    updateAt?: Date | string
+    deleteAt?: Date | string | null
+    session?: SessionUncheckedCreateNestedOneWithoutUserInput
+    code?: CodeUncheckedCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
+    createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  }
+
+  export type UserCreateOrConnectWithoutTypingStatusInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTypingStatusInput, UserUncheckedCreateWithoutTypingStatusInput>
+  }
+
+  export type PrivateChatUpsertWithoutTypingStatusInput = {
+    update: XOR<PrivateChatUpdateWithoutTypingStatusInput, PrivateChatUncheckedUpdateWithoutTypingStatusInput>
+    create: XOR<PrivateChatCreateWithoutTypingStatusInput, PrivateChatUncheckedCreateWithoutTypingStatusInput>
+    where?: PrivateChatWhereInput
+  }
+
+  export type PrivateChatUpdateToOneWithWhereWithoutTypingStatusInput = {
+    where?: PrivateChatWhereInput
+    data: XOR<PrivateChatUpdateWithoutTypingStatusInput, PrivateChatUncheckedUpdateWithoutTypingStatusInput>
+  }
+
+  export type PrivateChatUpdateWithoutTypingStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user1?: UserUpdateOneRequiredWithoutChatsUser1NestedInput
+    user2?: UserUpdateOneRequiredWithoutChatsUser2NestedInput
+    PrivateMessage?: PrivateMessageUpdateManyWithoutChatNestedInput
+  }
+
+  export type PrivateChatUncheckedUpdateWithoutTypingStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user1Id?: StringFieldUpdateOperationsInput | string
+    user2Id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    PrivateMessage?: PrivateMessageUncheckedUpdateManyWithoutChatNestedInput
+  }
+
+  export type UserUpsertWithoutTypingStatusInput = {
+    update: XOR<UserUpdateWithoutTypingStatusInput, UserUncheckedUpdateWithoutTypingStatusInput>
+    create: XOR<UserCreateWithoutTypingStatusInput, UserUncheckedCreateWithoutTypingStatusInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTypingStatusInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTypingStatusInput, UserUncheckedUpdateWithoutTypingStatusInput>
+  }
+
+  export type UserUpdateWithoutTypingStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    idDelete?: BoolFieldUpdateOperationsInput | boolean
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUpdateOneWithoutUserNestedInput
+    code?: CodeUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTypingStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    idDelete?: BoolFieldUpdateOperationsInput | boolean
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUncheckedUpdateOneWithoutUserNestedInput
+    code?: CodeUncheckedUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   }
 
   export type UserCreateWithoutMessagesInput = {
@@ -16316,6 +22478,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16328,6 +22491,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -16335,6 +22502,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16347,6 +22515,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -16370,6 +22542,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16382,6 +22555,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -16389,6 +22566,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16401,6 +22579,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutReadProgramInput = {
@@ -16408,6 +22590,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16420,6 +22603,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReadProgramInput = {
@@ -16427,6 +22614,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16439,6 +22627,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReadProgramInput = {
@@ -16487,6 +22679,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16499,6 +22692,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReadProgramInput = {
@@ -16506,6 +22703,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16518,6 +22716,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomUpsertWithoutReadProgramsInput = {
@@ -16556,6 +22758,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16568,6 +22771,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     messages?: MessageCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupsInput = {
@@ -16575,6 +22782,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16587,6 +22795,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupsInput = {
@@ -16656,6 +22868,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16668,6 +22881,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
@@ -16675,6 +22892,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16687,6 +22905,10 @@ export namespace Prisma {
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupMemberUpsertWithWhereUniqueWithoutRoomInput = {
@@ -16747,6 +22969,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16759,6 +22982,10 @@ export namespace Prisma {
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
     messages?: MessageCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMemberGroupsInput = {
@@ -16766,6 +22993,7 @@ export namespace Prisma {
     name?: string | null
     birthday?: Date | string | null
     gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
     email: string
     hashedPassword: string
     isActive?: boolean
@@ -16778,6 +23006,10 @@ export namespace Prisma {
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMemberGroupsInput = {
@@ -16843,6 +23075,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16855,6 +23088,10 @@ export namespace Prisma {
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMemberGroupsInput = {
@@ -16862,6 +23099,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -16874,6 +23112,10 @@ export namespace Prisma {
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomUpsertWithoutMembersInput = {
@@ -17140,16 +23382,16 @@ export namespace Prisma {
 
   export type SessionCreateWithoutUserInput = {
     id?: string
-    hasedRefreshToken?: string | null
-    createAt?: Date | string
-    updateAt?: Date | string
+    hashedRefreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionUncheckedCreateWithoutUserInput = {
     id?: string
-    hasedRefreshToken?: string | null
-    createAt?: Date | string
-    updateAt?: Date | string
+    hashedRefreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionCreateOrConnectWithoutUserInput = {
@@ -17161,16 +23403,16 @@ export namespace Prisma {
     id?: string
     code?: string | null
     type: $Enums.CodeType
-    createAt?: Date | string
-    updateAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CodeUncheckedCreateWithoutUserInput = {
     id?: string
     code?: string | null
     type: $Enums.CodeType
-    createAt?: Date | string
-    updateAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CodeCreateOrConnectWithoutUserInput = {
@@ -17283,6 +23525,146 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PrivateChatCreateWithoutUser1Input = {
+    id?: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user2: UserCreateNestedOneWithoutChatsUser2Input
+    PrivateMessage?: PrivateMessageCreateNestedManyWithoutChatInput
+    TypingStatus?: TypingStatusCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatUncheckedCreateWithoutUser1Input = {
+    id?: string
+    user2Id: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    PrivateMessage?: PrivateMessageUncheckedCreateNestedManyWithoutChatInput
+    TypingStatus?: TypingStatusUncheckedCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatCreateOrConnectWithoutUser1Input = {
+    where: PrivateChatWhereUniqueInput
+    create: XOR<PrivateChatCreateWithoutUser1Input, PrivateChatUncheckedCreateWithoutUser1Input>
+  }
+
+  export type PrivateChatCreateManyUser1InputEnvelope = {
+    data: PrivateChatCreateManyUser1Input | PrivateChatCreateManyUser1Input[]
+    skipDuplicates?: boolean
+  }
+
+  export type PrivateChatCreateWithoutUser2Input = {
+    id?: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user1: UserCreateNestedOneWithoutChatsUser1Input
+    PrivateMessage?: PrivateMessageCreateNestedManyWithoutChatInput
+    TypingStatus?: TypingStatusCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatUncheckedCreateWithoutUser2Input = {
+    id?: string
+    user1Id: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    PrivateMessage?: PrivateMessageUncheckedCreateNestedManyWithoutChatInput
+    TypingStatus?: TypingStatusUncheckedCreateNestedManyWithoutChatInput
+  }
+
+  export type PrivateChatCreateOrConnectWithoutUser2Input = {
+    where: PrivateChatWhereUniqueInput
+    create: XOR<PrivateChatCreateWithoutUser2Input, PrivateChatUncheckedCreateWithoutUser2Input>
+  }
+
+  export type PrivateChatCreateManyUser2InputEnvelope = {
+    data: PrivateChatCreateManyUser2Input | PrivateChatCreateManyUser2Input[]
+    skipDuplicates?: boolean
+  }
+
+  export type PrivateMessageCreateWithoutSenderInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replyTo?: PrivateMessageCreateNestedOneWithoutRepliesInput
+    replies?: PrivateMessageCreateNestedManyWithoutReplyToInput
+    chat: PrivateChatCreateNestedOneWithoutPrivateMessageInput
+  }
+
+  export type PrivateMessageUncheckedCreateWithoutSenderInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    chatId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    replyToId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: PrivateMessageUncheckedCreateNestedManyWithoutReplyToInput
+  }
+
+  export type PrivateMessageCreateOrConnectWithoutSenderInput = {
+    where: PrivateMessageWhereUniqueInput
+    create: XOR<PrivateMessageCreateWithoutSenderInput, PrivateMessageUncheckedCreateWithoutSenderInput>
+  }
+
+  export type PrivateMessageCreateManySenderInputEnvelope = {
+    data: PrivateMessageCreateManySenderInput | PrivateMessageCreateManySenderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TypingStatusCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    chat: PrivateChatCreateNestedOneWithoutTypingStatusInput
+  }
+
+  export type TypingStatusUncheckedCreateWithoutUserInput = {
+    id?: string
+    chatId: string
+    createdAt?: Date | string
+  }
+
+  export type TypingStatusCreateOrConnectWithoutUserInput = {
+    where: TypingStatusWhereUniqueInput
+    create: XOR<TypingStatusCreateWithoutUserInput, TypingStatusUncheckedCreateWithoutUserInput>
+  }
+
+  export type TypingStatusCreateManyUserInputEnvelope = {
+    data: TypingStatusCreateManyUserInput | TypingStatusCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithoutUserInput = {
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
     create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
@@ -17296,16 +23678,16 @@ export namespace Prisma {
 
   export type SessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    hasedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    hasedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CodeUpsertWithoutUserInput = {
@@ -17323,16 +23705,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumCodeTypeFieldUpdateOperationsInput | $Enums.CodeType
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CodeUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumCodeTypeFieldUpdateOperationsInput | $Enums.CodeType
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GroupMemberUpsertWithWhereUniqueWithoutUserInput = {
@@ -17423,6 +23805,234 @@ export namespace Prisma {
   export type ReadProgramUpdateManyWithWhereWithoutUserInput = {
     where: ReadProgramScalarWhereInput
     data: XOR<ReadProgramUpdateManyMutationInput, ReadProgramUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PrivateChatUpsertWithWhereUniqueWithoutUser1Input = {
+    where: PrivateChatWhereUniqueInput
+    update: XOR<PrivateChatUpdateWithoutUser1Input, PrivateChatUncheckedUpdateWithoutUser1Input>
+    create: XOR<PrivateChatCreateWithoutUser1Input, PrivateChatUncheckedCreateWithoutUser1Input>
+  }
+
+  export type PrivateChatUpdateWithWhereUniqueWithoutUser1Input = {
+    where: PrivateChatWhereUniqueInput
+    data: XOR<PrivateChatUpdateWithoutUser1Input, PrivateChatUncheckedUpdateWithoutUser1Input>
+  }
+
+  export type PrivateChatUpdateManyWithWhereWithoutUser1Input = {
+    where: PrivateChatScalarWhereInput
+    data: XOR<PrivateChatUpdateManyMutationInput, PrivateChatUncheckedUpdateManyWithoutUser1Input>
+  }
+
+  export type PrivateChatScalarWhereInput = {
+    AND?: PrivateChatScalarWhereInput | PrivateChatScalarWhereInput[]
+    OR?: PrivateChatScalarWhereInput[]
+    NOT?: PrivateChatScalarWhereInput | PrivateChatScalarWhereInput[]
+    id?: UuidFilter<"PrivateChat"> | string
+    user1Id?: UuidFilter<"PrivateChat"> | string
+    user2Id?: UuidFilter<"PrivateChat"> | string
+    lastMessage?: StringNullableFilter<"PrivateChat"> | string | null
+    lastMessageAt?: DateTimeNullableFilter<"PrivateChat"> | Date | string | null
+    user1LastReadIndex?: IntFilter<"PrivateChat"> | number
+    user2LastReadIndex?: IntFilter<"PrivateChat"> | number
+    totalMessages?: IntFilter<"PrivateChat"> | number
+    createdAt?: DateTimeFilter<"PrivateChat"> | Date | string
+    updatedAt?: DateTimeFilter<"PrivateChat"> | Date | string
+  }
+
+  export type PrivateChatUpsertWithWhereUniqueWithoutUser2Input = {
+    where: PrivateChatWhereUniqueInput
+    update: XOR<PrivateChatUpdateWithoutUser2Input, PrivateChatUncheckedUpdateWithoutUser2Input>
+    create: XOR<PrivateChatCreateWithoutUser2Input, PrivateChatUncheckedCreateWithoutUser2Input>
+  }
+
+  export type PrivateChatUpdateWithWhereUniqueWithoutUser2Input = {
+    where: PrivateChatWhereUniqueInput
+    data: XOR<PrivateChatUpdateWithoutUser2Input, PrivateChatUncheckedUpdateWithoutUser2Input>
+  }
+
+  export type PrivateChatUpdateManyWithWhereWithoutUser2Input = {
+    where: PrivateChatScalarWhereInput
+    data: XOR<PrivateChatUpdateManyMutationInput, PrivateChatUncheckedUpdateManyWithoutUser2Input>
+  }
+
+  export type PrivateMessageUpsertWithWhereUniqueWithoutSenderInput = {
+    where: PrivateMessageWhereUniqueInput
+    update: XOR<PrivateMessageUpdateWithoutSenderInput, PrivateMessageUncheckedUpdateWithoutSenderInput>
+    create: XOR<PrivateMessageCreateWithoutSenderInput, PrivateMessageUncheckedCreateWithoutSenderInput>
+  }
+
+  export type PrivateMessageUpdateWithWhereUniqueWithoutSenderInput = {
+    where: PrivateMessageWhereUniqueInput
+    data: XOR<PrivateMessageUpdateWithoutSenderInput, PrivateMessageUncheckedUpdateWithoutSenderInput>
+  }
+
+  export type PrivateMessageUpdateManyWithWhereWithoutSenderInput = {
+    where: PrivateMessageScalarWhereInput
+    data: XOR<PrivateMessageUpdateManyMutationInput, PrivateMessageUncheckedUpdateManyWithoutSenderInput>
+  }
+
+  export type TypingStatusUpsertWithWhereUniqueWithoutUserInput = {
+    where: TypingStatusWhereUniqueInput
+    update: XOR<TypingStatusUpdateWithoutUserInput, TypingStatusUncheckedUpdateWithoutUserInput>
+    create: XOR<TypingStatusCreateWithoutUserInput, TypingStatusUncheckedCreateWithoutUserInput>
+  }
+
+  export type TypingStatusUpdateWithWhereUniqueWithoutUserInput = {
+    where: TypingStatusWhereUniqueInput
+    data: XOR<TypingStatusUpdateWithoutUserInput, TypingStatusUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TypingStatusUpdateManyWithWhereWithoutUserInput = {
+    where: TypingStatusScalarWhereInput
+    data: XOR<TypingStatusUpdateManyMutationInput, TypingStatusUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PrivateMessageCreateManyChatInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    senderId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    replyToId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TypingStatusCreateManyChatInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type PrivateMessageUpdateWithoutChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replyTo?: PrivateMessageUpdateOneWithoutRepliesNestedInput
+    replies?: PrivateMessageUpdateManyWithoutReplyToNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+  }
+
+  export type PrivateMessageUncheckedUpdateWithoutChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    senderId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: PrivateMessageUncheckedUpdateManyWithoutReplyToNestedInput
+  }
+
+  export type PrivateMessageUncheckedUpdateManyWithoutChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    senderId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TypingStatusUpdateWithoutChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTypingStatusNestedInput
+  }
+
+  export type TypingStatusUncheckedUpdateWithoutChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TypingStatusUncheckedUpdateManyWithoutChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrivateMessageCreateManyReplyToInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    chatId: string
+    senderId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PrivateMessageUpdateWithoutReplyToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: PrivateMessageUpdateManyWithoutReplyToNestedInput
+    chat?: PrivateChatUpdateOneRequiredWithoutPrivateMessageNestedInput
+    sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
+  }
+
+  export type PrivateMessageUncheckedUpdateWithoutReplyToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    chatId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: PrivateMessageUncheckedUpdateManyWithoutReplyToNestedInput
+  }
+
+  export type PrivateMessageUncheckedUpdateManyWithoutReplyToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    chatId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GroupMemberCreateManyRoomInput = {
@@ -17578,6 +24188,51 @@ export namespace Prisma {
     roomId: string
   }
 
+  export type PrivateChatCreateManyUser1Input = {
+    id?: string
+    user2Id: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PrivateChatCreateManyUser2Input = {
+    id?: string
+    user1Id: string
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    user1LastReadIndex?: number
+    user2LastReadIndex?: number
+    totalMessages?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PrivateMessageCreateManySenderInput = {
+    id?: string
+    content: string
+    type?: $Enums.MessageType
+    chatId: string
+    messageIndex: number
+    fileUrl?: string | null
+    fileName?: string | null
+    fileSize?: number | null
+    mimeType?: string | null
+    replyToId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TypingStatusCreateManyUserInput = {
+    id?: string
+    chatId: string
+    createdAt?: Date | string
+  }
+
   export type GroupMemberUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     joinAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17672,6 +24327,151 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     lastestMessgaId?: NullableIntFieldUpdateOperationsInput | number | null
     roomId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PrivateChatUpdateWithoutUser1Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user2?: UserUpdateOneRequiredWithoutChatsUser2NestedInput
+    PrivateMessage?: PrivateMessageUpdateManyWithoutChatNestedInput
+    TypingStatus?: TypingStatusUpdateManyWithoutChatNestedInput
+  }
+
+  export type PrivateChatUncheckedUpdateWithoutUser1Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    user2Id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    PrivateMessage?: PrivateMessageUncheckedUpdateManyWithoutChatNestedInput
+    TypingStatus?: TypingStatusUncheckedUpdateManyWithoutChatNestedInput
+  }
+
+  export type PrivateChatUncheckedUpdateManyWithoutUser1Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    user2Id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrivateChatUpdateWithoutUser2Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user1?: UserUpdateOneRequiredWithoutChatsUser1NestedInput
+    PrivateMessage?: PrivateMessageUpdateManyWithoutChatNestedInput
+    TypingStatus?: TypingStatusUpdateManyWithoutChatNestedInput
+  }
+
+  export type PrivateChatUncheckedUpdateWithoutUser2Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    user1Id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    PrivateMessage?: PrivateMessageUncheckedUpdateManyWithoutChatNestedInput
+    TypingStatus?: TypingStatusUncheckedUpdateManyWithoutChatNestedInput
+  }
+
+  export type PrivateChatUncheckedUpdateManyWithoutUser2Input = {
+    id?: StringFieldUpdateOperationsInput | string
+    user1Id?: StringFieldUpdateOperationsInput | string
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user1LastReadIndex?: IntFieldUpdateOperationsInput | number
+    user2LastReadIndex?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrivateMessageUpdateWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replyTo?: PrivateMessageUpdateOneWithoutRepliesNestedInput
+    replies?: PrivateMessageUpdateManyWithoutReplyToNestedInput
+    chat?: PrivateChatUpdateOneRequiredWithoutPrivateMessageNestedInput
+  }
+
+  export type PrivateMessageUncheckedUpdateWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    chatId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: PrivateMessageUncheckedUpdateManyWithoutReplyToNestedInput
+  }
+
+  export type PrivateMessageUncheckedUpdateManyWithoutSenderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+    chatId?: StringFieldUpdateOperationsInput | string
+    messageIndex?: IntFieldUpdateOperationsInput | number
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    mimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TypingStatusUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    chat?: PrivateChatUpdateOneRequiredWithoutTypingStatusNestedInput
+  }
+
+  export type TypingStatusUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TypingStatusUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

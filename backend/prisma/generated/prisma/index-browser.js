@@ -122,10 +122,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
-  hasedRefreshToken: 'hasedRefreshToken',
+  hashedRefreshToken: 'hashedRefreshToken',
   userId: 'userId',
-  createAt: 'createAt',
-  updateAt: 'updateAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.CodeScalarFieldEnum = {
@@ -133,8 +133,44 @@ exports.Prisma.CodeScalarFieldEnum = {
   code: 'code',
   type: 'type',
   userId: 'userId',
-  createAt: 'createAt',
-  updateAt: 'updateAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PrivateChatScalarFieldEnum = {
+  id: 'id',
+  user1Id: 'user1Id',
+  user2Id: 'user2Id',
+  lastMessage: 'lastMessage',
+  lastMessageAt: 'lastMessageAt',
+  user1LastReadIndex: 'user1LastReadIndex',
+  user2LastReadIndex: 'user2LastReadIndex',
+  totalMessages: 'totalMessages',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PrivateMessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  type: 'type',
+  chatId: 'chatId',
+  senderId: 'senderId',
+  messageIndex: 'messageIndex',
+  fileUrl: 'fileUrl',
+  fileName: 'fileName',
+  fileSize: 'fileSize',
+  mimeType: 'mimeType',
+  replyToId: 'replyToId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TypingStatusScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  userId: 'userId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.MessageScalarFieldEnum = {
@@ -194,6 +230,7 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   birthday: 'birthday',
   gender: 'gender',
+  lastSeenAt: 'lastSeenAt',
   email: 'email',
   hashedPassword: 'hashedPassword',
   isActive: 'isActive',
@@ -222,6 +259,18 @@ exports.CodeType = exports.$Enums.CodeType = {
   RESET_PASSWORD: 'RESET_PASSWORD'
 };
 
+exports.MessageType = exports.$Enums.MessageType = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  FILE: 'FILE',
+  VIDEO: 'VIDEO',
+  AUDIO: 'AUDIO',
+  EMOJI: 'EMOJI',
+  STICKER: 'STICKER',
+  LOCATION: 'LOCATION',
+  SYSTEM: 'SYSTEM'
+};
+
 exports.StatusMessage = exports.$Enums.StatusMessage = {
   SENDING: 'SENDING',
   RECEIVED: 'RECEIVED',
@@ -237,6 +286,9 @@ exports.Gender = exports.$Enums.Gender = {
 exports.Prisma.ModelName = {
   Session: 'Session',
   Code: 'Code',
+  PrivateChat: 'PrivateChat',
+  PrivateMessage: 'PrivateMessage',
+  TypingStatus: 'TypingStatus',
   Message: 'Message',
   ReadProgram: 'ReadProgram',
   Room: 'Room',

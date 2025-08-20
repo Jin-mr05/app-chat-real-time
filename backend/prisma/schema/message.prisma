@@ -30,13 +30,6 @@ model ReadProgram {
     @@unique([userId, roomId])
 }
 
-enum MessageType {
-    TEXT
-    IMAGE
-    VIDEO
-    AUDIO
-    FILE
-}
 
 enum StatusMessage {
     SENDING

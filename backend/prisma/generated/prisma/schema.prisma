@@ -1,14 +1,16 @@
 model Session {
   id String @id @default(uuid()) @db.Uuid
 
-  hasedRefreshToken String?
+  hashedRefreshToken String? // Fix typo: hasedRefreshToken -> hashedRefreshToken
 
-  // realtion
-  userId String? @unique @db.Uuid
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  // relation - Fix typo: realtion -> relation
+  userId String @unique @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  createdAt DateTime @default(now()) // Fix typo: createAt -> createdAt
+  updatedAt DateTime @updatedAt // Fix typo: updateAt -> updatedAt
+
+  @@map("sessions") // Thêm table mapping
 }
 
 model Code {
@@ -17,17 +19,112 @@ model Code {
   code String?
   type CodeType
 
-  // realtion 
+  // relation - Fix typo: realtion -> relation
   userId String? @unique @db.Uuid
   user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  createdAt DateTime @default(now()) // Fix typo: createAt -> createdAt
+  updatedAt DateTime @updatedAt // Fix typo: updateAt -> updatedAt
+
+  @@map("codes") // Thêm table mapping
 }
 
 enum CodeType {
   VERIFY
   RESET_PASSWORD
+}
+
+model PrivateChat {
+  id            String    @id @default(uuid()) @db.Uuid
+  user1Id       String    @db.Uuid
+  user2Id       String    @db.Uuid
+  lastMessage   String?
+  lastMessageAt DateTime?
+
+  // Lưu index tin nhắn cuối cùng mà mỗi user đã đọc
+  user1LastReadIndex Int @default(0)
+  user2LastReadIndex Int @default(0)
+
+  // Tổng số tin nhắn để tính unread count nhanh
+  totalMessages Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user1          User             @relation("User1Chats", fields: [user1Id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user2          User             @relation("User2Chats", fields: [user2Id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  PrivateMessage PrivateMessage[]
+  TypingStatus   TypingStatus[]
+
+  // Indexes
+  @@unique([user1Id, user2Id])
+  @@index([user1Id])
+  @@index([user2Id])
+  @@index([lastMessageAt])
+  @@map("private_chats")
+}
+
+model PrivateMessage {
+  id       String      @id @default(uuid()) @db.Uuid
+  content  String      @db.Text
+  type     MessageType @default(TEXT)
+  chatId   String      @db.Uuid
+  senderId String      @db.Uuid
+
+  messageIndex Int
+
+  // Metadata cho file/media
+  fileUrl  String?
+  fileName String?
+  fileSize Int?
+  mimeType String?
+
+  // Reply functionality
+  replyToId String?          @db.Uuid
+  replyTo   PrivateMessage?  @relation("MessageReply", fields: [replyToId], references: [id])
+  replies   PrivateMessage[] @relation("MessageReply")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  chat   PrivateChat @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  sender User        @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@unique([chatId, messageIndex])
+  @@index([chatId, messageIndex])
+  @@index([senderId])
+  @@index([replyToId])
+  @@map("private_messages")
+}
+
+// Enum cho message type
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  VIDEO
+  AUDIO
+  EMOJI
+  STICKER
+  LOCATION
+  SYSTEM // Cho system messages như "User joined", "User left"
+}
+
+// Model riêng cho typing status (optional - có thể dùng Redis)
+model TypingStatus {
+  id     String @id @default(uuid()) @db.Uuid
+  chatId String @db.Uuid
+  userId String @db.Uuid
+
+  createdAt DateTime @default(now())
+
+  chat PrivateChat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([chatId, userId])
+  @@map("typing_status")
 }
 
 model Message {
@@ -60,14 +157,6 @@ model ReadProgram {
   room Room @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([userId, roomId])
-}
-
-enum MessageType {
-  TEXT
-  IMAGE
-  VIDEO
-  AUDIO
-  FILE
 }
 
 enum StatusMessage {
@@ -159,26 +248,34 @@ model User {
   id String @id @default(uuid()) @db.Uuid
 
   // basic detail 
-  name     String?
-  birthday DateTime?
-  gender   Gender?
+  name       String?
+  birthday   DateTime?
+  gender     Gender?
+  lastSeenAt DateTime?
 
   //auth 
-  email          String    @unique
+  email          String  @unique
   hashedPassword String
-  isActive       Boolean   @default(false)
-  idDelete       Boolean   @default(false)
-  createAt       DateTime  @default(now())
-  updateAt       DateTime  @updatedAt
-  deleteAt       DateTime?
+  isActive       Boolean @default(false)
 
-  // realtion
+  idDelete Boolean   @default(false)
+  createAt DateTime  @default(now())
+  updateAt DateTime  @updatedAt
+  deleteAt DateTime?
+
+  // realtion 
   session       Session?
   code          Code?
   memberGroups  GroupMember[]
   createdGroups Room[]
   messages      Message[]
   readProgram   ReadProgram[]
+  chatsUser1    PrivateChat[]    @relation("User1Chats")
+  chatsUser2    PrivateChat[]    @relation("User2Chats")
+  sentMessages  PrivateMessage[] @relation("SentMessages")
+  typingStatus  TypingStatus[]
+
+  @@map("users")
 }
 
 enum Gender {

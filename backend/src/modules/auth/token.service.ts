@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { randomInt } from "crypto";
 import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
@@ -13,9 +12,12 @@ export class TokenService {
     ) { }
     // generate tokens
     async generateToken(userId: string, email: string) {
-
         // create payload
-        const payload = { sub: userId, email: email }
+        const payload = {
+            sub: userId,
+            email: email,
+            timestamp: new Date().toISOString()
+        }
 
         // create accesstoken , refreshtoken
         const [accessToken, refreshToken] = await Promise.all([
@@ -37,11 +39,11 @@ export class TokenService {
         const session = await this.prismaService.session.upsert({
             where: { userId: userId },
             update: {
-                hasedRefreshToken: hashRefreshToken
+                hashedRefreshToken: hashRefreshToken
             },
             create: {
                 userId,
-                hasedRefreshToken: hashRefreshToken
+                hashedRefreshToken: hashRefreshToken
             }
         })
         return session

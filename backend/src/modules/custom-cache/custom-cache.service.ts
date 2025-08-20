@@ -7,12 +7,14 @@ import { AUTH_CONSTANTS } from "../auth/auth.constants";
 import { ROOM_CONSTANTS } from "../room/room.constants";
 import { UserWithRoom } from "../room/type.room";
 import { USER_CONSTANTS } from "../user/user.constants";
+import { CacheMetricsService } from "./cache-metrics.service";
 
 @Injectable()
 export class CustomCacheService {
     constructor(
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
-        private readonly prismaService: PrismaService
+        private readonly prismaService: PrismaService,
+        private readonly cacheMetrics: CacheMetricsService
     ) { }
 
     // global
@@ -26,12 +28,21 @@ export class CustomCacheService {
 
     // find user by email in cache
     async getUserByEmailInCache(email: string): Promise<User | null> {
-        if (!email) return null;
+        const startTime = Date.now();
+        const operation = 'getUserByEmail';
 
-        const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(email)
+        if (!email) {
+            this.cacheMetrics.recordCacheOperation(operation, false, Date.now() - startTime);
+            return null;
+        }
+
+        const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(email);
         const cached = await this.cacheManager.get(key) as User;
 
-        if (cached) return cached;
+        if (cached) {
+            this.cacheMetrics.recordCacheOperation(operation, true, Date.now() - startTime);
+            return cached;
+        }
 
         // fallback to database
         const existingUser = await this.prismaService.user.findUnique({
@@ -40,31 +51,42 @@ export class CustomCacheService {
         });
 
         if (existingUser) {
-            await this.cacheManager.set(key, existingUser, AUTH_CONSTANTS.MAX_AGE_CACHE)
+            await this.cacheManager.set(key, existingUser, AUTH_CONSTANTS.MAX_AGE_CACHE);
         }
 
+        this.cacheMetrics.recordCacheOperation(operation, false, Date.now() - startTime);
         return existingUser;
     }
 
     // find user by id in cache
     async getUserByIdInCache(userId: string): Promise<User | null> {
-        if (!userId || userId === 'unknow') return null;
+        const startTime = Date.now();
+        const operation = 'getUserById';
 
-        const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
-        const cached = await this.cacheManager.get(key) as User
+        if (!userId || userId === 'unknow') {
+            this.cacheMetrics.recordCacheOperation(operation, false, Date.now() - startTime);
+            return null;
+        }
 
-        if (cached) return cached
+        const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId);
+        const cached = await this.cacheManager.get(key) as User;
+
+        if (cached) {
+            this.cacheMetrics.recordCacheOperation(operation, true, Date.now() - startTime);
+            return cached;
+        }
 
         // fallback to database
         const existingUser = await this.prismaService.user.findUnique({
             where: { id: userId }
-        })
+        });
 
         if (existingUser) {
-            await this.cacheManager.set(key, existingUser, AUTH_CONSTANTS.MAX_AGE_CACHE)
+            await this.cacheManager.set(key, existingUser, AUTH_CONSTANTS.MAX_AGE_CACHE);
         }
 
-        return existingUser
+        this.cacheMetrics.recordCacheOperation(operation, false, Date.now() - startTime);
+        return existingUser;
     }
 
     // find user in cache with name
@@ -158,6 +180,105 @@ export class CustomCacheService {
         })
 
         return exitingRoom
+    }
+
+    // Cache warming methods
+
+    // warm cache for frequently active users
+    async warmFrequentUsersCache() {
+        const startTime = Date.now();
+        const operation = 'warmFrequentUsers';
+
+        try {
+            // Get users who have been active recently (last 7 days) and have sessions
+            const frequentUsers = await this.prismaService.user.findMany({
+                where: {
+                    isActive: true,
+                    idDelete: false,
+                    session: {
+                        isNot: null
+                    },
+                    updateAt: {
+                        gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // last 7 days
+                    }
+                },
+                include: {
+                    session: true
+                },
+                orderBy: {
+                    updateAt: 'desc'
+                },
+                take: 100 // limit to top 100 frequent users
+            });
+
+            // Pre-load these users into cache
+            const warmingPromises = frequentUsers.map(async (user) => {
+                const userIdKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(user.id);
+                const userEmailKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(user.email);
+
+                await Promise.all([
+                    this.cacheManager.set(userIdKey, user, AUTH_CONSTANTS.MAX_AGE_CACHE),
+                    this.cacheManager.set(userEmailKey, user, AUTH_CONSTANTS.MAX_AGE_CACHE)
+                ]);
+            });
+
+            await Promise.all(warmingPromises);
+
+            this.cacheMetrics.recordCacheOperation(operation, true, Date.now() - startTime);
+            return {
+                success: true,
+                warmedUsersCount: frequentUsers.length,
+                operation: 'warmFrequentUsersCache'
+            };
+        } catch (error) {
+            this.cacheMetrics.recordCacheOperation(operation, false, Date.now() - startTime);
+            throw error;
+        }
+    }
+
+    // warm cache for specific user (called after login)
+    async warmUserCache(userId: string) {
+        const startTime = Date.now();
+        const operation = 'warmUser';
+
+        try {
+            const user = await this.prismaService.user.findUnique({
+                where: { id: userId },
+                include: {
+                    session: true
+                }
+            });
+
+            if (user) {
+                const userIdKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(user.id);
+                const userEmailKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(user.email);
+
+                await Promise.all([
+                    this.cacheManager.set(userIdKey, user, AUTH_CONSTANTS.MAX_AGE_CACHE),
+                    this.cacheManager.set(userEmailKey, user, AUTH_CONSTANTS.MAX_AGE_CACHE)
+                ]);
+
+                this.cacheMetrics.recordCacheOperation(operation, true, Date.now() - startTime);
+                return user;
+            }
+
+            this.cacheMetrics.recordCacheOperation(operation, false, Date.now() - startTime);
+            return null;
+        } catch (error) {
+            this.cacheMetrics.recordCacheOperation(operation, false, Date.now() - startTime);
+            throw error;
+        }
+    }
+
+    // get cache statistics
+    async getCacheStats() {
+        // This would depend on your cache implementation
+        // For Redis, you could use INFO command
+        // For memory cache, you could track manually
+        return {
+            cacheType: 'memory', // or 'redis'
+            // Add more stats as needed
+        };
     }
 
 

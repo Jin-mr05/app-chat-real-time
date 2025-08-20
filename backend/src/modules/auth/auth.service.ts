@@ -1,20 +1,20 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException, UnauthorizedException, } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from 'argon2';
+import { Cache } from 'cache-manager';
 import { Request, Response } from 'express';
 import { User } from 'prisma/generated/prisma';
 import { EmailProducerService } from 'src/email/email.producer';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CustomCacheService } from '../custom-cache/custom-cache.service';
+import { AUTH_CONSTANTS } from './auth.constants';
 import { ChangepasswordDto } from './dto/ChangePass.dto';
-import { EditDetailDto } from './dto/EditDetail.dto';
+import { EditDetailDto } from '../user/dto/EditDetail.dto';
 import { LoginDto } from './dto/Login.dto';
 import { RegisterDto } from './dto/Register.dto';
 import { TokenService } from './token.service';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
-import { CustomCacheService } from '../custom-cache/custom-cache.service';
-import { AUTH_CONSTANTS } from './auth.constants';
 
 @Injectable()
 export class AuthService {
@@ -28,30 +28,13 @@ export class AuthService {
         @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     ) { }
 
-    // Parse date string with improved validation
-    private parseDateString(dateStr: string): Date | null {
-        if (!dateStr) return null;
-
-        // Support multiple date formats: yyyy/MM/dd, yyyy-MM-dd
-        const match = dateStr.match(/^(\d{4})[\/\-](\d{2})[\/\-](\d{2})$/)
-        if (!match) return null
-
-        const [_, year, month, day] = match
-        const date = new Date(Number(year), Number(month) - 1, Number(day))
-
-        // Validate the date is valid and not in the future
-        if (isNaN(date.getTime()) || date > new Date()) return null
-
-        return date;
-    }
-
     // hashing text
-    async hashing(text: string) {
+    private async hashing(text: string) {
         return await hash(text)
     }
 
     // validate user with access token
-    async validate(accessToken: string): Promise<User> {
+    public async validate(accessToken: string): Promise<User> {
         try {
             // get id from payload
             const payload = await this.jwtService.verifyAsync(accessToken, {
@@ -72,9 +55,9 @@ export class AuthService {
     }
 
     // register new user
-    async register(data: RegisterDto) {
+    public async register(data: RegisterDto) {
         // check if account already exists
-        const existingAccount = await this.customCache.getUserByEmailInCache(data.email);
+        const existingAccount = await this.customCache.getUserByEmailInCache(data.email)
 
         if (existingAccount) throw new ForbiddenException("Account already exists")
 
@@ -88,7 +71,13 @@ export class AuthService {
                 email: data.email,
                 hashedPassword: hashedPassword,
             },
-        });
+        })
+
+        // cache new user
+        const userIdKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(newUser.id);
+        const userEmailKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(newUser.email);
+        await this.cacheManager.set(userIdKey, newUser, AUTH_CONSTANTS.MAX_AGE_CACHE);
+        await this.cacheManager.set(userEmailKey, newUser, AUTH_CONSTANTS.MAX_AGE_CACHE);
 
         const verifyLink = `http://localhost:4000/auth/verify-account?email=${data.email}`
 
@@ -99,18 +88,13 @@ export class AuthService {
         })
 
         return {
-            success: true,
-            message: 'Verification email sent. Please check your inbox.',
-            user: {
-                id: newUser.id,
-                name: newUser.name,
-                email: newUser.email,
-            },
-        };
+            message: 'Register user successful, Verification email sent',
+            data: newUser
+        }
     }
 
     // create session
-    async createSession(user: User, res: Response) {
+    private async createSession(user: { id: string, email: string }, res: Response) {
         // generate tokens
         const tokens = await this.tokenService.generateToken(user.id, user.email)
 
@@ -118,46 +102,40 @@ export class AuthService {
         const hashedRefreshToken = await hash(tokens.refreshToken)
 
         // store tokens
-        const session = await this.tokenService.storeTokens(
-            user.id,
-            hashedRefreshToken,
-        );
+        const session = await this.tokenService.storeTokens(user.id, hashedRefreshToken)
 
-        // set age session
-        res.cookie('session_id', session.id, {
-            maxAge: AUTH_CONSTANTS.MAX_AGE_SESSION_FILE,
-            ...AUTH_CONSTANTS.COOKIE_CONFIG.SESSION
-        });
-
-        // setup tokens
+        // set session
         res
+            .cookie('session_id', session.id, {
+                maxAge: AUTH_CONSTANTS.MAX_AGE_SESSION_FILE,
+                ...AUTH_CONSTANTS.COOKIE_CONFIG
+            })
             .cookie('refresh_token', tokens.refreshToken, {
-                maxAge: AUTH_CONSTANTS.MAX_AGE_ACCESS_TOKEN,
-                ...AUTH_CONSTANTS.COOKIE_CONFIG.ACCESS_TOKEN
+                maxAge: AUTH_CONSTANTS.MAX_AGE_REFRESH_TOKEN,
+                ...AUTH_CONSTANTS.COOKIE_CONFIG
             })
             .cookie('access_token', tokens.accessToken, {
                 maxAge: AUTH_CONSTANTS.MAX_AGE_REFRESH_TOKEN,
-                ...AUTH_CONSTANTS.COOKIE_CONFIG.REFRESH_TOKEN
-            });
+                ...AUTH_CONSTANTS.COOKIE_CONFIG
+            })
 
-        return { tokens, session };
+        return { tokens, session }
     }
 
     // user login
-    async login(data: LoginDto, res: Response) {
+    public async login(data: LoginDto, res: Response) {
         // find account
-        const existingUser = await this.customCache.getUserByEmailInCache(data.email);
+        const existingUser = await this.prismaService.user.findUnique({
+            where: { email: data.email },
+            omit: { hashedPassword: false }
+        })
 
-        if (!existingUser) {
-            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(data.email)
-            await this.customCache.setCacheTempObject(key, null)
-            throw new NotFoundException('Account does not exist')
-        }
+        if (!existingUser) throw new NotFoundException("Email or password is not correct")
 
         // verify password
-        const isMatch = await verify(existingUser.hashedPassword, data.password);
+        const isMatch = await verify(existingUser.hashedPassword, data.password)
 
-        if (!isMatch) throw new UnauthorizedException('Invalid credentials');
+        if (!isMatch) throw new UnauthorizedException('Invalid credentials')
 
         if (!existingUser.isActive) {
             const verifyLink = `http://localhost:4000/auth/verify-account?email=${existingUser.email}`
@@ -165,33 +143,36 @@ export class AuthService {
             await this.emailProducerService.sendNotificationRegister({
                 to: data.email,
                 verifyLink,
-            });
-            throw new ForbiddenException('Account not activated. Verification email sent.');
+            })
+            throw new ForbiddenException('Account not activated. Verification email sent.')
         }
 
         // create session
-        const session = await this.createSession(existingUser, res);
+        const session = await this.createSession(existingUser, res)
 
+        // warm cache for this user (async, don't wait)
+        this.customCache.warmUserCache(existingUser.id).catch(err => {
+            console.error('Cache warming failed:', err)
+        })
 
         // return user without password
-        const { hashedPassword, ...userWithoutPassword } = existingUser;
+        const { hashedPassword, ...userWithoutPassword } = existingUser
 
         return {
-            user: userWithoutPassword,
-            token: session.tokens.accessToken,
-            success: true,
-        };
+            message: 'Login successful',
+            data: userWithoutPassword,
+            '@accessToken': session.tokens.accessToken,
+            '@refreshToken': session.tokens.refreshToken,
+            '@sessionId': session.session.id
+        }
     }
 
     // logout
-    async logout(res: Response, sessionId?: string) {
-        // delete tokens cookie
-        res.clearCookie('access_token').clearCookie('refresh_token');
-
+    public async logout(res: Response, sessionId?: string) {
         // find session
-        const session = await this.prismaService.session.findFirst({
+        const session = await this.prismaService.session.findUnique({
             where: { id: sessionId },
-        });
+        })
 
         const sid = sessionId || res.req.cookies?.session_id;
 
@@ -200,19 +181,23 @@ export class AuthService {
         // delete hasedToken
         await this.prismaService.session.updateMany({
             where: { id: sid, userId: session?.userId },
-            data: { hasedRefreshToken: null },
+            data: { hashedRefreshToken: null },
         });
 
-        // set status
         if (!session?.userId) throw new BadRequestException('User ID not found in session')
 
+        // delete tokens cookie
+        res.clearCookie('access_token', { path: '/' })
+            .clearCookie('refresh_token', { path: '/' })
+            .clearCookie('session_id', { path: '/' })
         return {
-            message: 'Done',
-        };
+            message: 'Logout successful',
+            data: null
+        }
     }
 
     // send verification email
-    async sendVerifyAccount(email: string, userName: string) {
+    public async sendVerifyAccount(email: string, userName: string) {
         // check if account exists
         const existingAccount = await this.customCache.getUserByEmailInCache(email);
 
@@ -236,12 +221,19 @@ export class AuthService {
     }
 
     // verify account
-    async verifyAccount(email: string, res: Response) {
+    public async verifyAccount(email: string, res: Response) {
         // update account
-        await this.prismaService.user.update({
+        const updatedUser = await this.prismaService.user.update({
             where: { email: email },
             data: { isActive: true },
         });
+
+        // update cache
+        const userIdKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(updatedUser.id);
+        const userEmailKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(updatedUser.email);
+        await this.cacheManager.set(userIdKey, updatedUser, AUTH_CONSTANTS.MAX_AGE_CACHE);
+        await this.cacheManager.set(userEmailKey, updatedUser, AUTH_CONSTANTS.MAX_AGE_CACHE);
+
         return res.send(`
             <html>
               <head><title>Verify Success</title></head>
@@ -253,78 +245,40 @@ export class AuthService {
           `);
     }
 
-    // edit user account details
-    async editDetailAccount(data: EditDetailDto, req: Request) {
-        // get user from request
-        const userId = req.user?.id;
-
-        if (!userId) throw new UnauthorizedException('User not authenticated')
-
-        const existingUser = await this.customCache.getUserByIdInCache(userId);
-
-        if (!existingUser) {
-            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
-            await this.customCache.setCacheTempObject(key, null)
-            throw new NotFoundException('User not found');
-        }
-
-        // prepare update data
-        const updateData: any = {};
-        if (data.name !== undefined) updateData.name = data.name;
-        if (data.birthDay !== undefined) updateData.birthday = this.parseDateString(data.birthDay);
-        if (data.gender !== undefined) updateData.gender = data.gender;
-
-        // update user details
-        const updatedUser = await this.prismaService.user.update({
-            where: { id: existingUser.id },
-            data: updateData,
-        });
-
-        // update cache
-        await this.customCache.updateUserCache(userId, updatedUser);
-
-        // return user without password
-        const { hashedPassword, ...userWithoutPassword } = updatedUser;
-        return userWithoutPassword;
-    }
-
     // change user password
-    async changePassword(req: Request, data: ChangepasswordDto) {
-        const userId = req.user?.id;
+    public async changePassword(req: Request, data: ChangepasswordDto) {
+        const userId = req.user?.id
 
         if (!userId) throw new UnauthorizedException('User not authenticated')
 
-        const user = await this.customCache.getUserByIdInCache(userId);
+        const exitingUser = await this.prismaService.user.findUnique({
+            where: { id: userId },
+            omit: { hashedPassword: false }
+        })
 
-        if (!user) {
-            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
-            await this.customCache.setCacheTempObject(key, null)
-            throw new NotFoundException("User not found")
-        }
+        if (!exitingUser) throw new NotFoundException("User not found")
 
         // verify old password
-        const isMatch = await verify(user.hashedPassword, data.oldPassword);
-        if (!isMatch) {
-            throw new BadRequestException('Current password is incorrect');
-        }
+        const isMatch = await verify(exitingUser.hashedPassword, data.oldPassword);
+        if (!isMatch)  throw new BadRequestException('Current password is incorrect')
 
         // hash new password
         const hashedNewPassword = await this.hashing(data.newPassword);
 
         // update password
         const updatedUser = await this.prismaService.user.update({
-            where: { id: user.id },
+            where: { id: exitingUser.id },
             data: { hashedPassword: hashedNewPassword },
         });
 
         // send notification email
         await this.emailProducerService.sendNotificationChangePassword({
-            to: user.email,
-            username: user.name || 'User',
+            to: exitingUser.email,
+            username: exitingUser.name || 'User',
         });
 
         // update cache
-        await this.customCache.updateUserCache(user.id, updatedUser);
+        await this.customCache.updateUserCache(exitingUser.id, updatedUser);
 
         return {
             success: true,
@@ -333,7 +287,7 @@ export class AuthService {
     }
 
     // delete user account (soft delete)
-    async deleteAccount(req: Request) {
+    public async deleteAccount(req: Request) {
         const userId = req.user?.id;
 
         if (!userId) throw new UnauthorizedException('User not authenticated');
@@ -358,14 +312,71 @@ export class AuthService {
             username: existingUser.name || 'User',
         });
 
-        // remove from cache
-        const key = `account:${existingUser.id}`;
-        await this.cacheManager.del(key);
-
+        // remove from cache - use correct keys
+        const userIdKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(existingUser.id);
+        const userEmailKey = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithEmail(existingUser.email);
+        await this.cacheManager.del(userIdKey);
+        await this.cacheManager.del(userEmailKey);
 
         return {
             success: true,
             message: 'Account deleted successfully',
         };
+    }
+
+    // refresh access token using refresh token
+    public async refreshToken(req: Request, res: Response, refreshToken?: string, sessionId?: string) {
+        if (!refreshToken || !sessionId) throw new UnauthorizedException('Refresh token or session ID not found')
+
+        // find session
+        const session = await this.prismaService.session.findUnique({
+            where: { id: sessionId }
+        })
+
+        if (!session || !session.hashedRefreshToken) throw new UnauthorizedException('Invalid session')
+
+        // verify refresh token
+        const isValidRefreshToken = await verify(session.hashedRefreshToken, refreshToken)
+        if (!isValidRefreshToken) throw new UnauthorizedException('Invalid refresh token')
+
+        // get user from cache
+        const existingUser = await this.customCache.getUserByIdInCache(session.userId)
+
+        if (!existingUser) {
+            const key = AUTH_CONSTANTS.CACHE_KEYS.KeyUserWithId(session.userId)
+            await this.customCache.setCacheTempObject(key, null)
+            throw new NotFoundException('User not found')
+        }
+
+        // check if user is active
+        if (!existingUser.isActive || existingUser.idDelete) throw new ForbiddenException('Account is not active or has been deleted')
+
+        // generate new tokens
+        const tokens = await this.tokenService.generateToken(existingUser.id, existingUser.email)
+
+        // hash new refresh token
+        const hashedRefreshToken = await hash(tokens.refreshToken)
+
+        // update session with new refresh token
+        await this.prismaService.session.update({
+            where: { id: sessionId },
+            data: { hashedRefreshToken: hashedRefreshToken },
+        })
+
+        // set new cookies
+        res
+            .cookie('refresh_token', tokens.refreshToken, {
+                maxAge: AUTH_CONSTANTS.MAX_AGE_REFRESH_TOKEN,
+                ...AUTH_CONSTANTS.COOKIE_CONFIG
+            })
+            .cookie('access_token', tokens.accessToken, {
+                maxAge: AUTH_CONSTANTS.MAX_AGE_REFRESH_TOKEN,
+                ...AUTH_CONSTANTS.COOKIE_CONFIG
+            })
+
+        return {
+            message: 'Refreshed',
+            data: null,
+        }
     }
 }

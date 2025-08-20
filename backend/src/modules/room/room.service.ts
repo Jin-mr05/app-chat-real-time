@@ -61,6 +61,12 @@ export class RoomService {
             }
         })
 
+        const adminRole = await this.prismaService.role.findFirst({
+            where: { nameRole: "ADMIN" }
+        });
+
+        if (!adminRole) throw new NotFoundException('Admin role not found')
+
         await this.addMember(req, String(addressUser.name), newRoom.id)
 
         // create permission 
@@ -68,7 +74,7 @@ export class RoomService {
             data: {
                 roomID: newRoom.id,
                 userId: userId,
-                roleId: 'a5cd6770-38ed-4deb-acc4-c32c6cff6f9d'
+                roleId: adminRole.id
             }
         })
 
@@ -108,12 +114,18 @@ export class RoomService {
             throw new NotFoundException("User not found")
         }
 
+        const userRole = await this.prismaService.role.findFirst({
+            where: { nameRole: "MEMBER" }
+        });
+
+        if (!userRole) throw new NotFoundException('Admin role not found')
+
         // add member
         const newMember = await this.prismaService.groupMember.create({
             data: {
                 userId: member.id,
                 roomID: roomId,
-                roleId: 'a5cd6770-38ed-4deb-acc4-c32c6cff6f9d'
+                roleId: userRole.id
             }
         })
 
@@ -121,19 +133,29 @@ export class RoomService {
     }
 
     // remove member
-    async removeMember(userId: string) {
+    async removeMember(req: Request, roomId: string, userId: string) {
         // find user
-        const exitingUser = await this.customCache.getUserByIdInCache(userId)
+        const exitingUser = await this.prismaService.user.findUnique({
+            where: { id: req.user?.id }
+        })
 
-        if (!exitingUser) {
-            const key = ROOM_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
-            await this.customCache.setCacheTempObject(key, null)
-            throw new NotFoundException("Room not found")
-        }
+        if (!exitingUser) throw new NotFoundException("Room not found")
+
+        const exitingAddressUser = await this.prismaService.groupMember.findFirst({
+            where: { userId: userId }
+        })
+
+        if(!exitingAddressUser) throw new NotFoundException("Member not found")
+
+        const exitingRoom = await this.prismaService.room.findUnique({
+            where: { id: roomId }
+        })
+
+        if(!exitingRoom) throw new NotFoundException("Room not found")
 
         // remove user in room
         await this.prismaService.groupMember.delete({
-            where: { id: exitingUser.id }
+            where: { roomID: exitingRoom.id, id: exitingAddressUser.id}
         })
 
         return {

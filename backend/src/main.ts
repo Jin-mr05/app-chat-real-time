@@ -3,11 +3,23 @@ import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { RedisIoAdapter } from './modules/chat/redis.adapter';
 import { ConfigService } from '@nestjs/config';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+// Swagger config
+const swaggerConfig = new DocumentBuilder()
+  .setTitle('Store backend service')
+  .setDescription('Store backend service API description')
+  .setVersion('1.0')
+  .build()
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Swagger
+  const documentFactory = () => SwaggerModule.createDocument(app, swaggerConfig)
+  SwaggerModule.setup('docs', app, documentFactory)
 
   app.enableCors({
     origin: 'http://localhost:3000', // URL của frontend
@@ -30,11 +42,8 @@ async function bootstrap() {
       },
     },
   })
+
   const configService = app.get(ConfigService)
-  const redisIoAdapter = new RedisIoAdapter(configService)
-  await redisIoAdapter.connectToRedis()
-  app.useWebSocketAdapter(redisIoAdapter)
-  app.useWebSocketAdapter(redisIoAdapter)
 
   await app.startAllMicroservices();
   await app.listen(4000);

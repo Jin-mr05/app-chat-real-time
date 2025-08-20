@@ -10,17 +10,19 @@ import { AuthCookieGuard } from './common/guard/auth.cookie.guard';
 import { EmailModule } from './email/email.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronModule } from './cron/cron.module';
-import { ChatModule } from './modules/chat/chat.module';
 import { UserModule } from './modules/user/user.module';
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { RoomModule } from './modules/room/room.module';
+import { StartupService } from './common/startup/startup.service';
+import { PrivateChatModule } from './modules/private-chat/private-chat.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
 
 @Module({
   imports: [
-    CronModule, RoomModule, ChatModule, UserModule, CustomCacheModule, PrismaModule, AuthModule, EmailModule,
+    CronModule, RoomModule, UserModule, CustomCacheModule, PrismaModule, AuthModule, EmailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration]
@@ -37,11 +39,14 @@ const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
           limit: 10,
         },
       ],
-    })
+    }),
+     EventEmitterModule.forRoot(),
+    PrivateChatModule
   ],
   controllers: [AppController],
   providers: [
     AppService,
+    StartupService,
     {
       provide: APP_GUARD,
       inject: [Reflector],

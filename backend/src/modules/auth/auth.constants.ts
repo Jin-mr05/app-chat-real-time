@@ -17,21 +17,10 @@ export const AUTH_CONSTANTS = {
 	// Cookie configuration
 	COOKIE_CONFIG: {
 		SESSION: {
-			httpOnly: false,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax' as const,
-		},
-		REFRESH_TOKEN: {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax' as const,
+			secure: false,
+			sameSite: 'lax',
 			path: '/',
-		},
-		ACCESS_TOKEN: {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax' as const,
-			path: '/',
-		},
-	},
-};
+		}
+	}
+}
