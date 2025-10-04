@@ -90,3 +90,60 @@ model TypingStatus {
     @@unique([chatId, userId])
     @@map("typing_status")
 }
+
+model Chat {
+    id String @id @default(uuid()) @db.Uuid
+
+    type      ChatType
+    name      String?  @db.VarChar(255) // For group chats
+    avatar    String?  @db.Text // For group chats
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // foreign keys
+    createdById String? @db.Uuid // User who created the group chat
+
+    // relations
+    members  ChatMember[]
+    messages Message[]
+
+    @@index([type]) // Index for filtering by chat type
+    @@index([createdAt]) // Index for sorting chats
+    @@index([createdById]) // Index for creator lookup
+    @@map("chats")
+}
+
+model ChatMember {
+    id String @id @default(uuid()) @db.Uuid
+
+    role       ChatMemberRole @default(MEMBER)
+    joinedAt   DateTime       @default(now())
+    lastReadAt DateTime?
+    createdAt  DateTime       @default(now())
+    updatedAt  DateTime       @updatedAt
+
+    // foreign keys
+    chatId String @db.Uuid
+    userId String @db.Uuid
+
+    // relations
+    chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([chatId, userId]) // Ensure user can only be member once per chat
+    @@index([chatId]) // Index for chat lookup
+    @@index([userId]) // Index for user lookup
+    @@index([lastReadAt]) // Index for unread messages query
+    @@index([chatId, userId]) // Composite index for member queries
+    @@map("chat_members")
+}
+
+enum ChatType {
+    DIRECT
+    GROUP
+}
+
+enum ChatMemberRole {
+    ADMIN
+    MEMBER
+}

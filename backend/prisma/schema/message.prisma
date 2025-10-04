@@ -1,38 +1,89 @@
 model Message {
-    id Int @id @default(autoincrement())
+    id String @id @default(uuid()) @db.Uuid
 
-    content String
-    staus   StatusMessage @default(SENDING)
+    content       String?      @db.Text
+    type          MessageTypes  @default(TEXT)
+    attachments   Json? // Array of attachment URLs
+    isEdited      Boolean      @default(false)
+    editedAt      DateTime?
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
 
-    createAt DateTime @default(now())
-    updateAt DateTime @updatedAt
+    // foreign keys
+    chatId          String  @db.Uuid
+    senderId        String  @db.Uuid
+    replyToId       String? @db.Uuid // For replying to messages
+    forwardedFromId String? @db.Uuid // For forwarded messages
 
-    // id room 
-    roomId    String?
-    addressId String?
+    // relations
+    chat           Chat              @relation(fields: [chatId], references: [id], onDelete: Cascade)
+    sender         User              @relation(fields: [senderId], references: [id], onDelete: Cascade)
+    replyTo        Message?          @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: SetNull)
+    replies        Message[]         @relation("MessageReplies")
+    forwardedFrom  Message?          @relation("ForwardedMessages", fields: [forwardedFromId], references: [id], onDelete: SetNull)
+    forwardedTo    Message[]         @relation("ForwardedMessages")
+    readReceipts   ReadReceipt[]
+    reactions      MessageReaction[]
 
-    // realtion
-    userId String @db.Uuid
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    @@index([chatId]) // Index for chat messages lookup
+    @@index([senderId]) // Index for sender lookup
+    @@index([createdAt]) // Index for message ordering
+    @@index([chatId, createdAt]) // Composite index for chat message queries
+    @@index([replyToId]) // Index for reply lookup
+    @@index([forwardedFromId]) // Index for forwarded message lookup
+    @@map("messages")
 }
 
-model ReadProgram {
-    id              String @id @default(uuid()) @db.Uuid
-    lastestMessgaId Int?   @default(0)
+model ReadReceipt {
+    id String @id @default(uuid()) @db.Uuid
 
-    userId String @unique @db.Uuid
-    roomId String  @db.Uuid
+    readAt    DateTime @default(now())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-    // realtion
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    room Room  @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    // foreign keys
+    messageId String @db.Uuid
+    userId    String @db.Uuid
 
-    @@unique([userId, roomId])
+    // relations
+    message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([messageId, userId]) // Ensure user can only read once per message
+    @@index([messageId]) // Index for message lookup
+    @@index([userId]) // Index for user lookup
+    @@index([readAt]) // Index for sorting by read time
+    @@map("read_receipts")
 }
 
+model MessageReaction {
+    id String @id @default(uuid()) @db.Uuid
 
-enum StatusMessage {
-    SENDING
-    RECEIVED
-    READ
+    emoji     String   @db.VarChar(10) // Emoji character or code
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // foreign keys
+    messageId String @db.Uuid
+    userId    String @db.Uuid
+
+    // relations
+    message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([messageId, userId, emoji]) // User can only react once with same emoji per message
+    @@index([messageId]) // Index for message lookup
+    @@index([userId]) // Index for user lookup
+    @@index([messageId, emoji]) // Composite index for reaction queries
+    @@map("message_reactions")
+}
+
+enum MessageTypes {
+    TEXT
+    IMAGE
+    VIDEO
+    AUDIO
+    FILE
+    VOICE
+    LOCATION
 }

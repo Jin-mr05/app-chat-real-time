@@ -123,29 +123,33 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   hashedRefreshToken: 'hashedRefreshToken',
-  userdeviceId: 'userdeviceId',
   userIp: 'userIp',
-  userId: 'userId',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  userDeviceId: 'userDeviceId'
 };
 
 exports.Prisma.CodeScalarFieldEnum = {
   id: 'id',
   code: 'code',
   type: 'type',
-  userId: 'userId',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 };
 
 exports.Prisma.UserDeviceScalarFieldEnum = {
   id: 'id',
   deviceName: 'deviceName',
+  deviceType: 'deviceType',
+  userAgent: 'userAgent',
+  lastUsedAt: 'lastUsedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId',
-  sessionId: 'sessionId'
+  userId: 'userId'
 };
 
 exports.Prisma.PrivateChatScalarFieldEnum = {
@@ -184,22 +188,58 @@ exports.Prisma.TypingStatusScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.MessageScalarFieldEnum = {
+exports.Prisma.ChatScalarFieldEnum = {
   id: 'id',
-  content: 'content',
-  staus: 'staus',
-  createAt: 'createAt',
-  updateAt: 'updateAt',
-  roomId: 'roomId',
-  addressId: 'addressId',
+  type: 'type',
+  name: 'name',
+  avatar: 'avatar',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.ChatMemberScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  joinedAt: 'joinedAt',
+  lastReadAt: 'lastReadAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chatId: 'chatId',
   userId: 'userId'
 };
 
-exports.Prisma.ReadProgramScalarFieldEnum = {
+exports.Prisma.MessageScalarFieldEnum = {
   id: 'id',
-  lastestMessgaId: 'lastestMessgaId',
-  userId: 'userId',
-  roomId: 'roomId'
+  content: 'content',
+  type: 'type',
+  attachments: 'attachments',
+  isEdited: 'isEdited',
+  editedAt: 'editedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chatId: 'chatId',
+  senderId: 'senderId',
+  replyToId: 'replyToId',
+  forwardedFromId: 'forwardedFromId'
+};
+
+exports.Prisma.ReadReceiptScalarFieldEnum = {
+  id: 'id',
+  readAt: 'readAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  messageId: 'messageId',
+  userId: 'userId'
+};
+
+exports.Prisma.MessageReactionScalarFieldEnum = {
+  id: 'id',
+  emoji: 'emoji',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  messageId: 'messageId',
+  userId: 'userId'
 };
 
 exports.Prisma.RoomScalarFieldEnum = {
@@ -236,24 +276,45 @@ exports.Prisma.RolePermissonScalarFieldEnum = {
   roleId: 'roleId'
 };
 
-exports.Prisma.UserScalarFieldEnum = {
+exports.Prisma.FriendRequestScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  birthday: 'birthday',
-  gender: 'gender',
-  lastSeenAt: 'lastSeenAt',
-  email: 'email',
-  hashedPassword: 'hashedPassword',
-  isActive: 'isActive',
-  isDelete: 'isDelete',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  senderId: 'senderId',
+  receiverId: 'receiverId'
+};
+
+exports.Prisma.FriendshipScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  user1Id: 'user1Id',
+  user2Id: 'user2Id'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  fullName: 'fullName',
+  avatar: 'avatar',
+  bio: 'bio',
+  isVerified: 'isVerified',
+  isOnline: 'isOnline',
+  lastSeenAt: 'lastSeenAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  email: 'email',
+  hashedPassword: 'hashedPassword'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -264,6 +325,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.CodeType = exports.$Enums.CodeType = {
   VERIFY: 'VERIFY',
@@ -282,16 +349,30 @@ exports.MessageType = exports.$Enums.MessageType = {
   SYSTEM: 'SYSTEM'
 };
 
-exports.StatusMessage = exports.$Enums.StatusMessage = {
-  SENDING: 'SENDING',
-  RECEIVED: 'RECEIVED',
-  READ: 'READ'
+exports.ChatType = exports.$Enums.ChatType = {
+  DIRECT: 'DIRECT',
+  GROUP: 'GROUP'
 };
 
-exports.Gender = exports.$Enums.Gender = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE',
-  OTHERS: 'OTHERS'
+exports.ChatMemberRole = exports.$Enums.ChatMemberRole = {
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+};
+
+exports.MessageTypes = exports.$Enums.MessageTypes = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  AUDIO: 'AUDIO',
+  FILE: 'FILE',
+  VOICE: 'VOICE',
+  LOCATION: 'LOCATION'
+};
+
+exports.FriendRequestStatus = exports.$Enums.FriendRequestStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
 };
 
 exports.Prisma.ModelName = {
@@ -301,13 +382,18 @@ exports.Prisma.ModelName = {
   PrivateChat: 'PrivateChat',
   PrivateMessage: 'PrivateMessage',
   TypingStatus: 'TypingStatus',
+  Chat: 'Chat',
+  ChatMember: 'ChatMember',
   Message: 'Message',
-  ReadProgram: 'ReadProgram',
+  ReadReceipt: 'ReadReceipt',
+  MessageReaction: 'MessageReaction',
   Room: 'Room',
   GroupMember: 'GroupMember',
   Role: 'Role',
   Permission: 'Permission',
   RolePermisson: 'RolePermisson',
+  FriendRequest: 'FriendRequest',
+  Friendship: 'Friendship',
   User: 'User'
 };
 

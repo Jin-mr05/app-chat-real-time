@@ -2,39 +2,40 @@ model User {
     id String @id @default(uuid()) @db.Uuid
 
     // basic detail 
-    name       String?
-    birthday   DateTime?
-    gender     Gender?
+    fullName   String    @db.VarChar(255)
+    avatar     String?   @db.Text
+    bio        String?   @db.Text
+    isVerified Boolean   @default(false)
+    isOnline   Boolean   @default(false)
     lastSeenAt DateTime?
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
 
     //auth 
-    email          String  @unique
-    hashedPassword String
-    isActive       Boolean @default(false)
+    email          String @unique @db.VarChar(255)
+    hashedPassword String @db.VarChar(255)
 
-    isDelete  Boolean   @default(false)
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime?
+    // relations
+    sessions               Session[]
+    codes                  Code[]
+    userDevices            UserDevice[]
+    sentFriendRequests     FriendRequest[]   @relation("SentFriendRequests")
+    receivedFriendRequests FriendRequest[]   @relation("ReceivedFriendRequests")
+    friendships1           Friendship[]      @relation("User1Friendships")
+    friendships2           Friendship[]      @relation("User2Friendships")
+    chatMembers            ChatMember[]
+    messages               Message[]
+    readReceipts           ReadReceipt[]
+    reactions              MessageReaction[]
+    rooms                  Room[]
+    memberInRoom           GroupMember[]
+    user1                  PrivateChat[]     @relation("User1Chats")
+    user2                  PrivateChat[]     @relation("User2Chats")
+    sender                 PrivateMessage[]  @relation("SentMessages")
+    TypingStatus           TypingStatus[]
 
-    // realtion 
-    session       Session?
-    code          Code?
-    memberGroups  GroupMember[]
-    createdGroups Room[]
-    messages      Message[]
-    readProgram   ReadProgram[]
-    chatsUser1    PrivateChat[]    @relation("User1Chats")
-    chatsUser2    PrivateChat[]    @relation("User2Chats")
-    sentMessages  PrivateMessage[] @relation("SentMessages")
-    typingStatus  TypingStatus[]
-    userDevices   UserDevice[]
-
+    @@index([email]) // Index for login lookup
+    @@index([isOnline]) // Index for online users query
+    @@index([createdAt]) // Index for new users query
     @@map("users")
-}
-
-enum Gender {
-    MALE
-    FEMALE
-    OTHERS
 }

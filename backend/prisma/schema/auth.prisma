@@ -1,46 +1,68 @@
 model Session {
     id String @id @default(uuid()) @db.Uuid
 
-    hashedRefreshToken String?
-    userdeviceId       String   @db.Uuid
-    userIp             String
-    // relation - Fix typo: realtion -> relation
-    userId             String   @unique @db.Uuid
-    user               User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    createdAt          DateTime @default(now()) // Fix typo: createAt -> createdAt
-    updatedAt          DateTime @updatedAt // Fix typo: updateAt -> updatedAt
+    hashedRefreshToken String?   @db.VarChar(255)
+    userIp             String    @db.VarChar(45) // IPv6 max length
+    expiresAt          DateTime? // Thêm field để track session expiration
+    createdAt          DateTime  @default(now())
+    updatedAt          DateTime  @updatedAt
 
-    @@unique([userId, userdeviceId])
-    @@map("sessions") // Thêm table mapping
+    // foreign keys
+    userId       String @db.Uuid
+    userDeviceId String @db.Uuid
+
+    // relations
+    user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userDevice UserDevice @relation(fields: [userDeviceId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, userDeviceId])
+    @@index([userId]) // Index for user lookup
+    @@index([userDeviceId]) // Index for device lookup
+    @@index([createdAt]) // Index for session expiration queries
+    @@index([userId, createdAt]) // Composite index for user's recent sessions
+    @@map("sessions")
 }
 
 model Code {
     id String @id @default(uuid()) @db.Uuid
 
-    code String?
-    type CodeType
+    code      String?  @db.VarChar(10)
+    type      CodeType
+    expiresAt DateTime // Thêm field để track code expiration
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-    // relation - Fix typo: realtion -> relation
+    // foreign keys
     userId String? @unique @db.Uuid
-    user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-    createdAt DateTime @default(now()) // Fix typo: createAt -> createdAt
-    updatedAt DateTime @updatedAt // Fix typo: updateAt -> updatedAt
+    // relations
+    user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-    @@map("codes") // Thêm table mapping
+    @@unique([userId, type]) // Mỗi user chỉ có 1 code active cho mỗi type
+    @@index([userId]) // Index for user lookup
+    @@index([expiresAt]) // Index for cleanup expired codes
+    @@map("codes")
 }
 
 model UserDevice {
     id         String   @id @default(uuid()) @db.Uuid
-    deviceName String
+    deviceName String   @db.VarChar(255)
+    deviceType String?  @db.VarChar(50) // iOS, Android, Web, Desktop
+    userAgent  String?  @db.Text
+    lastUsedAt DateTime @default(now())
     createdAt  DateTime @default(now())
-    updatedAt  DateTime @unique
+    updatedAt  DateTime @updatedAt
 
-    //foreign keys
-    userId    String @db.Uuid
-    sessionId String @db.Uuid
-    //realtions
-    user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    // foreign keys
+    userId String @db.Uuid
+
+    // relations
+    user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    sessions Session[]
+
+    @@index([userId]) // Index for user lookup
+    @@index([lastUsedAt]) // Index for inactive device cleanup
+    @@map("user_devices")
 }
 
 enum CodeType {

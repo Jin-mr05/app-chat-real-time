@@ -12,7 +12,6 @@ model Room {
 
     // realtion
     members      GroupMember[]
-    readPrograms ReadProgram[]
 
 }
 
@@ -60,4 +59,54 @@ model RolePermisson {
     role       Role         @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     // realtion
     permission Permission[]
+}
+
+model FriendRequest {
+    id String @id @default(uuid()) @db.Uuid
+
+    status    FriendRequestStatus @default(PENDING)
+    createdAt DateTime            @default(now())
+    updatedAt DateTime            @updatedAt
+
+    // foreign keys
+    senderId   String @db.Uuid
+    receiverId String @db.Uuid
+
+    // relations
+    sender   User @relation("SentFriendRequests", fields: [senderId], references: [id], onDelete: Cascade)
+    receiver User @relation("ReceivedFriendRequests", fields: [receiverId], references: [id], onDelete: Cascade)
+
+    @@unique([senderId, receiverId]) // Prevent duplicate friend requests
+    @@index([senderId]) // Index for sender lookup
+    @@index([receiverId]) // Index for receiver lookup
+    @@index([status]) // Index for filtering by status
+    @@index([createdAt]) // Index for sorting by date
+    @@map("friend_requests")
+}
+
+model Friendship {
+    id String @id @default(uuid()) @db.Uuid
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // foreign keys
+    user1Id String @db.Uuid
+    user2Id String @db.Uuid
+
+    // relations
+    user1 User @relation("User1Friendships", fields: [user1Id], references: [id], onDelete: Cascade)
+    user2 User @relation("User2Friendships", fields: [user2Id], references: [id], onDelete: Cascade)
+
+    @@unique([user1Id, user2Id]) // Ensure unique friendship
+    @@index([user1Id]) // Index for user1 lookup
+    @@index([user2Id]) // Index for user2 lookup
+    @@index([user1Id, user2Id]) // Composite index for friendship queries
+    @@map("friendships")
+}
+
+enum FriendRequestStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
 }

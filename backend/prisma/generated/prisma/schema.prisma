@@ -1,46 +1,68 @@
 model Session {
   id String @id @default(uuid()) @db.Uuid
 
-  hashedRefreshToken String?
-  userdeviceId       String   @db.Uuid
-  userIp             String
-  // relation - Fix typo: realtion -> relation
-  userId             String   @unique @db.Uuid
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt          DateTime @default(now()) // Fix typo: createAt -> createdAt
-  updatedAt          DateTime @updatedAt // Fix typo: updateAt -> updatedAt
+  hashedRefreshToken String?   @db.VarChar(255)
+  userIp             String    @db.VarChar(45) // IPv6 max length
+  expiresAt          DateTime? // Thêm field để track session expiration
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
-  @@unique([userId, userdeviceId])
-  @@map("sessions") // Thêm table mapping
+  // foreign keys
+  userId       String @db.Uuid
+  userDeviceId String @db.Uuid
+
+  // relations
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userDevice UserDevice @relation(fields: [userDeviceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, userDeviceId])
+  @@index([userId]) // Index for user lookup
+  @@index([userDeviceId]) // Index for device lookup
+  @@index([createdAt]) // Index for session expiration queries
+  @@index([userId, createdAt]) // Composite index for user's recent sessions
+  @@map("sessions")
 }
 
 model Code {
   id String @id @default(uuid()) @db.Uuid
 
-  code String?
-  type CodeType
+  code      String?  @db.VarChar(10)
+  type      CodeType
+  expiresAt DateTime // Thêm field để track code expiration
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  // relation - Fix typo: realtion -> relation
+  // foreign keys
   userId String? @unique @db.Uuid
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt DateTime @default(now()) // Fix typo: createAt -> createdAt
-  updatedAt DateTime @updatedAt // Fix typo: updateAt -> updatedAt
+  // relations
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@map("codes") // Thêm table mapping
+  @@unique([userId, type]) // Mỗi user chỉ có 1 code active cho mỗi type
+  @@index([userId]) // Index for user lookup
+  @@index([expiresAt]) // Index for cleanup expired codes
+  @@map("codes")
 }
 
 model UserDevice {
   id         String   @id @default(uuid()) @db.Uuid
-  deviceName String
+  deviceName String   @db.VarChar(255)
+  deviceType String?  @db.VarChar(50) // iOS, Android, Web, Desktop
+  userAgent  String?  @db.Text
+  lastUsedAt DateTime @default(now())
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @unique
+  updatedAt  DateTime @updatedAt
 
-  //foreign keys
-  userId    String @db.Uuid
-  sessionId String @db.Uuid
-  //realtions
-  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // foreign keys
+  userId String @db.Uuid
+
+  // relations
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions Session[]
+
+  @@index([userId]) // Index for user lookup
+  @@index([lastUsedAt]) // Index for inactive device cleanup
+  @@map("user_devices")
 }
 
 enum CodeType {
@@ -141,42 +163,151 @@ model TypingStatus {
   @@map("typing_status")
 }
 
-model Message {
-  id Int @id @default(autoincrement())
+model Chat {
+  id String @id @default(uuid()) @db.Uuid
 
-  content String
-  staus   StatusMessage @default(SENDING)
+  type      ChatType
+  name      String?  @db.VarChar(255) // For group chats
+  avatar    String?  @db.Text // For group chats
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  // foreign keys
+  createdById String? @db.Uuid // User who created the group chat
 
-  // id room 
-  roomId    String?
-  addressId String?
+  // relations
+  members  ChatMember[]
+  messages Message[]
 
-  // realtion
+  @@index([type]) // Index for filtering by chat type
+  @@index([createdAt]) // Index for sorting chats
+  @@index([createdById]) // Index for creator lookup
+  @@map("chats")
+}
+
+model ChatMember {
+  id String @id @default(uuid()) @db.Uuid
+
+  role       ChatMemberRole @default(MEMBER)
+  joinedAt   DateTime       @default(now())
+  lastReadAt DateTime?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  // foreign keys
+  chatId String @db.Uuid
   userId String @db.Uuid
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  // relations
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([chatId, userId]) // Ensure user can only be member once per chat
+  @@index([chatId]) // Index for chat lookup
+  @@index([userId]) // Index for user lookup
+  @@index([lastReadAt]) // Index for unread messages query
+  @@index([chatId, userId]) // Composite index for member queries
+  @@map("chat_members")
 }
 
-model ReadProgram {
-  id              String @id @default(uuid()) @db.Uuid
-  lastestMessgaId Int?   @default(0)
-
-  userId String @unique @db.Uuid
-  roomId String @db.Uuid
-
-  // realtion
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@unique([userId, roomId])
+enum ChatType {
+  DIRECT
+  GROUP
 }
 
-enum StatusMessage {
-  SENDING
-  RECEIVED
-  READ
+enum ChatMemberRole {
+  ADMIN
+  MEMBER
+}
+
+model Message {
+  id String @id @default(uuid()) @db.Uuid
+
+  content     String?      @db.Text
+  type        MessageTypes @default(TEXT)
+  attachments Json? // Array of attachment URLs
+  isEdited    Boolean      @default(false)
+  editedAt    DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // foreign keys
+  chatId          String  @db.Uuid
+  senderId        String  @db.Uuid
+  replyToId       String? @db.Uuid // For replying to messages
+  forwardedFromId String? @db.Uuid // For forwarded messages
+
+  // relations
+  chat          Chat              @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sender        User              @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  replyTo       Message?          @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: SetNull)
+  replies       Message[]         @relation("MessageReplies")
+  forwardedFrom Message?          @relation("ForwardedMessages", fields: [forwardedFromId], references: [id], onDelete: SetNull)
+  forwardedTo   Message[]         @relation("ForwardedMessages")
+  readReceipts  ReadReceipt[]
+  reactions     MessageReaction[]
+
+  @@index([chatId]) // Index for chat messages lookup
+  @@index([senderId]) // Index for sender lookup
+  @@index([createdAt]) // Index for message ordering
+  @@index([chatId, createdAt]) // Composite index for chat message queries
+  @@index([replyToId]) // Index for reply lookup
+  @@index([forwardedFromId]) // Index for forwarded message lookup
+  @@map("messages")
+}
+
+model ReadReceipt {
+  id String @id @default(uuid()) @db.Uuid
+
+  readAt    DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // foreign keys
+  messageId String @db.Uuid
+  userId    String @db.Uuid
+
+  // relations
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId]) // Ensure user can only read once per message
+  @@index([messageId]) // Index for message lookup
+  @@index([userId]) // Index for user lookup
+  @@index([readAt]) // Index for sorting by read time
+  @@map("read_receipts")
+}
+
+model MessageReaction {
+  id String @id @default(uuid()) @db.Uuid
+
+  emoji     String   @db.VarChar(10) // Emoji character or code
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // foreign keys
+  messageId String @db.Uuid
+  userId    String @db.Uuid
+
+  // relations
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId, emoji]) // User can only react once with same emoji per message
+  @@index([messageId]) // Index for message lookup
+  @@index([userId]) // Index for user lookup
+  @@index([messageId, emoji]) // Composite index for reaction queries
+  @@map("message_reactions")
+}
+
+enum MessageTypes {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  VOICE
+  LOCATION
 }
 
 // This is your Prisma schema file,
@@ -208,8 +339,7 @@ model Room {
   author   User?   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   // realtion
-  members      GroupMember[]
-  readPrograms ReadProgram[]
+  members GroupMember[]
 }
 
 model GroupMember {
@@ -258,43 +388,94 @@ model RolePermisson {
   permission Permission[]
 }
 
+model FriendRequest {
+  id String @id @default(uuid()) @db.Uuid
+
+  status    FriendRequestStatus @default(PENDING)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  // foreign keys
+  senderId   String @db.Uuid
+  receiverId String @db.Uuid
+
+  // relations
+  sender   User @relation("SentFriendRequests", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("ReceivedFriendRequests", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId]) // Prevent duplicate friend requests
+  @@index([senderId]) // Index for sender lookup
+  @@index([receiverId]) // Index for receiver lookup
+  @@index([status]) // Index for filtering by status
+  @@index([createdAt]) // Index for sorting by date
+  @@map("friend_requests")
+}
+
+model Friendship {
+  id String @id @default(uuid()) @db.Uuid
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // foreign keys
+  user1Id String @db.Uuid
+  user2Id String @db.Uuid
+
+  // relations
+  user1 User @relation("User1Friendships", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2 User @relation("User2Friendships", fields: [user2Id], references: [id], onDelete: Cascade)
+
+  @@unique([user1Id, user2Id]) // Ensure unique friendship
+  @@index([user1Id]) // Index for user1 lookup
+  @@index([user2Id]) // Index for user2 lookup
+  @@index([user1Id, user2Id]) // Composite index for friendship queries
+  @@map("friendships")
+}
+
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 model User {
   id String @id @default(uuid()) @db.Uuid
 
   // basic detail 
-  name       String?
-  birthday   DateTime?
-  gender     Gender?
+  fullName   String    @db.VarChar(255)
+  avatar     String?   @db.Text
+  bio        String?   @db.Text
+  isVerified Boolean   @default(false)
+  isOnline   Boolean   @default(false)
   lastSeenAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   //auth 
-  email          String  @unique
-  hashedPassword String
-  isActive       Boolean @default(false)
+  email          String @unique @db.VarChar(255)
+  hashedPassword String @db.VarChar(255)
 
-  isDelete  Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  // relations
+  sessions               Session[]
+  codes                  Code[]
+  userDevices            UserDevice[]
+  sentFriendRequests     FriendRequest[]   @relation("SentFriendRequests")
+  receivedFriendRequests FriendRequest[]   @relation("ReceivedFriendRequests")
+  friendships1           Friendship[]      @relation("User1Friendships")
+  friendships2           Friendship[]      @relation("User2Friendships")
+  chatMembers            ChatMember[]
+  messages               Message[]
+  readReceipts           ReadReceipt[]
+  reactions              MessageReaction[]
+  rooms                  Room[]
+  memberInRoom           GroupMember[]
+  user1                  PrivateChat[]     @relation("User1Chats")
+  user2                  PrivateChat[]     @relation("User2Chats")
+  sender                 PrivateMessage[]  @relation("SentMessages")
+  TypingStatus           TypingStatus[]
 
-  // realtion 
-  session       Session?
-  code          Code?
-  memberGroups  GroupMember[]
-  createdGroups Room[]
-  messages      Message[]
-  readProgram   ReadProgram[]
-  chatsUser1    PrivateChat[]    @relation("User1Chats")
-  chatsUser2    PrivateChat[]    @relation("User2Chats")
-  sentMessages  PrivateMessage[] @relation("SentMessages")
-  typingStatus  TypingStatus[]
-  userDevices   UserDevice[]
-
+  @@index([email]) // Index for login lookup
+  @@index([isOnline]) // Index for online users query
+  @@index([createdAt]) // Index for new users query
   @@map("users")
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHERS
 }
