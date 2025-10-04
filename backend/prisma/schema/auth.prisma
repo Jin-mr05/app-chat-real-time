@@ -1,15 +1,16 @@
 model Session {
     id String @id @default(uuid()) @db.Uuid
 
-    hashedRefreshToken String? // Fix typo: hasedRefreshToken -> hashedRefreshToken
-
+    hashedRefreshToken String?
+    userdeviceId       String   @db.Uuid
+    userIp             String
     // relation - Fix typo: realtion -> relation
-    userId String @unique @db.Uuid
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    userId             String   @unique @db.Uuid
+    user               User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    createdAt          DateTime @default(now()) // Fix typo: createAt -> createdAt
+    updatedAt          DateTime @updatedAt // Fix typo: updateAt -> updatedAt
 
-    createdAt DateTime @default(now()) // Fix typo: createAt -> createdAt
-    updatedAt DateTime @updatedAt // Fix typo: updateAt -> updatedAt
-
+    @@unique([userId, userdeviceId])
     @@map("sessions") // Thêm table mapping
 }
 
@@ -27,6 +28,19 @@ model Code {
     updatedAt DateTime @updatedAt // Fix typo: updateAt -> updatedAt
 
     @@map("codes") // Thêm table mapping
+}
+
+model UserDevice {
+    id         String   @id @default(uuid()) @db.Uuid
+    deviceName String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @unique
+
+    //foreign keys
+    userId    String @db.Uuid
+    sessionId String @db.Uuid
+    //realtions
+    user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum CodeType {

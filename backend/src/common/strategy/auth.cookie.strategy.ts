@@ -1,4 +1,4 @@
-import { AuthService } from "src/modules/auth/auth.service";
+import { AuthService } from "src/modules/auth/services/auth.service";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import type { Request } from "express";
@@ -13,7 +13,7 @@ export class AuthCookieStrategy extends PassportStrategy(Strategy, "auth-cookie"
 	async validate(req: Request): Promise<any> {
 
 		const accessToken = req.cookies?.access_token;
-		
+
 		if (!accessToken) {
 			throw new UnauthorizedException("Access token not found");
 		}

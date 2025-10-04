@@ -1,28 +1,27 @@
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from './prisma/prisma.module';
-import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './modules/auth/auth.module';
 import configuration from './common/config/configuration';
-import { APP_GUARD, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
 import { AuthCookieGuard } from './common/guard/auth.cookie.guard';
-import { EmailModule } from './email/email.module';
-import { ScheduleModule } from '@nestjs/schedule';
-import { CronModule } from './cron/cron.module';
-import { UserModule } from './modules/user/user.module';
-import { CustomCacheModule } from './modules/custom-cache/custom-cache.module';
-import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { RoomModule } from './modules/room/room.module';
 import { StartupService } from './common/startup/startup.service';
+import { CronModule } from './cron/cron.module';
+import { EmailModule } from './email/email.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { PrivateChatModule } from './modules/private-chat/private-chat.module';
-import { EventEmitterModule } from '@nestjs/event-emitter';
+import { RoomModule } from './modules/room/room.module';
+import { UserModule } from './modules/user/user.module';
+import { PrismaModule } from './prisma/prisma.module';
 const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
 
 @Module({
   imports: [
-    CronModule, RoomModule, UserModule, CustomCacheModule, PrismaModule, AuthModule, EmailModule,
+    CronModule, RoomModule, UserModule , PrismaModule, AuthModule, EmailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration]

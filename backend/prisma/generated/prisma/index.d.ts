@@ -24,6 +24,11 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type Code = $Result.DefaultSelection<Prisma.$CodePayload>
 /**
+ * Model UserDevice
+ * 
+ */
+export type UserDevice = $Result.DefaultSelection<Prisma.$UserDevicePayload>
+/**
  * Model PrivateChat
  * 
  */
@@ -190,13 +195,6 @@ export class PrismaClient<
    */
   $disconnect(): $Utils.JsPromise<void>;
 
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
-
 /**
    * Executes a prepared raw query and returns the number of affected rows.
    * @example
@@ -285,6 +283,16 @@ export class PrismaClient<
     * ```
     */
   get code(): Prisma.CodeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userDevice`: Exposes CRUD operations for the **UserDevice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserDevices
+    * const userDevices = await prisma.userDevice.findMany()
+    * ```
+    */
+  get userDevice(): Prisma.UserDeviceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.privateChat`: Exposes CRUD operations for the **PrivateChat** model.
@@ -453,8 +461,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.13.0
-   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
+   * Prisma Client JS version: 6.16.3
+   * Query Engine version: bb420e667c1820a8c05a38023385f6cc7ef8e83a
    */
   export type PrismaVersion = {
     client: string
@@ -837,6 +845,7 @@ export namespace Prisma {
   export const ModelName: {
     Session: 'Session',
     Code: 'Code',
+    UserDevice: 'UserDevice',
     PrivateChat: 'PrivateChat',
     PrivateMessage: 'PrivateMessage',
     TypingStatus: 'TypingStatus',
@@ -866,7 +875,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "session" | "code" | "privateChat" | "privateMessage" | "typingStatus" | "message" | "readProgram" | "room" | "groupMember" | "role" | "permission" | "rolePermisson" | "user"
+      modelProps: "session" | "code" | "userDevice" | "privateChat" | "privateMessage" | "typingStatus" | "message" | "readProgram" | "room" | "groupMember" | "role" | "permission" | "rolePermisson" | "user"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1015,6 +1024,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CodeCountArgs<ExtArgs>
             result: $Utils.Optional<CodeCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserDevice: {
+        payload: Prisma.$UserDevicePayload<ExtArgs>
+        fields: Prisma.UserDeviceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserDeviceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserDeviceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>
+          }
+          findFirst: {
+            args: Prisma.UserDeviceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserDeviceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>
+          }
+          findMany: {
+            args: Prisma.UserDeviceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>[]
+          }
+          create: {
+            args: Prisma.UserDeviceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>
+          }
+          createMany: {
+            args: Prisma.UserDeviceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserDeviceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>[]
+          }
+          delete: {
+            args: Prisma.UserDeviceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>
+          }
+          update: {
+            args: Prisma.UserDeviceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserDeviceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserDeviceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserDeviceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserDeviceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDevicePayload>
+          }
+          aggregate: {
+            args: Prisma.UserDeviceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserDevice>
+          }
+          groupBy: {
+            args: Prisma.UserDeviceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserDeviceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserDeviceCountArgs<ExtArgs>
+            result: $Utils.Optional<UserDeviceCountAggregateOutputType> | number
           }
         }
       }
@@ -1908,6 +1991,10 @@ export namespace Prisma {
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
     /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory | null
+    /**
      * Global configuration for omitting model fields by default.
      * 
      * @example
@@ -1926,6 +2013,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     session?: SessionOmit
     code?: CodeOmit
+    userDevice?: UserDeviceOmit
     privateChat?: PrivateChatOmit
     privateMessage?: PrivateMessageOmit
     typingStatus?: TypingStatusOmit
@@ -1994,25 +2082,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -2226,6 +2295,7 @@ export namespace Prisma {
     chatsUser2: number
     sentMessages: number
     typingStatus: number
+    userDevices: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2237,6 +2307,7 @@ export namespace Prisma {
     chatsUser2?: boolean | UserCountOutputTypeCountChatsUser2Args
     sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
     typingStatus?: boolean | UserCountOutputTypeCountTypingStatusArgs
+    userDevices?: boolean | UserCountOutputTypeCountUserDevicesArgs
   }
 
   // Custom InputTypes
@@ -2306,6 +2377,13 @@ export namespace Prisma {
     where?: TypingStatusWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserDevicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserDeviceWhereInput
+  }
+
 
   /**
    * Models
@@ -2324,6 +2402,8 @@ export namespace Prisma {
   export type SessionMinAggregateOutputType = {
     id: string | null
     hashedRefreshToken: string | null
+    userdeviceId: string | null
+    userIp: string | null
     userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2332,6 +2412,8 @@ export namespace Prisma {
   export type SessionMaxAggregateOutputType = {
     id: string | null
     hashedRefreshToken: string | null
+    userdeviceId: string | null
+    userIp: string | null
     userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2340,6 +2422,8 @@ export namespace Prisma {
   export type SessionCountAggregateOutputType = {
     id: number
     hashedRefreshToken: number
+    userdeviceId: number
+    userIp: number
     userId: number
     createdAt: number
     updatedAt: number
@@ -2350,6 +2434,8 @@ export namespace Prisma {
   export type SessionMinAggregateInputType = {
     id?: true
     hashedRefreshToken?: true
+    userdeviceId?: true
+    userIp?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -2358,6 +2444,8 @@ export namespace Prisma {
   export type SessionMaxAggregateInputType = {
     id?: true
     hashedRefreshToken?: true
+    userdeviceId?: true
+    userIp?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -2366,6 +2454,8 @@ export namespace Prisma {
   export type SessionCountAggregateInputType = {
     id?: true
     hashedRefreshToken?: true
+    userdeviceId?: true
+    userIp?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -2447,6 +2537,8 @@ export namespace Prisma {
   export type SessionGroupByOutputType = {
     id: string
     hashedRefreshToken: string | null
+    userdeviceId: string
+    userIp: string
     userId: string
     createdAt: Date
     updatedAt: Date
@@ -2472,6 +2564,8 @@ export namespace Prisma {
   export type SessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     hashedRefreshToken?: boolean
+    userdeviceId?: boolean
+    userIp?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2481,6 +2575,8 @@ export namespace Prisma {
   export type SessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     hashedRefreshToken?: boolean
+    userdeviceId?: boolean
+    userIp?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2490,6 +2586,8 @@ export namespace Prisma {
   export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     hashedRefreshToken?: boolean
+    userdeviceId?: boolean
+    userIp?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2499,12 +2597,14 @@ export namespace Prisma {
   export type SessionSelectScalar = {
     id?: boolean
     hashedRefreshToken?: boolean
+    userdeviceId?: boolean
+    userIp?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hashedRefreshToken" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hashedRefreshToken" | "userdeviceId" | "userIp" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2523,6 +2623,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       hashedRefreshToken: string | null
+      userdeviceId: string
+      userIp: string
       userId: string
       createdAt: Date
       updatedAt: Date
@@ -2952,6 +3054,8 @@ export namespace Prisma {
   interface SessionFieldRefs {
     readonly id: FieldRef<"Session", 'String'>
     readonly hashedRefreshToken: FieldRef<"Session", 'String'>
+    readonly userdeviceId: FieldRef<"Session", 'String'>
+    readonly userIp: FieldRef<"Session", 'String'>
     readonly userId: FieldRef<"Session", 'String'>
     readonly createdAt: FieldRef<"Session", 'DateTime'>
     readonly updatedAt: FieldRef<"Session", 'DateTime'>
@@ -4456,6 +4560,1077 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CodeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserDevice
+   */
+
+  export type AggregateUserDevice = {
+    _count: UserDeviceCountAggregateOutputType | null
+    _min: UserDeviceMinAggregateOutputType | null
+    _max: UserDeviceMaxAggregateOutputType | null
+  }
+
+  export type UserDeviceMinAggregateOutputType = {
+    id: string | null
+    deviceName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+    sessionId: string | null
+  }
+
+  export type UserDeviceMaxAggregateOutputType = {
+    id: string | null
+    deviceName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+    sessionId: string | null
+  }
+
+  export type UserDeviceCountAggregateOutputType = {
+    id: number
+    deviceName: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    sessionId: number
+    _all: number
+  }
+
+
+  export type UserDeviceMinAggregateInputType = {
+    id?: true
+    deviceName?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    sessionId?: true
+  }
+
+  export type UserDeviceMaxAggregateInputType = {
+    id?: true
+    deviceName?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    sessionId?: true
+  }
+
+  export type UserDeviceCountAggregateInputType = {
+    id?: true
+    deviceName?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    sessionId?: true
+    _all?: true
+  }
+
+  export type UserDeviceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserDevice to aggregate.
+     */
+    where?: UserDeviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserDevices to fetch.
+     */
+    orderBy?: UserDeviceOrderByWithRelationInput | UserDeviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserDeviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserDevices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserDevices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserDevices
+    **/
+    _count?: true | UserDeviceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserDeviceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserDeviceMaxAggregateInputType
+  }
+
+  export type GetUserDeviceAggregateType<T extends UserDeviceAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserDevice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserDevice[P]>
+      : GetScalarType<T[P], AggregateUserDevice[P]>
+  }
+
+
+
+
+  export type UserDeviceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserDeviceWhereInput
+    orderBy?: UserDeviceOrderByWithAggregationInput | UserDeviceOrderByWithAggregationInput[]
+    by: UserDeviceScalarFieldEnum[] | UserDeviceScalarFieldEnum
+    having?: UserDeviceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserDeviceCountAggregateInputType | true
+    _min?: UserDeviceMinAggregateInputType
+    _max?: UserDeviceMaxAggregateInputType
+  }
+
+  export type UserDeviceGroupByOutputType = {
+    id: string
+    deviceName: string
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    sessionId: string
+    _count: UserDeviceCountAggregateOutputType | null
+    _min: UserDeviceMinAggregateOutputType | null
+    _max: UserDeviceMaxAggregateOutputType | null
+  }
+
+  type GetUserDeviceGroupByPayload<T extends UserDeviceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserDeviceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserDeviceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserDeviceGroupByOutputType[P]>
+            : GetScalarType<T[P], UserDeviceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserDeviceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    deviceName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    sessionId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userDevice"]>
+
+  export type UserDeviceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    deviceName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    sessionId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userDevice"]>
+
+  export type UserDeviceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    deviceName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    sessionId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userDevice"]>
+
+  export type UserDeviceSelectScalar = {
+    id?: boolean
+    deviceName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    sessionId?: boolean
+  }
+
+  export type UserDeviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "deviceName" | "createdAt" | "updatedAt" | "userId" | "sessionId", ExtArgs["result"]["userDevice"]>
+  export type UserDeviceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserDeviceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserDeviceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserDevicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserDevice"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      deviceName: string
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+      sessionId: string
+    }, ExtArgs["result"]["userDevice"]>
+    composites: {}
+  }
+
+  type UserDeviceGetPayload<S extends boolean | null | undefined | UserDeviceDefaultArgs> = $Result.GetResult<Prisma.$UserDevicePayload, S>
+
+  type UserDeviceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserDeviceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserDeviceCountAggregateInputType | true
+    }
+
+  export interface UserDeviceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserDevice'], meta: { name: 'UserDevice' } }
+    /**
+     * Find zero or one UserDevice that matches the filter.
+     * @param {UserDeviceFindUniqueArgs} args - Arguments to find a UserDevice
+     * @example
+     * // Get one UserDevice
+     * const userDevice = await prisma.userDevice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserDeviceFindUniqueArgs>(args: SelectSubset<T, UserDeviceFindUniqueArgs<ExtArgs>>): Prisma__UserDeviceClient<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserDevice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserDeviceFindUniqueOrThrowArgs} args - Arguments to find a UserDevice
+     * @example
+     * // Get one UserDevice
+     * const userDevice = await prisma.userDevice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserDeviceFindUniqueOrThrowArgs>(args: SelectSubset<T, UserDeviceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserDeviceClient<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserDevice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDeviceFindFirstArgs} args - Arguments to find a UserDevice
+     * @example
+     * // Get one UserDevice
+     * const userDevice = await prisma.userDevice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserDeviceFindFirstArgs>(args?: SelectSubset<T, UserDeviceFindFirstArgs<ExtArgs>>): Prisma__UserDeviceClient<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserDevice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDeviceFindFirstOrThrowArgs} args - Arguments to find a UserDevice
+     * @example
+     * // Get one UserDevice
+     * const userDevice = await prisma.userDevice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserDeviceFindFirstOrThrowArgs>(args?: SelectSubset<T, UserDeviceFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserDeviceClient<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserDevices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDeviceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserDevices
+     * const userDevices = await prisma.userDevice.findMany()
+     * 
+     * // Get first 10 UserDevices
+     * const userDevices = await prisma.userDevice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userDeviceWithIdOnly = await prisma.userDevice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserDeviceFindManyArgs>(args?: SelectSubset<T, UserDeviceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserDevice.
+     * @param {UserDeviceCreateArgs} args - Arguments to create a UserDevice.
+     * @example
+     * // Create one UserDevice
+     * const UserDevice = await prisma.userDevice.create({
+     *   data: {
+     *     // ... data to create a UserDevice
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserDeviceCreateArgs>(args: SelectSubset<T, UserDeviceCreateArgs<ExtArgs>>): Prisma__UserDeviceClient<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserDevices.
+     * @param {UserDeviceCreateManyArgs} args - Arguments to create many UserDevices.
+     * @example
+     * // Create many UserDevices
+     * const userDevice = await prisma.userDevice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserDeviceCreateManyArgs>(args?: SelectSubset<T, UserDeviceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserDevices and returns the data saved in the database.
+     * @param {UserDeviceCreateManyAndReturnArgs} args - Arguments to create many UserDevices.
+     * @example
+     * // Create many UserDevices
+     * const userDevice = await prisma.userDevice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserDevices and only return the `id`
+     * const userDeviceWithIdOnly = await prisma.userDevice.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserDeviceCreateManyAndReturnArgs>(args?: SelectSubset<T, UserDeviceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserDevice.
+     * @param {UserDeviceDeleteArgs} args - Arguments to delete one UserDevice.
+     * @example
+     * // Delete one UserDevice
+     * const UserDevice = await prisma.userDevice.delete({
+     *   where: {
+     *     // ... filter to delete one UserDevice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserDeviceDeleteArgs>(args: SelectSubset<T, UserDeviceDeleteArgs<ExtArgs>>): Prisma__UserDeviceClient<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserDevice.
+     * @param {UserDeviceUpdateArgs} args - Arguments to update one UserDevice.
+     * @example
+     * // Update one UserDevice
+     * const userDevice = await prisma.userDevice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserDeviceUpdateArgs>(args: SelectSubset<T, UserDeviceUpdateArgs<ExtArgs>>): Prisma__UserDeviceClient<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserDevices.
+     * @param {UserDeviceDeleteManyArgs} args - Arguments to filter UserDevices to delete.
+     * @example
+     * // Delete a few UserDevices
+     * const { count } = await prisma.userDevice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserDeviceDeleteManyArgs>(args?: SelectSubset<T, UserDeviceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserDevices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDeviceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserDevices
+     * const userDevice = await prisma.userDevice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserDeviceUpdateManyArgs>(args: SelectSubset<T, UserDeviceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserDevices and returns the data updated in the database.
+     * @param {UserDeviceUpdateManyAndReturnArgs} args - Arguments to update many UserDevices.
+     * @example
+     * // Update many UserDevices
+     * const userDevice = await prisma.userDevice.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserDevices and only return the `id`
+     * const userDeviceWithIdOnly = await prisma.userDevice.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserDeviceUpdateManyAndReturnArgs>(args: SelectSubset<T, UserDeviceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserDevice.
+     * @param {UserDeviceUpsertArgs} args - Arguments to update or create a UserDevice.
+     * @example
+     * // Update or create a UserDevice
+     * const userDevice = await prisma.userDevice.upsert({
+     *   create: {
+     *     // ... data to create a UserDevice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserDevice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserDeviceUpsertArgs>(args: SelectSubset<T, UserDeviceUpsertArgs<ExtArgs>>): Prisma__UserDeviceClient<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserDevices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDeviceCountArgs} args - Arguments to filter UserDevices to count.
+     * @example
+     * // Count the number of UserDevices
+     * const count = await prisma.userDevice.count({
+     *   where: {
+     *     // ... the filter for the UserDevices we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserDeviceCountArgs>(
+      args?: Subset<T, UserDeviceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserDeviceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserDevice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDeviceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserDeviceAggregateArgs>(args: Subset<T, UserDeviceAggregateArgs>): Prisma.PrismaPromise<GetUserDeviceAggregateType<T>>
+
+    /**
+     * Group by UserDevice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDeviceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserDeviceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserDeviceGroupByArgs['orderBy'] }
+        : { orderBy?: UserDeviceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserDeviceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserDeviceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserDevice model
+   */
+  readonly fields: UserDeviceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserDevice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserDeviceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserDevice model
+   */
+  interface UserDeviceFieldRefs {
+    readonly id: FieldRef<"UserDevice", 'String'>
+    readonly deviceName: FieldRef<"UserDevice", 'String'>
+    readonly createdAt: FieldRef<"UserDevice", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserDevice", 'DateTime'>
+    readonly userId: FieldRef<"UserDevice", 'String'>
+    readonly sessionId: FieldRef<"UserDevice", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserDevice findUnique
+   */
+  export type UserDeviceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDevice to fetch.
+     */
+    where: UserDeviceWhereUniqueInput
+  }
+
+  /**
+   * UserDevice findUniqueOrThrow
+   */
+  export type UserDeviceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDevice to fetch.
+     */
+    where: UserDeviceWhereUniqueInput
+  }
+
+  /**
+   * UserDevice findFirst
+   */
+  export type UserDeviceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDevice to fetch.
+     */
+    where?: UserDeviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserDevices to fetch.
+     */
+    orderBy?: UserDeviceOrderByWithRelationInput | UserDeviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserDevices.
+     */
+    cursor?: UserDeviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserDevices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserDevices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserDevices.
+     */
+    distinct?: UserDeviceScalarFieldEnum | UserDeviceScalarFieldEnum[]
+  }
+
+  /**
+   * UserDevice findFirstOrThrow
+   */
+  export type UserDeviceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDevice to fetch.
+     */
+    where?: UserDeviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserDevices to fetch.
+     */
+    orderBy?: UserDeviceOrderByWithRelationInput | UserDeviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserDevices.
+     */
+    cursor?: UserDeviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserDevices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserDevices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserDevices.
+     */
+    distinct?: UserDeviceScalarFieldEnum | UserDeviceScalarFieldEnum[]
+  }
+
+  /**
+   * UserDevice findMany
+   */
+  export type UserDeviceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDevices to fetch.
+     */
+    where?: UserDeviceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserDevices to fetch.
+     */
+    orderBy?: UserDeviceOrderByWithRelationInput | UserDeviceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserDevices.
+     */
+    cursor?: UserDeviceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserDevices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserDevices.
+     */
+    skip?: number
+    distinct?: UserDeviceScalarFieldEnum | UserDeviceScalarFieldEnum[]
+  }
+
+  /**
+   * UserDevice create
+   */
+  export type UserDeviceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserDevice.
+     */
+    data: XOR<UserDeviceCreateInput, UserDeviceUncheckedCreateInput>
+  }
+
+  /**
+   * UserDevice createMany
+   */
+  export type UserDeviceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserDevices.
+     */
+    data: UserDeviceCreateManyInput | UserDeviceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserDevice createManyAndReturn
+   */
+  export type UserDeviceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserDevices.
+     */
+    data: UserDeviceCreateManyInput | UserDeviceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserDevice update
+   */
+  export type UserDeviceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserDevice.
+     */
+    data: XOR<UserDeviceUpdateInput, UserDeviceUncheckedUpdateInput>
+    /**
+     * Choose, which UserDevice to update.
+     */
+    where: UserDeviceWhereUniqueInput
+  }
+
+  /**
+   * UserDevice updateMany
+   */
+  export type UserDeviceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserDevices.
+     */
+    data: XOR<UserDeviceUpdateManyMutationInput, UserDeviceUncheckedUpdateManyInput>
+    /**
+     * Filter which UserDevices to update
+     */
+    where?: UserDeviceWhereInput
+    /**
+     * Limit how many UserDevices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserDevice updateManyAndReturn
+   */
+  export type UserDeviceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * The data used to update UserDevices.
+     */
+    data: XOR<UserDeviceUpdateManyMutationInput, UserDeviceUncheckedUpdateManyInput>
+    /**
+     * Filter which UserDevices to update
+     */
+    where?: UserDeviceWhereInput
+    /**
+     * Limit how many UserDevices to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserDevice upsert
+   */
+  export type UserDeviceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserDevice to update in case it exists.
+     */
+    where: UserDeviceWhereUniqueInput
+    /**
+     * In case the UserDevice found by the `where` argument doesn't exist, create a new UserDevice with this data.
+     */
+    create: XOR<UserDeviceCreateInput, UserDeviceUncheckedCreateInput>
+    /**
+     * In case the UserDevice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserDeviceUpdateInput, UserDeviceUncheckedUpdateInput>
+  }
+
+  /**
+   * UserDevice delete
+   */
+  export type UserDeviceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    /**
+     * Filter which UserDevice to delete.
+     */
+    where: UserDeviceWhereUniqueInput
+  }
+
+  /**
+   * UserDevice deleteMany
+   */
+  export type UserDeviceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserDevices to delete
+     */
+    where?: UserDeviceWhereInput
+    /**
+     * Limit how many UserDevices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserDevice without action
+   */
+  export type UserDeviceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
   }
 
 
@@ -15673,10 +16848,10 @@ export namespace Prisma {
     email: string | null
     hashedPassword: string | null
     isActive: boolean | null
-    idDelete: boolean | null
-    createAt: Date | null
-    updateAt: Date | null
-    deleteAt: Date | null
+    isDelete: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -15688,10 +16863,10 @@ export namespace Prisma {
     email: string | null
     hashedPassword: string | null
     isActive: boolean | null
-    idDelete: boolean | null
-    createAt: Date | null
-    updateAt: Date | null
-    deleteAt: Date | null
+    isDelete: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -15703,10 +16878,10 @@ export namespace Prisma {
     email: number
     hashedPassword: number
     isActive: number
-    idDelete: number
-    createAt: number
-    updateAt: number
-    deleteAt: number
+    isDelete: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -15720,10 +16895,10 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     isActive?: true
-    idDelete?: true
-    createAt?: true
-    updateAt?: true
-    deleteAt?: true
+    isDelete?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -15735,10 +16910,10 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     isActive?: true
-    idDelete?: true
-    createAt?: true
-    updateAt?: true
-    deleteAt?: true
+    isDelete?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -15750,10 +16925,10 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     isActive?: true
-    idDelete?: true
-    createAt?: true
-    updateAt?: true
-    deleteAt?: true
+    isDelete?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -15838,10 +17013,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive: boolean
-    idDelete: boolean
-    createAt: Date
-    updateAt: Date
-    deleteAt: Date | null
+    isDelete: boolean
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -15870,10 +17045,10 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: boolean
-    updateAt?: boolean
-    deleteAt?: boolean
+    isDelete?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
     session?: boolean | User$sessionArgs<ExtArgs>
     code?: boolean | User$codeArgs<ExtArgs>
     memberGroups?: boolean | User$memberGroupsArgs<ExtArgs>
@@ -15884,6 +17059,7 @@ export namespace Prisma {
     chatsUser2?: boolean | User$chatsUser2Args<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     typingStatus?: boolean | User$typingStatusArgs<ExtArgs>
+    userDevices?: boolean | User$userDevicesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -15896,10 +17072,10 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: boolean
-    updateAt?: boolean
-    deleteAt?: boolean
+    isDelete?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15911,10 +17087,10 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: boolean
-    updateAt?: boolean
-    deleteAt?: boolean
+    isDelete?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -15926,13 +17102,13 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: boolean
-    updateAt?: boolean
-    deleteAt?: boolean
+    isDelete?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "birthday" | "gender" | "lastSeenAt" | "email" | "hashedPassword" | "isActive" | "idDelete" | "createAt" | "updateAt" | "deleteAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "birthday" | "gender" | "lastSeenAt" | "email" | "hashedPassword" | "isActive" | "isDelete" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     session?: boolean | User$sessionArgs<ExtArgs>
     code?: boolean | User$codeArgs<ExtArgs>
@@ -15944,6 +17120,7 @@ export namespace Prisma {
     chatsUser2?: boolean | User$chatsUser2Args<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     typingStatus?: boolean | User$typingStatusArgs<ExtArgs>
+    userDevices?: boolean | User$userDevicesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -15962,6 +17139,7 @@ export namespace Prisma {
       chatsUser2: Prisma.$PrivateChatPayload<ExtArgs>[]
       sentMessages: Prisma.$PrivateMessagePayload<ExtArgs>[]
       typingStatus: Prisma.$TypingStatusPayload<ExtArgs>[]
+      userDevices: Prisma.$UserDevicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15972,10 +17150,10 @@ export namespace Prisma {
       email: string
       hashedPassword: string
       isActive: boolean
-      idDelete: boolean
-      createAt: Date
-      updateAt: Date
-      deleteAt: Date | null
+      isDelete: boolean
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -16380,6 +17558,7 @@ export namespace Prisma {
     chatsUser2<T extends User$chatsUser2Args<ExtArgs> = {}>(args?: Subset<T, User$chatsUser2Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     typingStatus<T extends User$typingStatusArgs<ExtArgs> = {}>(args?: Subset<T, User$typingStatusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TypingStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userDevices<T extends User$userDevicesArgs<ExtArgs> = {}>(args?: Subset<T, User$userDevicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16417,10 +17596,10 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly hashedPassword: FieldRef<"User", 'String'>
     readonly isActive: FieldRef<"User", 'Boolean'>
-    readonly idDelete: FieldRef<"User", 'Boolean'>
-    readonly createAt: FieldRef<"User", 'DateTime'>
-    readonly updateAt: FieldRef<"User", 'DateTime'>
-    readonly deleteAt: FieldRef<"User", 'DateTime'>
+    readonly isDelete: FieldRef<"User", 'Boolean'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly deletedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -17039,6 +18218,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.userDevices
+   */
+  export type User$userDevicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDevice
+     */
+    select?: UserDeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDevice
+     */
+    omit?: UserDeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDeviceInclude<ExtArgs> | null
+    where?: UserDeviceWhereInput
+    orderBy?: UserDeviceOrderByWithRelationInput | UserDeviceOrderByWithRelationInput[]
+    cursor?: UserDeviceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserDeviceScalarFieldEnum | UserDeviceScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17074,6 +18277,8 @@ export namespace Prisma {
   export const SessionScalarFieldEnum: {
     id: 'id',
     hashedRefreshToken: 'hashedRefreshToken',
+    userdeviceId: 'userdeviceId',
+    userIp: 'userIp',
     userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -17092,6 +18297,18 @@ export namespace Prisma {
   };
 
   export type CodeScalarFieldEnum = (typeof CodeScalarFieldEnum)[keyof typeof CodeScalarFieldEnum]
+
+
+  export const UserDeviceScalarFieldEnum: {
+    id: 'id',
+    deviceName: 'deviceName',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId',
+    sessionId: 'sessionId'
+  };
+
+  export type UserDeviceScalarFieldEnum = (typeof UserDeviceScalarFieldEnum)[keyof typeof UserDeviceScalarFieldEnum]
 
 
   export const PrivateChatScalarFieldEnum: {
@@ -17221,10 +18438,10 @@ export namespace Prisma {
     email: 'email',
     hashedPassword: 'hashedPassword',
     isActive: 'isActive',
-    idDelete: 'idDelete',
-    createAt: 'createAt',
-    updateAt: 'updateAt',
-    deleteAt: 'deleteAt'
+    isDelete: 'isDelete',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -17387,6 +18604,8 @@ export namespace Prisma {
     NOT?: SessionWhereInput | SessionWhereInput[]
     id?: UuidFilter<"Session"> | string
     hashedRefreshToken?: StringNullableFilter<"Session"> | string | null
+    userdeviceId?: UuidFilter<"Session"> | string
+    userIp?: StringFilter<"Session"> | string
     userId?: UuidFilter<"Session"> | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     updatedAt?: DateTimeFilter<"Session"> | Date | string
@@ -17396,6 +18615,8 @@ export namespace Prisma {
   export type SessionOrderByWithRelationInput = {
     id?: SortOrder
     hashedRefreshToken?: SortOrderInput | SortOrder
+    userdeviceId?: SortOrder
+    userIp?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17405,18 +18626,23 @@ export namespace Prisma {
   export type SessionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     userId?: string
+    userId_userdeviceId?: SessionUserIdUserdeviceIdCompoundUniqueInput
     AND?: SessionWhereInput | SessionWhereInput[]
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
     hashedRefreshToken?: StringNullableFilter<"Session"> | string | null
+    userdeviceId?: UuidFilter<"Session"> | string
+    userIp?: StringFilter<"Session"> | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     updatedAt?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "userId">
+  }, "id" | "userId" | "userId_userdeviceId">
 
   export type SessionOrderByWithAggregationInput = {
     id?: SortOrder
     hashedRefreshToken?: SortOrderInput | SortOrder
+    userdeviceId?: SortOrder
+    userIp?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17431,6 +18657,8 @@ export namespace Prisma {
     NOT?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Session"> | string
     hashedRefreshToken?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    userdeviceId?: UuidWithAggregatesFilter<"Session"> | string
+    userIp?: StringWithAggregatesFilter<"Session"> | string
     userId?: UuidWithAggregatesFilter<"Session"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
@@ -17494,6 +18722,66 @@ export namespace Prisma {
     userId?: UuidNullableWithAggregatesFilter<"Code"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Code"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Code"> | Date | string
+  }
+
+  export type UserDeviceWhereInput = {
+    AND?: UserDeviceWhereInput | UserDeviceWhereInput[]
+    OR?: UserDeviceWhereInput[]
+    NOT?: UserDeviceWhereInput | UserDeviceWhereInput[]
+    id?: UuidFilter<"UserDevice"> | string
+    deviceName?: StringFilter<"UserDevice"> | string
+    createdAt?: DateTimeFilter<"UserDevice"> | Date | string
+    updatedAt?: DateTimeFilter<"UserDevice"> | Date | string
+    userId?: UuidFilter<"UserDevice"> | string
+    sessionId?: UuidFilter<"UserDevice"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserDeviceOrderByWithRelationInput = {
+    id?: SortOrder
+    deviceName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    sessionId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserDeviceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    updatedAt?: Date | string
+    AND?: UserDeviceWhereInput | UserDeviceWhereInput[]
+    OR?: UserDeviceWhereInput[]
+    NOT?: UserDeviceWhereInput | UserDeviceWhereInput[]
+    deviceName?: StringFilter<"UserDevice"> | string
+    createdAt?: DateTimeFilter<"UserDevice"> | Date | string
+    userId?: UuidFilter<"UserDevice"> | string
+    sessionId?: UuidFilter<"UserDevice"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "updatedAt">
+
+  export type UserDeviceOrderByWithAggregationInput = {
+    id?: SortOrder
+    deviceName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    sessionId?: SortOrder
+    _count?: UserDeviceCountOrderByAggregateInput
+    _max?: UserDeviceMaxOrderByAggregateInput
+    _min?: UserDeviceMinOrderByAggregateInput
+  }
+
+  export type UserDeviceScalarWhereWithAggregatesInput = {
+    AND?: UserDeviceScalarWhereWithAggregatesInput | UserDeviceScalarWhereWithAggregatesInput[]
+    OR?: UserDeviceScalarWhereWithAggregatesInput[]
+    NOT?: UserDeviceScalarWhereWithAggregatesInput | UserDeviceScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"UserDevice"> | string
+    deviceName?: StringWithAggregatesFilter<"UserDevice"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"UserDevice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserDevice"> | Date | string
+    userId?: UuidWithAggregatesFilter<"UserDevice"> | string
+    sessionId?: UuidWithAggregatesFilter<"UserDevice"> | string
   }
 
   export type PrivateChatWhereInput = {
@@ -18155,10 +19443,10 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     hashedPassword?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
-    idDelete?: BoolFilter<"User"> | boolean
-    createAt?: DateTimeFilter<"User"> | Date | string
-    updateAt?: DateTimeFilter<"User"> | Date | string
-    deleteAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    isDelete?: BoolFilter<"User"> | boolean
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     session?: XOR<SessionNullableScalarRelationFilter, SessionWhereInput> | null
     code?: XOR<CodeNullableScalarRelationFilter, CodeWhereInput> | null
     memberGroups?: GroupMemberListRelationFilter
@@ -18169,6 +19457,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatListRelationFilter
     sentMessages?: PrivateMessageListRelationFilter
     typingStatus?: TypingStatusListRelationFilter
+    userDevices?: UserDeviceListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -18180,10 +19469,10 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
-    idDelete?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
-    deleteAt?: SortOrderInput | SortOrder
+    isDelete?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     session?: SessionOrderByWithRelationInput
     code?: CodeOrderByWithRelationInput
     memberGroups?: GroupMemberOrderByRelationAggregateInput
@@ -18194,6 +19483,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatOrderByRelationAggregateInput
     sentMessages?: PrivateMessageOrderByRelationAggregateInput
     typingStatus?: TypingStatusOrderByRelationAggregateInput
+    userDevices?: UserDeviceOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -18208,10 +19498,10 @@ export namespace Prisma {
     lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     hashedPassword?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
-    idDelete?: BoolFilter<"User"> | boolean
-    createAt?: DateTimeFilter<"User"> | Date | string
-    updateAt?: DateTimeFilter<"User"> | Date | string
-    deleteAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    isDelete?: BoolFilter<"User"> | boolean
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     session?: XOR<SessionNullableScalarRelationFilter, SessionWhereInput> | null
     code?: XOR<CodeNullableScalarRelationFilter, CodeWhereInput> | null
     memberGroups?: GroupMemberListRelationFilter
@@ -18222,6 +19512,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatListRelationFilter
     sentMessages?: PrivateMessageListRelationFilter
     typingStatus?: TypingStatusListRelationFilter
+    userDevices?: UserDeviceListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -18233,10 +19524,10 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
-    idDelete?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
-    deleteAt?: SortOrderInput | SortOrder
+    isDelete?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -18254,15 +19545,17 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     hashedPassword?: StringWithAggregatesFilter<"User"> | string
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
-    idDelete?: BoolWithAggregatesFilter<"User"> | boolean
-    createAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updateAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    deleteAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    isDelete?: BoolWithAggregatesFilter<"User"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type SessionCreateInput = {
     id?: string
     hashedRefreshToken?: string | null
+    userdeviceId: string
+    userIp: string
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutSessionInput
@@ -18271,6 +19564,8 @@ export namespace Prisma {
   export type SessionUncheckedCreateInput = {
     id?: string
     hashedRefreshToken?: string | null
+    userdeviceId: string
+    userIp: string
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18279,6 +19574,8 @@ export namespace Prisma {
   export type SessionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    userdeviceId?: StringFieldUpdateOperationsInput | string
+    userIp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSessionNestedInput
@@ -18287,6 +19584,8 @@ export namespace Prisma {
   export type SessionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    userdeviceId?: StringFieldUpdateOperationsInput | string
+    userIp?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18295,6 +19594,8 @@ export namespace Prisma {
   export type SessionCreateManyInput = {
     id?: string
     hashedRefreshToken?: string | null
+    userdeviceId: string
+    userIp: string
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18303,6 +19604,8 @@ export namespace Prisma {
   export type SessionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    userdeviceId?: StringFieldUpdateOperationsInput | string
+    userIp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18310,6 +19613,8 @@ export namespace Prisma {
   export type SessionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    userdeviceId?: StringFieldUpdateOperationsInput | string
+    userIp?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18375,6 +19680,68 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDeviceCreateInput = {
+    id?: string
+    deviceName: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    sessionId: string
+    user: UserCreateNestedOneWithoutUserDevicesInput
+  }
+
+  export type UserDeviceUncheckedCreateInput = {
+    id?: string
+    deviceName: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    userId: string
+    sessionId: string
+  }
+
+  export type UserDeviceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutUserDevicesNestedInput
+  }
+
+  export type UserDeviceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserDeviceCreateManyInput = {
+    id?: string
+    deviceName: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    userId: string
+    sessionId: string
+  }
+
+  export type UserDeviceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserDeviceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PrivateChatCreateInput = {
@@ -19015,10 +20382,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
@@ -19029,6 +20396,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -19040,10 +20408,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
@@ -19054,6 +20422,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -19065,10 +20434,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
@@ -19079,6 +20448,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -19090,10 +20460,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -19104,6 +20474,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -19115,10 +20486,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -19130,10 +20501,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -19145,10 +20516,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -19178,6 +20549,21 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -19199,9 +20585,16 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
+  export type SessionUserIdUserdeviceIdCompoundUniqueInput = {
+    userId: string
+    userdeviceId: string
+  }
+
   export type SessionCountOrderByAggregateInput = {
     id?: SortOrder
     hashedRefreshToken?: SortOrder
+    userdeviceId?: SortOrder
+    userIp?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19210,6 +20603,8 @@ export namespace Prisma {
   export type SessionMaxOrderByAggregateInput = {
     id?: SortOrder
     hashedRefreshToken?: SortOrder
+    userdeviceId?: SortOrder
+    userIp?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19218,6 +20613,8 @@ export namespace Prisma {
   export type SessionMinOrderByAggregateInput = {
     id?: SortOrder
     hashedRefreshToken?: SortOrder
+    userdeviceId?: SortOrder
+    userIp?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19254,6 +20651,24 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -19344,6 +20759,33 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type UserDeviceCountOrderByAggregateInput = {
+    id?: SortOrder
+    deviceName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    sessionId?: SortOrder
+  }
+
+  export type UserDeviceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    deviceName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    sessionId?: SortOrder
+  }
+
+  export type UserDeviceMinOrderByAggregateInput = {
+    id?: SortOrder
+    deviceName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    sessionId?: SortOrder
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -19474,21 +20916,6 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type StringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringFilter<$PrismaModel> | string
-  }
-
   export type EnumMessageTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.MessageType | EnumMessageTypeFieldRefInput<$PrismaModel>
     in?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
@@ -19578,24 +21005,6 @@ export namespace Prisma {
   export type PrivateMessageSumOrderByAggregateInput = {
     messageIndex?: SortOrder
     fileSize?: SortOrder
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type EnumMessageTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -19952,6 +21361,12 @@ export namespace Prisma {
     none?: PrivateChatWhereInput
   }
 
+  export type UserDeviceListRelationFilter = {
+    every?: UserDeviceWhereInput
+    some?: UserDeviceWhereInput
+    none?: UserDeviceWhereInput
+  }
+
   export type RoomOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -19964,6 +21379,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type UserDeviceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -19973,10 +21392,10 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
-    idDelete?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
-    deleteAt?: SortOrder
+    isDelete?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -19988,10 +21407,10 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
-    idDelete?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
-    deleteAt?: SortOrder
+    isDelete?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -20003,10 +21422,10 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     isActive?: SortOrder
-    idDelete?: SortOrder
-    createAt?: SortOrder
-    updateAt?: SortOrder
-    deleteAt?: SortOrder
+    isDelete?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type EnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -20071,6 +21490,20 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCodeInput, UserUpdateWithoutCodeInput>, UserUncheckedUpdateWithoutCodeInput>
+  }
+
+  export type UserCreateNestedOneWithoutUserDevicesInput = {
+    create?: XOR<UserCreateWithoutUserDevicesInput, UserUncheckedCreateWithoutUserDevicesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserDevicesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutUserDevicesNestedInput = {
+    create?: XOR<UserCreateWithoutUserDevicesInput, UserUncheckedCreateWithoutUserDevicesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserDevicesInput
+    upsert?: UserUpsertWithoutUserDevicesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserDevicesInput, UserUpdateWithoutUserDevicesInput>, UserUncheckedUpdateWithoutUserDevicesInput>
   }
 
   export type UserCreateNestedOneWithoutChatsUser1Input = {
@@ -20735,6 +22168,13 @@ export namespace Prisma {
     connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
   }
 
+  export type UserDeviceCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserDeviceCreateWithoutUserInput, UserDeviceUncheckedCreateWithoutUserInput> | UserDeviceCreateWithoutUserInput[] | UserDeviceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserDeviceCreateOrConnectWithoutUserInput | UserDeviceCreateOrConnectWithoutUserInput[]
+    createMany?: UserDeviceCreateManyUserInputEnvelope
+    connect?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput
@@ -20801,6 +22241,13 @@ export namespace Prisma {
     connectOrCreate?: TypingStatusCreateOrConnectWithoutUserInput | TypingStatusCreateOrConnectWithoutUserInput[]
     createMany?: TypingStatusCreateManyUserInputEnvelope
     connect?: TypingStatusWhereUniqueInput | TypingStatusWhereUniqueInput[]
+  }
+
+  export type UserDeviceUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserDeviceCreateWithoutUserInput, UserDeviceUncheckedCreateWithoutUserInput> | UserDeviceCreateWithoutUserInput[] | UserDeviceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserDeviceCreateOrConnectWithoutUserInput | UserDeviceCreateOrConnectWithoutUserInput[]
+    createMany?: UserDeviceCreateManyUserInputEnvelope
+    connect?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
   }
 
   export type NullableEnumGenderFieldUpdateOperationsInput = {
@@ -20943,6 +22390,20 @@ export namespace Prisma {
     deleteMany?: TypingStatusScalarWhereInput | TypingStatusScalarWhereInput[]
   }
 
+  export type UserDeviceUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserDeviceCreateWithoutUserInput, UserDeviceUncheckedCreateWithoutUserInput> | UserDeviceCreateWithoutUserInput[] | UserDeviceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserDeviceCreateOrConnectWithoutUserInput | UserDeviceCreateOrConnectWithoutUserInput[]
+    upsert?: UserDeviceUpsertWithWhereUniqueWithoutUserInput | UserDeviceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserDeviceCreateManyUserInputEnvelope
+    set?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+    disconnect?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+    delete?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+    connect?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+    update?: UserDeviceUpdateWithWhereUniqueWithoutUserInput | UserDeviceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserDeviceUpdateManyWithWhereWithoutUserInput | UserDeviceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserDeviceScalarWhereInput | UserDeviceScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput
@@ -21075,6 +22536,20 @@ export namespace Prisma {
     deleteMany?: TypingStatusScalarWhereInput | TypingStatusScalarWhereInput[]
   }
 
+  export type UserDeviceUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserDeviceCreateWithoutUserInput, UserDeviceUncheckedCreateWithoutUserInput> | UserDeviceCreateWithoutUserInput[] | UserDeviceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserDeviceCreateOrConnectWithoutUserInput | UserDeviceCreateOrConnectWithoutUserInput[]
+    upsert?: UserDeviceUpsertWithWhereUniqueWithoutUserInput | UserDeviceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserDeviceCreateManyUserInputEnvelope
+    set?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+    disconnect?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+    delete?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+    connect?: UserDeviceWhereUniqueInput | UserDeviceWhereUniqueInput[]
+    update?: UserDeviceUpdateWithWhereUniqueWithoutUserInput | UserDeviceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserDeviceUpdateManyWithWhereWithoutUserInput | UserDeviceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserDeviceScalarWhereInput | UserDeviceScalarWhereInput[]
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -21098,6 +22573,20 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -21136,20 +22625,6 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedStringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringFilter<$PrismaModel> | string
-  }
-
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -21176,6 +22651,23 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -21293,23 +22785,6 @@ export namespace Prisma {
     not?: NestedEnumMessageTypeFilter<$PrismaModel> | $Enums.MessageType
   }
 
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
   export type NestedEnumMessageTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.MessageType | EnumMessageTypeFieldRefInput<$PrismaModel>
     in?: $Enums.MessageType[] | ListEnumMessageTypeFieldRefInput<$PrismaModel>
@@ -21403,10 +22878,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
@@ -21416,6 +22891,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
@@ -21427,10 +22903,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
@@ -21440,6 +22916,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -21467,10 +22944,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
@@ -21480,6 +22957,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
@@ -21491,10 +22969,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
@@ -21504,6 +22982,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCodeInput = {
@@ -21515,10 +22994,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
@@ -21528,6 +23007,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCodeInput = {
@@ -21539,10 +23019,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
@@ -21552,6 +23032,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCodeInput = {
@@ -21579,10 +23060,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
@@ -21592,6 +23073,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCodeInput = {
@@ -21603,11 +23085,128 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUncheckedUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutUserDevicesInput = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    session?: SessionCreateNestedOneWithoutUserInput
+    code?: CodeCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
+    createdGroups?: RoomCreateNestedManyWithoutAuthorInput
+    messages?: MessageCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUserDevicesInput = {
+    id?: string
+    name?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    lastSeenAt?: Date | string | null
+    email: string
+    hashedPassword: string
+    isActive?: boolean
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    session?: SessionUncheckedCreateNestedOneWithoutUserInput
+    code?: CodeUncheckedCreateNestedOneWithoutUserInput
+    memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
+    createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    readProgram?: ReadProgramUncheckedCreateNestedManyWithoutUserInput
+    chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
+    chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
+    sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUserDevicesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserDevicesInput, UserUncheckedCreateWithoutUserDevicesInput>
+  }
+
+  export type UserUpsertWithoutUserDevicesInput = {
+    update: XOR<UserUpdateWithoutUserDevicesInput, UserUncheckedUpdateWithoutUserDevicesInput>
+    create: XOR<UserCreateWithoutUserDevicesInput, UserUncheckedCreateWithoutUserDevicesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserDevicesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserDevicesInput, UserUncheckedUpdateWithoutUserDevicesInput>
+  }
+
+  export type UserUpdateWithoutUserDevicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUpdateOneWithoutUserNestedInput
+    code?: CodeUpdateOneWithoutUserNestedInput
+    memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
+    createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
+    messages?: MessageUpdateManyWithoutUserNestedInput
+    readProgram?: ReadProgramUpdateManyWithoutUserNestedInput
+    chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
+    chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
+    sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserDevicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUncheckedUpdateOneWithoutUserNestedInput
+    code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
@@ -21627,10 +23226,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
@@ -21640,6 +23239,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChatsUser1Input = {
@@ -21651,10 +23251,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
@@ -21664,6 +23264,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChatsUser1Input = {
@@ -21680,10 +23281,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
@@ -21693,6 +23294,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChatsUser2Input = {
@@ -21704,10 +23306,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
@@ -21717,6 +23319,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChatsUser2Input = {
@@ -21808,10 +23411,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
@@ -21821,6 +23424,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatsUser1Input = {
@@ -21832,10 +23436,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -21845,6 +23449,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutChatsUser2Input = {
@@ -21867,10 +23472,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
@@ -21880,6 +23485,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatsUser2Input = {
@@ -21891,10 +23497,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -21904,6 +23510,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PrivateMessageUpsertWithWhereUniqueWithoutChatInput = {
@@ -22088,10 +23695,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
@@ -22101,6 +23708,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSentMessagesInput = {
@@ -22112,10 +23720,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
@@ -22125,6 +23733,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSentMessagesInput = {
@@ -22250,10 +23859,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
@@ -22263,6 +23872,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSentMessagesInput = {
@@ -22274,10 +23884,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -22287,6 +23897,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PrivateChatCreateWithoutTypingStatusInput = {
@@ -22331,10 +23942,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
@@ -22344,6 +23955,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatCreateNestedManyWithoutUser1Input
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTypingStatusInput = {
@@ -22355,10 +23967,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
@@ -22368,6 +23980,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUncheckedCreateNestedManyWithoutUser1Input
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTypingStatusInput = {
@@ -22434,10 +24047,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
@@ -22447,6 +24060,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUpdateManyWithoutUser1NestedInput
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTypingStatusInput = {
@@ -22458,10 +24072,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -22471,6 +24085,7 @@ export namespace Prisma {
     chatsUser1?: PrivateChatUncheckedUpdateManyWithoutUser1NestedInput
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutMessagesInput = {
@@ -22482,10 +24097,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
@@ -22495,6 +24110,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -22506,10 +24122,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
@@ -22519,6 +24135,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -22546,10 +24163,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
@@ -22559,6 +24176,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -22570,10 +24188,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -22583,6 +24201,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutReadProgramInput = {
@@ -22594,10 +24213,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
@@ -22607,6 +24226,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReadProgramInput = {
@@ -22618,10 +24238,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
@@ -22631,6 +24251,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReadProgramInput = {
@@ -22683,10 +24304,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
@@ -22696,6 +24317,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReadProgramInput = {
@@ -22707,10 +24329,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -22720,6 +24342,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomUpsertWithoutReadProgramsInput = {
@@ -22762,10 +24385,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberCreateNestedManyWithoutUserInput
@@ -22775,6 +24398,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupsInput = {
@@ -22786,10 +24410,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     memberGroups?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
@@ -22799,6 +24423,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupsInput = {
@@ -22872,10 +24497,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUpdateManyWithoutUserNestedInput
@@ -22885,6 +24510,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
@@ -22896,10 +24522,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     memberGroups?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -22909,6 +24535,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupMemberUpsertWithWhereUniqueWithoutRoomInput = {
@@ -22973,10 +24600,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionCreateNestedOneWithoutUserInput
     code?: CodeCreateNestedOneWithoutUserInput
     createdGroups?: RoomCreateNestedManyWithoutAuthorInput
@@ -22986,6 +24613,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMemberGroupsInput = {
@@ -22997,10 +24625,10 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     isActive?: boolean
-    idDelete?: boolean
-    createAt?: Date | string
-    updateAt?: Date | string
-    deleteAt?: Date | string | null
+    isDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
     session?: SessionUncheckedCreateNestedOneWithoutUserInput
     code?: CodeUncheckedCreateNestedOneWithoutUserInput
     createdGroups?: RoomUncheckedCreateNestedManyWithoutAuthorInput
@@ -23010,6 +24638,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedCreateNestedManyWithoutUser2Input
     sentMessages?: PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
     typingStatus?: TypingStatusUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMemberGroupsInput = {
@@ -23079,10 +24708,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUpdateOneWithoutUserNestedInput
     code?: CodeUpdateOneWithoutUserNestedInput
     createdGroups?: RoomUpdateManyWithoutAuthorNestedInput
@@ -23092,6 +24721,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMemberGroupsInput = {
@@ -23103,10 +24733,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    idDelete?: BoolFieldUpdateOperationsInput | boolean
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     session?: SessionUncheckedUpdateOneWithoutUserNestedInput
     code?: CodeUncheckedUpdateOneWithoutUserNestedInput
     createdGroups?: RoomUncheckedUpdateManyWithoutAuthorNestedInput
@@ -23116,6 +24746,7 @@ export namespace Prisma {
     chatsUser2?: PrivateChatUncheckedUpdateManyWithoutUser2NestedInput
     sentMessages?: PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
     typingStatus?: TypingStatusUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomUpsertWithoutMembersInput = {
@@ -23383,6 +25014,8 @@ export namespace Prisma {
   export type SessionCreateWithoutUserInput = {
     id?: string
     hashedRefreshToken?: string | null
+    userdeviceId: string
+    userIp: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -23390,6 +25023,8 @@ export namespace Prisma {
   export type SessionUncheckedCreateWithoutUserInput = {
     id?: string
     hashedRefreshToken?: string | null
+    userdeviceId: string
+    userIp: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -23665,6 +25300,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserDeviceCreateWithoutUserInput = {
+    id?: string
+    deviceName: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    sessionId: string
+  }
+
+  export type UserDeviceUncheckedCreateWithoutUserInput = {
+    id?: string
+    deviceName: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    sessionId: string
+  }
+
+  export type UserDeviceCreateOrConnectWithoutUserInput = {
+    where: UserDeviceWhereUniqueInput
+    create: XOR<UserDeviceCreateWithoutUserInput, UserDeviceUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserDeviceCreateManyUserInputEnvelope = {
+    data: UserDeviceCreateManyUserInput | UserDeviceCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithoutUserInput = {
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
     create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
@@ -23679,6 +25340,8 @@ export namespace Prisma {
   export type SessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    userdeviceId?: StringFieldUpdateOperationsInput | string
+    userIp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23686,6 +25349,8 @@ export namespace Prisma {
   export type SessionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     hashedRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    userdeviceId?: StringFieldUpdateOperationsInput | string
+    userIp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23885,6 +25550,34 @@ export namespace Prisma {
   export type TypingStatusUpdateManyWithWhereWithoutUserInput = {
     where: TypingStatusScalarWhereInput
     data: XOR<TypingStatusUpdateManyMutationInput, TypingStatusUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserDeviceUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserDeviceWhereUniqueInput
+    update: XOR<UserDeviceUpdateWithoutUserInput, UserDeviceUncheckedUpdateWithoutUserInput>
+    create: XOR<UserDeviceCreateWithoutUserInput, UserDeviceUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserDeviceUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserDeviceWhereUniqueInput
+    data: XOR<UserDeviceUpdateWithoutUserInput, UserDeviceUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserDeviceUpdateManyWithWhereWithoutUserInput = {
+    where: UserDeviceScalarWhereInput
+    data: XOR<UserDeviceUpdateManyMutationInput, UserDeviceUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserDeviceScalarWhereInput = {
+    AND?: UserDeviceScalarWhereInput | UserDeviceScalarWhereInput[]
+    OR?: UserDeviceScalarWhereInput[]
+    NOT?: UserDeviceScalarWhereInput | UserDeviceScalarWhereInput[]
+    id?: UuidFilter<"UserDevice"> | string
+    deviceName?: StringFilter<"UserDevice"> | string
+    createdAt?: DateTimeFilter<"UserDevice"> | Date | string
+    updatedAt?: DateTimeFilter<"UserDevice"> | Date | string
+    userId?: UuidFilter<"UserDevice"> | string
+    sessionId?: UuidFilter<"UserDevice"> | string
   }
 
   export type PrivateMessageCreateManyChatInput = {
@@ -24233,6 +25926,14 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type UserDeviceCreateManyUserInput = {
+    id?: string
+    deviceName: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    sessionId: string
+  }
+
   export type GroupMemberUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     joinAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24472,6 +26173,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     chatId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDeviceUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserDeviceUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserDeviceUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deviceName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
   }
 
 

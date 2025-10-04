@@ -5,13 +5,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 
 const {
+  PrismaClientKnownRequestError,
+  PrismaClientUnknownRequestError,
+  PrismaClientRustPanicError,
+  PrismaClientInitializationError,
+  PrismaClientValidationError,
+  getPrismaClient,
+  sqltag,
+  empty,
+  join,
+  raw,
+  skip,
   Decimal,
+  Debug,
   objectEnumValues,
   makeStrictEnum,
+  Extensions,
+  warnOnce,
+  defineDmmfProperty,
   Public,
   getRuntime,
-  skip
-} = require('./runtime/index-browser.js')
+  createParam,
+} = require('./runtime/wasm-engine-edge.js')
 
 
 const Prisma = {}
@@ -20,79 +35,35 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.13.0
- * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
+ * Prisma Client JS version: 6.16.3
+ * Query Engine version: bb420e667c1820a8c05a38023385f6cc7ef8e83a
  */
 Prisma.prismaVersion = {
-  client: "6.13.0",
-  engine: "361e86d0ea4987e9f53a565309b3eed797a6bcbd"
+  client: "6.16.3",
+  engine: "bb420e667c1820a8c05a38023385f6cc7ef8e83a"
 }
 
-Prisma.PrismaClientKnownRequestError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientKnownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)};
-Prisma.PrismaClientUnknownRequestError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientUnknownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientRustPanicError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientRustPanicError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientInitializationError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientInitializationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientValidationError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientValidationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
+Prisma.PrismaClientUnknownRequestError = PrismaClientUnknownRequestError
+Prisma.PrismaClientRustPanicError = PrismaClientRustPanicError
+Prisma.PrismaClientInitializationError = PrismaClientInitializationError
+Prisma.PrismaClientValidationError = PrismaClientValidationError
 Prisma.Decimal = Decimal
 
 /**
  * Re-export of sql-template-tag
  */
-Prisma.sql = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`sqltag is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.empty = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`empty is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.join = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`join is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.raw = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`raw is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.sql = sqltag
+Prisma.empty = empty
+Prisma.join = join
+Prisma.raw = raw
 Prisma.validator = Public.validator
 
 /**
 * Extensions
 */
-Prisma.getExtensionContext = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`Extensions.getExtensionContext is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.defineExtension = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`Extensions.defineExtension is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.getExtensionContext = Extensions.getExtensionContext
+Prisma.defineExtension = Extensions.defineExtension
 
 /**
  * Shorthand utilities for JSON filtering
@@ -109,10 +80,11 @@ Prisma.NullTypes = {
 
 
 
+
+
 /**
  * Enums
  */
-
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
@@ -123,6 +95,8 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   hashedRefreshToken: 'hashedRefreshToken',
+  userdeviceId: 'userdeviceId',
+  userIp: 'userIp',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -135,6 +109,15 @@ exports.Prisma.CodeScalarFieldEnum = {
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserDeviceScalarFieldEnum = {
+  id: 'id',
+  deviceName: 'deviceName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  sessionId: 'sessionId'
 };
 
 exports.Prisma.PrivateChatScalarFieldEnum = {
@@ -234,10 +217,10 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   hashedPassword: 'hashedPassword',
   isActive: 'isActive',
-  idDelete: 'idDelete',
-  createAt: 'createAt',
-  updateAt: 'updateAt',
-  deleteAt: 'deleteAt'
+  isDelete: 'isDelete',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -286,6 +269,7 @@ exports.Gender = exports.$Enums.Gender = {
 exports.Prisma.ModelName = {
   Session: 'Session',
   Code: 'Code',
+  UserDevice: 'UserDevice',
   PrivateChat: 'PrivateChat',
   PrivateMessage: 'PrivateMessage',
   TypingStatus: 'TypingStatus',
@@ -298,34 +282,82 @@ exports.Prisma.ModelName = {
   RolePermisson: 'RolePermisson',
   User: 'User'
 };
-
 /**
- * This is a stub Prisma Client that will error at runtime if called.
+ * Create the Client
  */
-class PrismaClient {
-  constructor() {
-    return new Proxy(this, {
-      get(target, prop) {
-        let message
-        const runtime = getRuntime()
-        if (runtime.isEdge) {
-          message = `PrismaClient is not configured to run in ${runtime.prettyName}. In order to run Prisma Client on edge runtime, either:
-- Use Prisma Accelerate: https://pris.ly/d/accelerate
-- Use Driver Adapters: https://pris.ly/d/driver-adapters
-`;
-        } else {
-          message = 'PrismaClient is unable to run in this browser environment, or has been bundled for the browser (running in `' + runtime.prettyName + '`).'
-        }
-
-        message += `
-If this is unexpected, please open an issue: https://pris.ly/prisma-prisma-bug-report`
-
-        throw new Error(message)
+const config = {
+  "generator": {
+    "name": "client",
+    "provider": {
+      "fromEnvVar": null,
+      "value": "prisma-client-js"
+    },
+    "output": {
+      "value": "/home/andev/work_space/app-chat-real-time/backend/prisma/generated/prisma",
+      "fromEnvVar": null
+    },
+    "config": {
+      "engineType": "library"
+    },
+    "binaryTargets": [
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x",
+        "native": true
       }
-    })
+    ],
+    "previewFeatures": [],
+    "sourceFilePath": "/home/andev/work_space/app-chat-real-time/backend/prisma/schema/schema.prisma",
+    "isCustomOutput": true
+  },
+  "relativeEnvPaths": {
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
+  },
+  "relativePath": "../../schema",
+  "clientVersion": "6.16.3",
+  "engineVersion": "bb420e667c1820a8c05a38023385f6cc7ef8e83a",
+  "datasourceNames": [
+    "db"
+  ],
+  "activeProvider": "postgresql",
+  "inlineDatasources": {
+    "db": {
+      "url": {
+        "fromEnvVar": "DATABASE_URL",
+        "value": null
+      }
+    }
+  },
+  "inlineSchema": "model Session {\n  id String @id @default(uuid()) @db.Uuid\n\n  hashedRefreshToken String?\n  userdeviceId       String   @db.Uuid\n  userIp             String\n  // relation - Fix typo: realtion -> relation\n  userId             String   @unique @db.Uuid\n  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  createdAt          DateTime @default(now()) // Fix typo: createAt -> createdAt\n  updatedAt          DateTime @updatedAt // Fix typo: updateAt -> updatedAt\n\n  @@unique([userId, userdeviceId])\n  @@map(\"sessions\") // Thêm table mapping\n}\n\nmodel Code {\n  id String @id @default(uuid()) @db.Uuid\n\n  code String?\n  type CodeType\n\n  // relation - Fix typo: realtion -> relation\n  userId String? @unique @db.Uuid\n  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  createdAt DateTime @default(now()) // Fix typo: createAt -> createdAt\n  updatedAt DateTime @updatedAt // Fix typo: updateAt -> updatedAt\n\n  @@map(\"codes\") // Thêm table mapping\n}\n\nmodel UserDevice {\n  id         String   @id @default(uuid()) @db.Uuid\n  deviceName String\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @unique\n\n  //foreign keys\n  userId    String @db.Uuid\n  sessionId String @db.Uuid\n  //realtions\n  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nenum CodeType {\n  VERIFY\n  RESET_PASSWORD\n}\n\nmodel PrivateChat {\n  id            String    @id @default(uuid()) @db.Uuid\n  user1Id       String    @db.Uuid\n  user2Id       String    @db.Uuid\n  lastMessage   String?\n  lastMessageAt DateTime?\n\n  // Lưu index tin nhắn cuối cùng mà mỗi user đã đọc\n  user1LastReadIndex Int @default(0)\n  user2LastReadIndex Int @default(0)\n\n  // Tổng số tin nhắn để tính unread count nhanh\n  totalMessages Int @default(0)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  user1          User             @relation(\"User1Chats\", fields: [user1Id], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  user2          User             @relation(\"User2Chats\", fields: [user2Id], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  PrivateMessage PrivateMessage[]\n  TypingStatus   TypingStatus[]\n\n  // Indexes\n  @@unique([user1Id, user2Id])\n  @@index([user1Id])\n  @@index([user2Id])\n  @@index([lastMessageAt])\n  @@map(\"private_chats\")\n}\n\nmodel PrivateMessage {\n  id       String      @id @default(uuid()) @db.Uuid\n  content  String      @db.Text\n  type     MessageType @default(TEXT)\n  chatId   String      @db.Uuid\n  senderId String      @db.Uuid\n\n  messageIndex Int\n\n  // Metadata cho file/media\n  fileUrl  String?\n  fileName String?\n  fileSize Int?\n  mimeType String?\n\n  // Reply functionality\n  replyToId String?          @db.Uuid\n  replyTo   PrivateMessage?  @relation(\"MessageReply\", fields: [replyToId], references: [id])\n  replies   PrivateMessage[] @relation(\"MessageReply\")\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  chat   PrivateChat @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  sender User        @relation(\"SentMessages\", fields: [senderId], references: [id], onDelete: Cascade)\n\n  @@unique([chatId, messageIndex])\n  @@index([chatId, messageIndex])\n  @@index([senderId])\n  @@index([replyToId])\n  @@map(\"private_messages\")\n}\n\n// Enum cho message type\nenum MessageType {\n  TEXT\n  IMAGE\n  FILE\n  VIDEO\n  AUDIO\n  EMOJI\n  STICKER\n  LOCATION\n  SYSTEM // Cho system messages như \"User joined\", \"User left\"\n}\n\n// Model riêng cho typing status (optional - có thể dùng Redis)\nmodel TypingStatus {\n  id     String @id @default(uuid()) @db.Uuid\n  chatId String @db.Uuid\n  userId String @db.Uuid\n\n  createdAt DateTime @default(now())\n\n  chat PrivateChat @relation(fields: [chatId], references: [id], onDelete: Cascade)\n  user User        @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([chatId, userId])\n  @@map(\"typing_status\")\n}\n\nmodel Message {\n  id Int @id @default(autoincrement())\n\n  content String\n  staus   StatusMessage @default(SENDING)\n\n  createAt DateTime @default(now())\n  updateAt DateTime @updatedAt\n\n  // id room \n  roomId    String?\n  addressId String?\n\n  // realtion\n  userId String @db.Uuid\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n}\n\nmodel ReadProgram {\n  id              String @id @default(uuid()) @db.Uuid\n  lastestMessgaId Int?   @default(0)\n\n  userId String @unique @db.Uuid\n  roomId String @db.Uuid\n\n  // realtion\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  @@unique([userId, roomId])\n}\n\nenum StatusMessage {\n  SENDING\n  RECEIVED\n  READ\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Room {\n  id String @id @default(uuid()) @db.Uuid\n\n  // basic detail \n  name     String\n  linkRoom String?\n  createAt DateTime @default(now())\n  updateAt DateTime @updatedAt\n\n  authorId String? @db.Uuid\n  author   User?   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  // realtion\n  members      GroupMember[]\n  readPrograms ReadProgram[]\n}\n\nmodel GroupMember {\n  id String @id @default(uuid()) @db.Uuid\n\n  userId String   @db.Uuid\n  joinAt DateTime @default(now())\n  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  roomID String @db.Uuid\n  room   Room   @relation(fields: [roomID], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  roleId String @db.Uuid\n  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  @@unique([roomID, userId])\n}\n\nmodel Role {\n  id String @id @default(uuid()) @db.Uuid\n\n  nameRole String @unique\n\n  // relation\n  userRoles       GroupMember[]\n  rolePermissions RolePermisson[]\n}\n\nmodel Permission {\n  id String @id @default(uuid()) @db.Uuid\n\n  namePermission String\n  codePermisson  Int\n\n  // realtion\n  rolePermissonId String?        @db.Uuid\n  rolePermission  RolePermisson? @relation(fields: [rolePermissonId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n}\n\nmodel RolePermisson {\n  id String @id @default(uuid()) @db.Uuid\n\n  roleId     String       @db.Uuid\n  role       Role         @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  // realtion\n  permission Permission[]\n}\n\nmodel User {\n  id String @id @default(uuid()) @db.Uuid\n\n  // basic detail \n  name       String?\n  birthday   DateTime?\n  gender     Gender?\n  lastSeenAt DateTime?\n\n  //auth \n  email          String  @unique\n  hashedPassword String\n  isActive       Boolean @default(false)\n\n  isDelete  Boolean   @default(false)\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  deletedAt DateTime?\n\n  // realtion \n  session       Session?\n  code          Code?\n  memberGroups  GroupMember[]\n  createdGroups Room[]\n  messages      Message[]\n  readProgram   ReadProgram[]\n  chatsUser1    PrivateChat[]    @relation(\"User1Chats\")\n  chatsUser2    PrivateChat[]    @relation(\"User2Chats\")\n  sentMessages  PrivateMessage[] @relation(\"SentMessages\")\n  typingStatus  TypingStatus[]\n  userDevices   UserDevice[]\n\n  @@map(\"users\")\n}\n\nenum Gender {\n  MALE\n  FEMALE\n  OTHERS\n}\n",
+  "inlineSchemaHash": "5cdbf07bc3dd0dccd07624e48daa83e8947a32490ee68d352a35fbf2fc8d2684",
+  "copyEngine": true
+}
+config.dirname = '/'
+
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hashedRefreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userdeviceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userIp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"sessions\"},\"Code\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"CodeType\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CodeToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"codes\"},\"UserDevice\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserDevice\"}],\"dbName\":null},\"PrivateChat\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user1Id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user2Id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastMessage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastMessageAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user1LastReadIndex\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user2LastReadIndex\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalMessages\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user1\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"User1Chats\"},{\"name\":\"user2\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"User2Chats\"},{\"name\":\"PrivateMessage\",\"kind\":\"object\",\"type\":\"PrivateMessage\",\"relationName\":\"PrivateChatToPrivateMessage\"},{\"name\":\"TypingStatus\",\"kind\":\"object\",\"type\":\"TypingStatus\",\"relationName\":\"PrivateChatToTypingStatus\"}],\"dbName\":\"private_chats\"},\"PrivateMessage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"MessageType\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"messageIndex\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"fileUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fileName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fileSize\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"mimeType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"replyToId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"replyTo\",\"kind\":\"object\",\"type\":\"PrivateMessage\",\"relationName\":\"MessageReply\"},{\"name\":\"replies\",\"kind\":\"object\",\"type\":\"PrivateMessage\",\"relationName\":\"MessageReply\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chat\",\"kind\":\"object\",\"type\":\"PrivateChat\",\"relationName\":\"PrivateChatToPrivateMessage\"},{\"name\":\"sender\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SentMessages\"}],\"dbName\":\"private_messages\"},\"TypingStatus\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chat\",\"kind\":\"object\",\"type\":\"PrivateChat\",\"relationName\":\"PrivateChatToTypingStatus\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TypingStatusToUser\"}],\"dbName\":\"typing_status\"},\"Message\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"staus\",\"kind\":\"enum\",\"type\":\"StatusMessage\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"addressId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MessageToUser\"}],\"dbName\":null},\"ReadProgram\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastestMessgaId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roomId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ReadProgramToUser\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"ReadProgramToRoom\"}],\"dbName\":null},\"Room\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"linkRoom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RoomToUser\"},{\"name\":\"members\",\"kind\":\"object\",\"type\":\"GroupMember\",\"relationName\":\"GroupMemberToRoom\"},{\"name\":\"readPrograms\",\"kind\":\"object\",\"type\":\"ReadProgram\",\"relationName\":\"ReadProgramToRoom\"}],\"dbName\":null},\"GroupMember\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"joinAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"GroupMemberToUser\"},{\"name\":\"roomID\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"GroupMemberToRoom\"},{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"GroupMemberToRole\"}],\"dbName\":null},\"Role\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nameRole\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userRoles\",\"kind\":\"object\",\"type\":\"GroupMember\",\"relationName\":\"GroupMemberToRole\"},{\"name\":\"rolePermissions\",\"kind\":\"object\",\"type\":\"RolePermisson\",\"relationName\":\"RoleToRolePermisson\"}],\"dbName\":null},\"Permission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"namePermission\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"codePermisson\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"rolePermissonId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rolePermission\",\"kind\":\"object\",\"type\":\"RolePermisson\",\"relationName\":\"PermissionToRolePermisson\"}],\"dbName\":null},\"RolePermisson\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"RoleToRolePermisson\"},{\"name\":\"permission\",\"kind\":\"object\",\"type\":\"Permission\",\"relationName\":\"PermissionToRolePermisson\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthday\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"lastSeenAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hashedPassword\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isDelete\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"session\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"code\",\"kind\":\"object\",\"type\":\"Code\",\"relationName\":\"CodeToUser\"},{\"name\":\"memberGroups\",\"kind\":\"object\",\"type\":\"GroupMember\",\"relationName\":\"GroupMemberToUser\"},{\"name\":\"createdGroups\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"RoomToUser\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"MessageToUser\"},{\"name\":\"readProgram\",\"kind\":\"object\",\"type\":\"ReadProgram\",\"relationName\":\"ReadProgramToUser\"},{\"name\":\"chatsUser1\",\"kind\":\"object\",\"type\":\"PrivateChat\",\"relationName\":\"User1Chats\"},{\"name\":\"chatsUser2\",\"kind\":\"object\",\"type\":\"PrivateChat\",\"relationName\":\"User2Chats\"},{\"name\":\"sentMessages\",\"kind\":\"object\",\"type\":\"PrivateMessage\",\"relationName\":\"SentMessages\"},{\"name\":\"typingStatus\",\"kind\":\"object\",\"type\":\"TypingStatus\",\"relationName\":\"TypingStatusToUser\"},{\"name\":\"userDevices\",\"kind\":\"object\",\"type\":\"UserDevice\",\"relationName\":\"UserToUserDevice\"}],\"dbName\":\"users\"}},\"enums\":{},\"types\":{}}")
+defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
+config.engineWasm = {
+  getRuntime: async () => require('./query_engine_bg.js'),
+  getQueryEngineWasmModule: async () => {
+    const loader = (await import('#wasm-engine-loader')).default
+    const engine = (await loader).default
+    return engine
   }
 }
+config.compilerWasm = undefined
 
+config.injectableEdgeEnv = () => ({
+  parsed: {
+    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+  }
+})
+
+if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
+  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined)
+}
+
+const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
-
 Object.assign(exports, Prisma)
+

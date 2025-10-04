@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as useragent from 'express-useragent';
 
 // Swagger config
 const swaggerConfig = new DocumentBuilder()
@@ -22,7 +23,7 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, documentFactory)
 
   app.enableCors({
-    origin: 'http://localhost:3000', // URL của frontend
+    origin: 'http://localhost:4000', // URL của frontend
     credentials: true, // Cho phép gửi cookies
   });
 
@@ -31,6 +32,8 @@ async function bootstrap() {
   app.use(helmet({
     noSniff: true,
   }));
+
+  app.use(useragent.express());
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
@@ -43,7 +46,7 @@ async function bootstrap() {
     },
   })
 
-  const configService = app.get(ConfigService)
+  app.get(ConfigService)
 
   await app.startAllMicroservices();
   await app.listen(4000);
