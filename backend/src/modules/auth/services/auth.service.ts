@@ -61,8 +61,7 @@ export class AuthService {
                                 { id: access }
                             ]
                         },
-                        { isActive: true },
-                        { isDelete: false }
+                        { isVerified: true }
                     ]
                 }
             });
@@ -126,15 +125,15 @@ export class AuthService {
         // Create user
         const newUser = await this.prismaService.user.create({
             data: {
-                name: data.name,
+                fullName: data.name,
                 email: data.email,
                 hashedPassword: hashedPassword,
             },
             select: {
                 id: true,
-                name: true,
+                fullName: true,
                 email: true,
-                isActive: true,
+                isVerified: true,
                 createdAt: true,
                 updatedAt: true,
             }
@@ -266,13 +265,13 @@ export class AuthService {
             where: { email: data.email },
             select: {
                 id: true,
-                name: true,
+                fullName: true,
                 email: true,
                 hashedPassword: true,
-                isActive: true,
-                isDelete: true,
+                isVerified: true,
                 createdAt: true,
                 updatedAt: true,
+                isDeleted: true
             }
         });
 
@@ -289,7 +288,7 @@ export class AuthService {
         }
 
         // Check if account is active
-        if (!existingUser.isActive) {
+        if (!existingUser.isVerified) {
             const verifyLink = `${this.configService.get('APP_URL')}/auth/verify-account?email=${existingUser.email}`;
 
             await this.emailProducerService.sendNotificationRegister({
@@ -302,7 +301,7 @@ export class AuthService {
         }
 
         // Check if account is deleted
-        if (existingUser.isDelete) {
+        if (existingUser.isDeleted) {
             this.logger.warn(`Login failed - account deleted: ${data.email}`);
             throw new ForbiddenException('Account has been deleted');
         }
@@ -381,14 +380,14 @@ export class AuthService {
         // Find user (including inactive)
         const user = await this.prismaService.user.findUnique({
             where: { email },
-            select: { id: true, email: true, isActive: true }
+            select: { id: true, email: true, isVerified: true }
         });
 
         if (!user) {
             throw new NotFoundException('Account does not exist');
         }
 
-        if (user.isActive) {
+        if (user.isVerified) {
             return {
                 message: 'Account is already verified',
             };
@@ -417,12 +416,12 @@ export class AuthService {
         // Update account status
         const updatedUser = await this.prismaService.user.update({
             where: { email: email },
-            data: { isActive: true },
+            data: { isVerified: true },
             select: {
                 id: true,
                 email: true,
-                name: true,
-                isActive: true,
+                fullName: true,
+                isVerified: true,
                 createdAt: true,
                 updatedAt: true,
             }
@@ -507,7 +506,7 @@ export class AuthService {
             select: {
                 id: true,
                 email: true,
-                name: true,
+                fullName: true,
                 hashedPassword: true,
             }
         });
@@ -547,7 +546,7 @@ export class AuthService {
         // Send notification email
         await this.emailProducerService.sendNotificationChangePassword({
             to: existingUser.email,
-            username: existingUser.name || 'User',
+            username: existingUser.fullName || 'User',
         });
 
         this.logger.log(`Password changed successfully: ${userId}`);
@@ -577,7 +576,7 @@ export class AuthService {
         // Soft delete - mark as deleted
         await this.prismaService.user.update({
             where: { id: existingUser.id },
-            data: { isDelete: true },
+            data: { isDeleted: true },
         });
 
         // Invalidate all sessions
@@ -595,7 +594,7 @@ export class AuthService {
         // Send notification email
         await this.emailProducerService.sendNotificationDeleteAccount({
             to: existingUser.email,
-            username: existingUser.name || 'User',
+            username: existingUser.fullName || 'User',
         });
 
         this.logger.log(`Account deleted successfully: ${userId}`);
@@ -643,7 +642,7 @@ export class AuthService {
         }
 
         // Check if user is active
-        if (!existingUser.isActive || existingUser.isDelete) {
+        if (!existingUser.isVerified || existingUser.isDeleted) {
             throw new ForbiddenException('Account is not active or has been deleted');
         }
 

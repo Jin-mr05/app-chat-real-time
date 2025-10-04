@@ -23218,6 +23218,7 @@ export namespace Prisma {
     bio: string | null
     isVerified: boolean | null
     isOnline: boolean | null
+    isDeleted: boolean | null
     lastSeenAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -23232,6 +23233,7 @@ export namespace Prisma {
     bio: string | null
     isVerified: boolean | null
     isOnline: boolean | null
+    isDeleted: boolean | null
     lastSeenAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -23246,6 +23248,7 @@ export namespace Prisma {
     bio: number
     isVerified: number
     isOnline: number
+    isDeleted: number
     lastSeenAt: number
     createdAt: number
     updatedAt: number
@@ -23262,6 +23265,7 @@ export namespace Prisma {
     bio?: true
     isVerified?: true
     isOnline?: true
+    isDeleted?: true
     lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
@@ -23276,6 +23280,7 @@ export namespace Prisma {
     bio?: true
     isVerified?: true
     isOnline?: true
+    isDeleted?: true
     lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
@@ -23290,6 +23295,7 @@ export namespace Prisma {
     bio?: true
     isVerified?: true
     isOnline?: true
+    isDeleted?: true
     lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
@@ -23377,6 +23383,7 @@ export namespace Prisma {
     bio: string | null
     isVerified: boolean
     isOnline: boolean
+    isDeleted: boolean
     lastSeenAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -23408,6 +23415,7 @@ export namespace Prisma {
     bio?: boolean
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23440,6 +23448,7 @@ export namespace Prisma {
     bio?: boolean
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23454,6 +23463,7 @@ export namespace Prisma {
     bio?: boolean
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23468,6 +23478,7 @@ export namespace Prisma {
     bio?: boolean
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23475,7 +23486,7 @@ export namespace Prisma {
     hashedPassword?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "avatar" | "bio" | "isVerified" | "isOnline" | "lastSeenAt" | "createdAt" | "updatedAt" | "email" | "hashedPassword", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "avatar" | "bio" | "isVerified" | "isOnline" | "isDeleted" | "lastSeenAt" | "createdAt" | "updatedAt" | "email" | "hashedPassword", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     codes?: boolean | User$codesArgs<ExtArgs>
@@ -23527,6 +23538,7 @@ export namespace Prisma {
       bio: string | null
       isVerified: boolean
       isOnline: boolean
+      isDeleted: boolean
       lastSeenAt: Date | null
       createdAt: Date
       updatedAt: Date
@@ -23978,6 +23990,7 @@ export namespace Prisma {
     readonly bio: FieldRef<"User", 'String'>
     readonly isVerified: FieldRef<"User", 'Boolean'>
     readonly isOnline: FieldRef<"User", 'Boolean'>
+    readonly isDeleted: FieldRef<"User", 'Boolean'>
     readonly lastSeenAt: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -25045,6 +25058,7 @@ export namespace Prisma {
     bio: 'bio',
     isVerified: 'isVerified',
     isOnline: 'isOnline',
+    isDeleted: 'isDeleted',
     lastSeenAt: 'lastSeenAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -26508,6 +26522,7 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     isVerified?: BoolFilter<"User"> | boolean
     isOnline?: BoolFilter<"User"> | boolean
+    isDeleted?: BoolFilter<"User"> | boolean
     lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -26539,6 +26554,7 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     isVerified?: SortOrder
     isOnline?: SortOrder
+    isDeleted?: SortOrder
     lastSeenAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -26574,6 +26590,7 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     isVerified?: BoolFilter<"User"> | boolean
     isOnline?: BoolFilter<"User"> | boolean
+    isDeleted?: BoolFilter<"User"> | boolean
     lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -26604,6 +26621,7 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     isVerified?: SortOrder
     isOnline?: SortOrder
+    isDeleted?: SortOrder
     lastSeenAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -26624,6 +26642,7 @@ export namespace Prisma {
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     isVerified?: BoolWithAggregatesFilter<"User"> | boolean
     isOnline?: BoolWithAggregatesFilter<"User"> | boolean
+    isDeleted?: BoolWithAggregatesFilter<"User"> | boolean
     lastSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -27874,6 +27893,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27905,6 +27925,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27936,6 +27957,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27967,6 +27989,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27998,6 +28021,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28012,6 +28036,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28026,6 +28051,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29251,6 +29277,7 @@ export namespace Prisma {
     bio?: SortOrder
     isVerified?: SortOrder
     isOnline?: SortOrder
+    isDeleted?: SortOrder
     lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29265,6 +29292,7 @@ export namespace Prisma {
     bio?: SortOrder
     isVerified?: SortOrder
     isOnline?: SortOrder
+    isDeleted?: SortOrder
     lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29279,6 +29307,7 @@ export namespace Prisma {
     bio?: SortOrder
     isVerified?: SortOrder
     isOnline?: SortOrder
+    isDeleted?: SortOrder
     lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31477,6 +31506,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31507,6 +31537,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31580,6 +31611,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31610,6 +31642,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31673,6 +31706,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31703,6 +31737,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31749,6 +31784,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31779,6 +31815,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31809,6 +31846,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31839,6 +31877,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31915,6 +31954,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31945,6 +31985,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32005,6 +32046,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32035,6 +32077,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32070,6 +32113,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32100,6 +32144,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32210,6 +32255,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32240,6 +32286,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32281,6 +32328,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32311,6 +32359,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32514,6 +32563,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32544,6 +32594,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32688,6 +32739,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32718,6 +32770,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32781,6 +32834,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32811,6 +32865,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32896,6 +32951,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32926,6 +32982,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33123,6 +33180,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33153,6 +33211,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33232,6 +33291,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33262,6 +33322,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33319,6 +33380,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33349,6 +33411,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33654,6 +33717,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33684,6 +33748,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33937,6 +34002,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33967,6 +34033,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34060,6 +34127,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34090,6 +34158,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34161,6 +34230,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34191,6 +34261,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34284,6 +34355,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34314,6 +34386,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34344,6 +34417,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34374,6 +34448,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34444,6 +34519,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34474,6 +34550,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34531,6 +34608,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34561,6 +34639,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34647,6 +34726,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34677,6 +34757,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34967,6 +35048,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34997,6 +35079,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35032,6 +35115,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35062,6 +35146,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35108,6 +35193,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35138,6 +35224,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35179,6 +35266,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35209,6 +35297,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35239,6 +35328,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35269,6 +35359,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35304,6 +35395,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35334,6 +35426,7 @@ export namespace Prisma {
     bio?: string | null
     isVerified?: boolean
     isOnline?: boolean
+    isDeleted?: boolean
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35380,6 +35473,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35410,6 +35504,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35451,6 +35546,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35481,6 +35577,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

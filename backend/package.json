@@ -35,7 +35,7 @@
     "@nestjs/swagger": "^11.2.0",
     "@nestjs/throttler": "^6.4.0",
     "@nestjs/websockets": "^11.1.5",
-    "@prisma/client": "6.13.0",
+    "@prisma/client": "^6.16.3",
     "@socket.io/redis-adapter": "^8.3.0",
     "amqp-connection-manager": "^4.1.14",
     "amqplib": "^0.10.8",

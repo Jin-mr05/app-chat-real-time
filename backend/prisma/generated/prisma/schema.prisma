@@ -447,6 +447,7 @@ model User {
   bio        String?   @db.Text
   isVerified Boolean   @default(false)
   isOnline   Boolean   @default(false)
+  isDeleted  Boolean   @default(false)
   lastSeenAt DateTime?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt

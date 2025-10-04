@@ -38,12 +38,12 @@ export class TokenService {
     async storeTokens(userId: string, hashedRefreshToken: string, userdeviceId: string, userIp: string) {
         // check avaialble user
         const session = await this.prismaService.session.upsert({
-            where: { userId_userdeviceId: { userId, userdeviceId } },
+            where: { userId_userDeviceId: { userId, userDeviceId: userdeviceId } },
             update: {
                 hashedRefreshToken
             },
             create: {
-                userdeviceId,
+                userDeviceId: userdeviceId,
                 hashedRefreshToken,
                 userId,
                 userIp

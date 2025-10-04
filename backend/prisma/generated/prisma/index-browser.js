@@ -300,6 +300,7 @@ exports.Prisma.UserScalarFieldEnum = {
   bio: 'bio',
   isVerified: 'isVerified',
   isOnline: 'isOnline',
+  isDeleted: 'isDeleted',
   lastSeenAt: 'lastSeenAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
