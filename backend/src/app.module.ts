@@ -9,7 +9,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from './common/config/configuration';
 import { AuthCookieGuard } from './common/guard/auth.cookie.guard';
-import { StartupService } from './common/startup/startup.service';
 import { CronModule } from './cron/cron.module';
 import { EmailModule } from './email/email.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -17,11 +16,14 @@ import { PrivateChatModule } from './modules/private-chat/private-chat.module';
 import { RoomModule } from './modules/room/room.module';
 import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { RedisModule } from './modules/redis/redis.module';
+import { CommonModule } from './common/service/common.module';
 const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
 
 @Module({
   imports: [
-    CronModule, RoomModule, UserModule , PrismaModule, AuthModule, EmailModule,
+    CronModule, RoomModule, UserModule, PrismaModule, AuthModule, EmailModule,
+    CommonModule, // Add this
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration]
@@ -39,13 +41,13 @@ const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
         },
       ],
     }),
-     EventEmitterModule.forRoot(),
+    RedisModule,
+    EventEmitterModule.forRoot(),
     PrivateChatModule
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    StartupService,
     {
       provide: APP_GUARD,
       inject: [Reflector],

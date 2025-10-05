@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { CustomCacheModule } from '../custom-cache/custom-cache.module';
 import { RoomModule } from '../room/room.module';
 import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
+import { CommonModule } from 'src/common/service/common.module';
+import { UserSearchService } from './services/user.search.service';
 
 @Module({
     controllers: [UserController],
-    imports: [CustomCacheModule, RoomModule, CustomCacheModule],
-    providers: [UserService]
+    imports: [RoomModule, CommonModule],
+    providers: [UserService, UserSearchService]
 })
 export class UserModule { }

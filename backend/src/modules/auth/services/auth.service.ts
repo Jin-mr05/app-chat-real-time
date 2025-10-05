@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException, UnauthorizedException, Logger } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from 'argon2';
@@ -15,6 +15,7 @@ import { LoginDto } from '../dto/Login.dto';
 import { RegisterDto } from '../dto/Register.dto';
 import { OtherService } from './other.service';
 import { TokenService } from './token.service';
+import { CommonService } from 'src/common/service/common.service';
 
 @Injectable()
 export class AuthService {
@@ -28,6 +29,7 @@ export class AuthService {
         private readonly emailProducerService: EmailProducerService,
         private readonly otherService: OtherService,
         @Inject("REDIS_CLIENT") private readonly redisService: RedisService,
+        private readonly commonService: CommonService
     ) { }
 
     /**
@@ -35,51 +37,6 @@ export class AuthService {
      */
     private async hashing(text: string): Promise<string> {
         return await hash(text);
-    }
-
-    /**
-     * Check if user exists and is active (with caching)
-     */
-    private async checkingAvailableUser(access: string): Promise<User | null> {
-        const key = REDIS_CONSTANTS.CACHE_USER(access);
-
-        try {
-            // Check cache first
-            const cached = await this.redisService.get(key) as User;
-            if (cached) {
-                this.logger.debug(`User found in cache: ${access}`);
-                return cached;
-            }
-
-            // Fallback to database
-            const availableUser = await this.prismaService.user.findFirst({
-                where: {
-                    AND: [
-                        {
-                            OR: [
-                                { email: access },
-                                { id: access }
-                            ]
-                        },
-                        { isVerified: true }
-                    ]
-                }
-            });
-
-            if (availableUser) {
-                // Cache the user
-                await this.redisService.set(key, availableUser);
-                this.logger.debug(`User cached: ${access}`);
-                return availableUser;
-            }
-
-            // Cache null to prevent repeated DB queries
-            await this.redisService.set(key, null);
-            return null;
-        } catch (error) {
-            this.logger.error(`Error checking user availability: ${error.message}`, error.stack);
-            throw new Error(`Failed to check user availability: ${error.message}`);
-        }
     }
 
     /**
@@ -91,7 +48,7 @@ export class AuthService {
                 secret: this.configService.getOrThrow<string>('JWT_SECRET'),
             });
 
-            const user = await this.checkingAvailableUser(payload.sub);
+            const user = await this.commonService.checkingAvailableUser(payload.sub);
             if (!user) {
                 throw new UnauthorizedException('User not found or inactive');
             }
@@ -113,7 +70,7 @@ export class AuthService {
         this.logger.log(`Registration attempt: ${data.email}`);
 
         // Check if account already exists
-        const existingAccount = await this.checkingAvailableUser(data.email);
+        const existingAccount = await this.prismaService.user.findUnique({ where: { email: data.email } })
         if (existingAccount) {
             this.logger.warn(`Registration failed - account exists: ${data.email}`);
             throw new ForbiddenException('Account already exists');
@@ -151,6 +108,7 @@ export class AuthService {
 
         // Send verification email
         const verifyLink = `${this.configService.get('APP_URL')}/auth/verify-account?email=${data.email}`;
+        console.log(verifyLink)
         await this.emailProducerService.sendNotificationRegister({
             to: data.email,
             verifyLink,
@@ -171,6 +129,7 @@ export class AuthService {
         const code = randomBytes(6).toString('hex');
         const secret = this.configService.getOrThrow<string>('JWT_SECRET');
         const hmac = createHmac('sha256', secret).update(code).digest('hex');
+        console.log(code)
 
         res.cookie('temp_code', code, {
             httpOnly: true,
@@ -245,19 +204,28 @@ export class AuthService {
     async login(data: LoginDto, res: Response, code: string) {
         this.logger.log(`Login attempt: ${data.email}`);
 
-        // Verify temp code
         const secret = this.configService.getOrThrow<string>('JWT_SECRET');
-        try {
-            await this.jwtService.verifyAsync(code, { secret });
-            const decodeHmac = createHmac('sha256', secret).update(code).digest('hex');
 
-            if (data.hmac !== decodeHmac) {
-                this.logger.warn(`Invalid session login: ${data.email}`);
+        try {
+            // ✅ Verify JWT token từ client (data.token)
+            const payload = await this.jwtService.verify(data.token, { secret });
+
+            // ✅ Verify code từ cookie khớp với code trong JWT payload
+            if (payload.code !== code) {
+                this.logger.warn(`Code mismatch: ${data.email}`);
+                throw new ForbiddenException('Invalid session - code mismatch');
+            }
+
+            // ✅ Verify HMAC từ client khớp với HMAC tính từ code
+            const computedHmac = createHmac('sha256', secret).update(code).digest('hex');
+            if (data.hmac !== computedHmac) {
+                this.logger.warn(`Invalid session login HMAC: ${data.email}`);
                 throw new ForbiddenException('Invalid session login');
             }
+
         } catch (error) {
-            this.logger.warn(`Session verification failed: ${data.email}`);
-            throw new ForbiddenException('Session expired or invalid');
+            this.logger.error(`Token verification failed: ${error.message}`);
+            throw new ForbiddenException('Invalid or expired session');
         }
 
         // Find user
@@ -309,10 +277,24 @@ export class AuthService {
         // Get device info
         const device = await this.otherService.getDeviceInfo(res.req);
 
+        // finding device
+        let userDevice = await this.prismaService.userDevice.findUnique({
+            where: { deviceName_userId: { deviceName: device.device, userId: existingUser.id } }
+        })
+
+        if (!userDevice) {
+            userDevice = await this.prismaService.userDevice.create({
+                data: {
+                    deviceName: device.device,
+                    userId: existingUser.id
+                }
+            })
+        }
+
         // Create session
         const session = await this.createSession(
             { id: existingUser.id, email: existingUser.email },
-            device.device,
+            userDevice.id,
             device.ip,
             res
         );
@@ -395,6 +377,7 @@ export class AuthService {
 
         // Send verification email
         const verifyLink = `${this.configService.get('APP_URL')}/auth/verify-account?email=${email}`;
+        console.log(verifyLink)
         await this.emailProducerService.sendNotificationRegister({
             to: email,
             verifyLink,
@@ -568,7 +551,7 @@ export class AuthService {
 
         this.logger.log(`Account deletion request: ${userId}`);
 
-        const existingUser = await this.checkingAvailableUser(userId);
+        const existingUser = await this.commonService.checkingAvailableUser(userId);
         if (!existingUser) {
             throw new NotFoundException('User not found');
         }
@@ -636,7 +619,7 @@ export class AuthService {
         }
 
         // Get user
-        const existingUser = await this.checkingAvailableUser(session.userId);
+        const existingUser = await this.commonService.checkingAvailableUser(session.userId);
         if (!existingUser) {
             throw new NotFoundException('User not found');
         }

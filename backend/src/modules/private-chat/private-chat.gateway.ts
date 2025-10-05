@@ -59,7 +59,7 @@ export class PrivateChatGateway implements OnGatewayInit, OnGatewayConnection, O
 			// join user to their personal for notification
 			client.join(`user:${userId}`)
 
-			this.logger.log(`🔌 User connected: ${user.name} (${userId})`)
+			this.logger.log(`🔌 User connected: ${user.fullName} (${userId})`)
 
 			// notification user contact about online status
 			this.server.emit('userStatusChanged', {

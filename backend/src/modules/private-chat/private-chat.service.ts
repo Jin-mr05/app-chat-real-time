@@ -41,7 +41,7 @@ export class PrivateChatService implements OnModuleDestroy {
 				where: { id: userId },
 				select: {
 					id: true,
-					name: true,
+					fullName: true,
 					email: true
 				}
 			})
@@ -119,8 +119,8 @@ export class PrivateChatService implements OnModuleDestroy {
 					]
 				},
 				include: {
-					user1: { select: { id: true, name: true } },
-					user2: { select: { id: true, name: true } }
+					user1: { select: { id: true, fullName: true } },
+					user2: { select: { id: true, fullName: true } }
 				}
 			})
 
@@ -141,7 +141,7 @@ export class PrivateChatService implements OnModuleDestroy {
 					},
 					include: {
 						sender: {
-							select: { id: true, name: true }
+							select: { id: true, fullName: true }
 						}
 					}
 				})
@@ -197,7 +197,7 @@ export class PrivateChatService implements OnModuleDestroy {
 					sender: {
 						select: {
 							id: true,
-							name: true
+							fullName: true
 						}
 					}
 				}
@@ -256,13 +256,13 @@ export class PrivateChatService implements OnModuleDestroy {
 					user1: {
 						select: {
 							id: true,
-							name: true
+							fullName: true
 						}
 					},
 					user2: {
 						select: {
 							id: true,
-							name: true,
+							fullName: true,
 						}
 					}
 				}
@@ -354,8 +354,8 @@ export class PrivateChatService implements OnModuleDestroy {
 					]
 				},
 				include: {
-					user1: { select: { id: true, name: true } },
-					user2: { select: { id: true, name: true } }
+					user1: { select: { id: true, fullName: true } },
+					user2: { select: { id: true, fullName: true } }
 				}
 			});
 
@@ -367,8 +367,8 @@ export class PrivateChatService implements OnModuleDestroy {
 						user2Id
 					},
 					include: {
-						user1: { select: { id: true, name: true } },
-						user2: { select: { id: true, name: true } }
+						user1: { select: { id: true, fullName: true } },
+						user2: { select: { id: true, fullName: true } }
 					}
 				});
 			}

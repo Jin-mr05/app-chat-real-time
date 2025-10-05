@@ -5286,7 +5286,6 @@ export namespace Prisma {
     id: string | null
     deviceName: string | null
     deviceType: string | null
-    userAgent: string | null
     lastUsedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -5297,7 +5296,6 @@ export namespace Prisma {
     id: string | null
     deviceName: string | null
     deviceType: string | null
-    userAgent: string | null
     lastUsedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -5308,7 +5306,6 @@ export namespace Prisma {
     id: number
     deviceName: number
     deviceType: number
-    userAgent: number
     lastUsedAt: number
     createdAt: number
     updatedAt: number
@@ -5321,7 +5318,6 @@ export namespace Prisma {
     id?: true
     deviceName?: true
     deviceType?: true
-    userAgent?: true
     lastUsedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -5332,7 +5328,6 @@ export namespace Prisma {
     id?: true
     deviceName?: true
     deviceType?: true
-    userAgent?: true
     lastUsedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -5343,7 +5338,6 @@ export namespace Prisma {
     id?: true
     deviceName?: true
     deviceType?: true
-    userAgent?: true
     lastUsedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -5427,7 +5421,6 @@ export namespace Prisma {
     id: string
     deviceName: string
     deviceType: string | null
-    userAgent: string | null
     lastUsedAt: Date
     createdAt: Date
     updatedAt: Date
@@ -5455,7 +5448,6 @@ export namespace Prisma {
     id?: boolean
     deviceName?: boolean
     deviceType?: boolean
-    userAgent?: boolean
     lastUsedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -5469,7 +5461,6 @@ export namespace Prisma {
     id?: boolean
     deviceName?: boolean
     deviceType?: boolean
-    userAgent?: boolean
     lastUsedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -5481,7 +5472,6 @@ export namespace Prisma {
     id?: boolean
     deviceName?: boolean
     deviceType?: boolean
-    userAgent?: boolean
     lastUsedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -5493,14 +5483,13 @@ export namespace Prisma {
     id?: boolean
     deviceName?: boolean
     deviceType?: boolean
-    userAgent?: boolean
     lastUsedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type UserDeviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "deviceName" | "deviceType" | "userAgent" | "lastUsedAt" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userDevice"]>
+  export type UserDeviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "deviceName" | "deviceType" | "lastUsedAt" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userDevice"]>
   export type UserDeviceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     sessions?: boolean | UserDevice$sessionsArgs<ExtArgs>
@@ -5523,7 +5512,6 @@ export namespace Prisma {
       id: string
       deviceName: string
       deviceType: string | null
-      userAgent: string | null
       lastUsedAt: Date
       createdAt: Date
       updatedAt: Date
@@ -5956,7 +5944,6 @@ export namespace Prisma {
     readonly id: FieldRef<"UserDevice", 'String'>
     readonly deviceName: FieldRef<"UserDevice", 'String'>
     readonly deviceType: FieldRef<"UserDevice", 'String'>
-    readonly userAgent: FieldRef<"UserDevice", 'String'>
     readonly lastUsedAt: FieldRef<"UserDevice", 'DateTime'>
     readonly createdAt: FieldRef<"UserDevice", 'DateTime'>
     readonly updatedAt: FieldRef<"UserDevice", 'DateTime'>
@@ -24855,7 +24842,6 @@ export namespace Prisma {
     id: 'id',
     deviceName: 'deviceName',
     deviceType: 'deviceType',
-    userAgent: 'userAgent',
     lastUsedAt: 'lastUsedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -25426,7 +25412,6 @@ export namespace Prisma {
     id?: UuidFilter<"UserDevice"> | string
     deviceName?: StringFilter<"UserDevice"> | string
     deviceType?: StringNullableFilter<"UserDevice"> | string | null
-    userAgent?: StringNullableFilter<"UserDevice"> | string | null
     lastUsedAt?: DateTimeFilter<"UserDevice"> | Date | string
     createdAt?: DateTimeFilter<"UserDevice"> | Date | string
     updatedAt?: DateTimeFilter<"UserDevice"> | Date | string
@@ -25439,7 +25424,6 @@ export namespace Prisma {
     id?: SortOrder
     deviceName?: SortOrder
     deviceType?: SortOrderInput | SortOrder
-    userAgent?: SortOrderInput | SortOrder
     lastUsedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25450,25 +25434,24 @@ export namespace Prisma {
 
   export type UserDeviceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    deviceName_userId?: UserDeviceDeviceNameUserIdCompoundUniqueInput
     AND?: UserDeviceWhereInput | UserDeviceWhereInput[]
     OR?: UserDeviceWhereInput[]
     NOT?: UserDeviceWhereInput | UserDeviceWhereInput[]
     deviceName?: StringFilter<"UserDevice"> | string
     deviceType?: StringNullableFilter<"UserDevice"> | string | null
-    userAgent?: StringNullableFilter<"UserDevice"> | string | null
     lastUsedAt?: DateTimeFilter<"UserDevice"> | Date | string
     createdAt?: DateTimeFilter<"UserDevice"> | Date | string
     updatedAt?: DateTimeFilter<"UserDevice"> | Date | string
     userId?: UuidFilter<"UserDevice"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     sessions?: SessionListRelationFilter
-  }, "id">
+  }, "id" | "deviceName_userId">
 
   export type UserDeviceOrderByWithAggregationInput = {
     id?: SortOrder
     deviceName?: SortOrder
     deviceType?: SortOrderInput | SortOrder
-    userAgent?: SortOrderInput | SortOrder
     lastUsedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25485,7 +25468,6 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"UserDevice"> | string
     deviceName?: StringWithAggregatesFilter<"UserDevice"> | string
     deviceType?: StringNullableWithAggregatesFilter<"UserDevice"> | string | null
-    userAgent?: StringNullableWithAggregatesFilter<"UserDevice"> | string | null
     lastUsedAt?: DateTimeWithAggregatesFilter<"UserDevice"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"UserDevice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserDevice"> | Date | string
@@ -26798,7 +26780,6 @@ export namespace Prisma {
     id?: string
     deviceName: string
     deviceType?: string | null
-    userAgent?: string | null
     lastUsedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26810,7 +26791,6 @@ export namespace Prisma {
     id?: string
     deviceName: string
     deviceType?: string | null
-    userAgent?: string | null
     lastUsedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26822,7 +26802,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26834,7 +26813,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26846,7 +26824,6 @@ export namespace Prisma {
     id?: string
     deviceName: string
     deviceType?: string | null
-    userAgent?: string | null
     lastUsedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26857,7 +26834,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26867,7 +26843,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28349,11 +28324,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type UserDeviceDeviceNameUserIdCompoundUniqueInput = {
+    deviceName: string
+    userId: string
+  }
+
   export type UserDeviceCountOrderByAggregateInput = {
     id?: SortOrder
     deviceName?: SortOrder
     deviceType?: SortOrder
-    userAgent?: SortOrder
     lastUsedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -28364,7 +28343,6 @@ export namespace Prisma {
     id?: SortOrder
     deviceName?: SortOrder
     deviceType?: SortOrder
-    userAgent?: SortOrder
     lastUsedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -28375,7 +28353,6 @@ export namespace Prisma {
     id?: SortOrder
     deviceName?: SortOrder
     deviceType?: SortOrder
-    userAgent?: SortOrder
     lastUsedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31570,7 +31547,6 @@ export namespace Prisma {
     id?: string
     deviceName: string
     deviceType?: string | null
-    userAgent?: string | null
     lastUsedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31581,7 +31557,6 @@ export namespace Prisma {
     id?: string
     deviceName: string
     deviceType?: string | null
-    userAgent?: string | null
     lastUsedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31681,7 +31656,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31692,7 +31666,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35663,7 +35636,6 @@ export namespace Prisma {
     id?: string
     deviceName: string
     deviceType?: string | null
-    userAgent?: string | null
     lastUsedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35674,7 +35646,6 @@ export namespace Prisma {
     id?: string
     deviceName: string
     deviceType?: string | null
-    userAgent?: string | null
     lastUsedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36179,7 +36150,6 @@ export namespace Prisma {
     id?: UuidFilter<"UserDevice"> | string
     deviceName?: StringFilter<"UserDevice"> | string
     deviceType?: StringNullableFilter<"UserDevice"> | string | null
-    userAgent?: StringNullableFilter<"UserDevice"> | string | null
     lastUsedAt?: DateTimeFilter<"UserDevice"> | Date | string
     createdAt?: DateTimeFilter<"UserDevice"> | Date | string
     updatedAt?: DateTimeFilter<"UserDevice"> | Date | string
@@ -37066,7 +37036,6 @@ export namespace Prisma {
     id?: string
     deviceName: string
     deviceType?: string | null
-    userAgent?: string | null
     lastUsedAt?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37263,7 +37232,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37274,7 +37242,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37285,7 +37252,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     deviceName?: StringFieldUpdateOperationsInput | string
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

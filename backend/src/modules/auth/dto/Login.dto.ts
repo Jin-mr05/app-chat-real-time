@@ -28,4 +28,5 @@ export class LoginDto {
     @IsString({ message: 'HMAC must be a string' })
     @IsNotEmpty({ message: 'HMAC is required' })
     hmac: string;
+    token: string
 }
