@@ -360,4 +360,9 @@ export class AuthController {
             data: result
         };
     }
+
+    @Get('test')
+    async test(@Req() req: Request) {
+        console.log(req.user)
+    }
 }

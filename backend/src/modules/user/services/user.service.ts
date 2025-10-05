@@ -31,20 +31,22 @@ export class UserService {
     }
 
     // edit user account details
-    async editDetailAccount(data: EditDetailDto, req: Request) {
+    async editDetailAccount(data: EditDetailDto, userId: string, req: Request) {
         const user = await this.commonService.checkingAvailableUser(req.user?.id)
         if (!user) throw new NotFoundException("User not found")
-
+        let date
         // prepare update data
-        const updateData: any = {};
-        if (data.name !== undefined) updateData.name = data.name;
-        if (data.birthDay !== undefined) updateData.birthday = this.parseDateString(data.birthDay);
-        if (data.gender !== undefined) updateData.gender = data.gender;
+        if (data.birthDay) {
+            date = this.parseDateString(data.birthDay)
+        }
 
         // update user details
         const updatedUser = await this.prismaService.user.update({
-            where: { id: user.id },
-            data: updateData,
+            where: { id: userId },
+            data: {
+                ...(data.birthDay && { birthDay: date }),
+                ...(data.name && { fullName: data.name })
+            }
         })
 
         // return user without password

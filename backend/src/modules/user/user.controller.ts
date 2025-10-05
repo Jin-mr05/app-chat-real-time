@@ -1,22 +1,51 @@
-import { Body, Controller, Delete, Get, Post, Query, Req } from "@nestjs/common";
-import { Request } from 'express';
-import { ApiTags, ApiOperation, ApiQuery, ApiResponse, ApiParam, ApiBody } from "@nestjs/swagger";
-import { RoomService } from "../room/room.service";
-import { UserService } from "./services/user.service";
-import { EditDetailDto } from "./dto/EditDetail.dto";
-import { Public } from "src/common/decorator/public.decorator";
+import { Body, Controller, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import express from 'express'
 import { PrismaService } from "src/prisma/prisma.service";
-import { FinduserBynameDto } from "./dto/find-user-by-name.dto";
+import { RoomService } from "../room/room.service";
+import { EditDetailDto } from "./dto/EditDetail.dto";
+import { UserService } from "./services/user.service";
+import { IsAuthorAccount } from "./isAuthorAccount.guard";
 
 @ApiTags('User')
 @Controller('user')
 export class UserController {
 
-    // constructor(
-    //     private readonly roomService: RoomService,
-    //     private readonly userService: UserService,
-    //     private readonly prismaService: PrismaService
-    // ) { }
+    constructor(
+        private readonly roomService: RoomService,
+        private readonly userService: UserService,
+        private readonly prismaService: PrismaService
+    ) { }
+
+    @Put('edit-detail')
+    @UseGuards(IsAuthorAccount)
+    @ApiOperation({
+        summary: 'Edit user details',
+        description: 'Update user profile information'
+    })
+    @ApiBody({
+        type: EditDetailDto,
+        description: 'Updated user details'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'User details updated successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'User details updated successfully',
+                data: {
+                    id: 'user-id',
+                    email: 'user@example.com',
+                    userName: 'newusername',
+                    fullName: 'Full Name'
+                }
+            }
+        }
+    })
+    async changeDetailUser(@Body() data: EditDetailDto, @Query('userId') userId: string, @Req() req: express.Request) {
+        return this.userService.editDetailAccount(data, userId, req)
+    }
 
     // @Public()
     // @Get('find-user-by-name')
@@ -203,31 +232,6 @@ export class UserController {
     //     return this.roomService.getUserRooms(req)
     // }
 
-    // @Post('edit-detail')
-    // @ApiOperation({
-    //     summary: 'Edit user details',
-    //     description: 'Update user profile information'
-    // })
-    // @ApiBody({
-    //     type: EditDetailDto,
-    //     description: 'Updated user details'
-    // })
-    // @ApiResponse({
-    //     status: 200,
-    //     description: 'User details updated successfully',
-    //     schema: {
-    //         example: {
-    //             success: true,
-    //             message: 'User details updated successfully',
-    //             data: {
-    //                 id: 'user-id',
-    //                 email: 'user@example.com',
-    //                 userName: 'newusername',
-    //                 fullName: 'Full Name'
-    //             }
-    //         }
-    //     }
-    // })
     // @ApiResponse({ status: 400, description: 'Bad request - Invalid input data' })
     // @ApiResponse({ status: 401, description: 'Unauthorized - Invalid token' })
     // @ApiResponse({ status: 404, description: 'User not found' })
