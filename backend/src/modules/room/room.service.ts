@@ -1,168 +1,79 @@
-import { CACHE_MANAGER } from "@nestjs/cache-manager";
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { Cache } from "cache-manager";
-import { Request } from 'express';
+import { ConflictException, Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { Request } from "express";
+import { CommonService } from "src/common/service/common.service";
 import { PrismaService } from "src/prisma/prisma.service";
-import { ROOM_CONSTANTS } from "./room.constants";
-import { UserWithRoom } from "./type.room";
 import { RedisService } from "../redis/redis.service";
-
+import { CreateRoomDto } from "./dto/create-room.dto";
+import { ROOM_CONSTANTS } from "./room.constants";
+import { User } from "prisma/generated/prisma";
 @Injectable()
 export class RoomService {
     constructor(
         private readonly prismaService: PrismaService,
-        @Inject("REDIS_CLIENT") private readonly redisService: RedisService
+        @Inject("REDIS_CLIENT") private readonly redisService: RedisService,
+        private readonly commonService: CommonService
     ) { }
 
-    // // generate link room
-    // async generateLinkRoom(authorId: string, addressId: string, quantityGroups: number) {
-    //     const linkGroup = `${authorId}-${addressId} + ${quantityGroups + 1}`
-    //     return linkGroup
-    // }
+    // check available room 
+    async getRoomWithRoomLink(roomLink: string) {
+        return await this.prismaService.room.findUnique({
+            where: { linkRoom: roomLink }
+        })
+    }
 
-    // // create room 
-    // async createRoom(req: Request, addressId: string) {
-    //     // find user
-    //     const userId = req.user?.id
-    //     const exitingUser = await this.customCache.findUserWithRoom(userId) as UserWithRoom
+    // generate roomlink
+    generateRoomLink(nameRoom: string, authorId: string) {
+        return ROOM_CONSTANTS.LINK_ROOM(nameRoom, authorId)
+    }
 
-    //     // fall back
-    //     if (!exitingUser) {
-    //         const key = ROOM_CONSTANTS.CACHE_KEYS.KeyUserWithERoom(userId)
-    //         await this.cacheManage.set(key, null, ROOM_CONSTANTS.MAX_AGE_CACHE_TEMPORARY)
-    //     }
+    // create room
+    async createRoom(req: Request, data: CreateRoomDto) {
+        // check avaialable room
+        const userId = req.user?.id || 'unknow'
+        console.log(userId)
+        const user = await this.commonService.checkingAvailableUser(userId) as User
+        if (!user) throw new NotFoundException("User not found")
 
-    //     // find addressUser
-    //     const addressUser = await this.customCache.getUserByIdInCache(addressId)
+        console.log(user.id)
 
-    //     // fall back
-    //     if (!addressUser) {
-    //         const key = ROOM_CONSTANTS.CACHE_KEYS.KeyUserWithERoom(userId)
-    //         await this.cacheManage.set(key, null, ROOM_CONSTANTS.MAX_AGE_CACHE_TEMPORARY)
-    //         throw new NotFoundException('Address user not found')
-    //     }
+        // generate link
+        const linkRoom = this.generateRoomLink(data.name, userId)
+
+        // checking available room
+        const availableRoom = await this.getRoomWithRoomLink(linkRoom)
+        if (availableRoom) throw new ConflictException("Room is available")
+
+        // crerate new room
+        const newRoom = await this.prismaService.room.create({
+            data: {
+                linkRoom,
+                name: data.name,
+                authorId: userId
+            }
+        })
+
+        return {
+            success: true,
+            data: {
+                newRoom
+            }
+        }
+    }
+
+    // delete room
+    async deleteRoom(roomId: string) {
+        // delete room
+        const deleteRoom = await this.prismaService.room.delete({
+            where: { id: roomId }
+        })
+
+        return {
+            success: true,
+            data: {
+                deleteRoom
+            }
+        }
+    }
 
 
-    //     // quantity number
-    //     const quantityNumber = exitingUser?.createdGroups.length || 0
-
-    //     // generate link group
-    //     const linkRoom = await this.generateLinkRoom(userId, addressId, quantityNumber)
-
-    //     // name room
-    //     const nameRoom = `${exitingUser.name}`
-
-    //     const newRoom = await this.prismaService.room.create({
-    //         data: {
-    //             name: nameRoom,
-    //             authorId: userId,
-    //             linkRoom: linkRoom
-    //         }
-    //     })
-
-    //     const adminRole = await this.prismaService.role.findFirst({
-    //         where: { nameRole: "ADMIN" }
-    //     });
-
-    //     if (!adminRole) throw new NotFoundException('Admin role not found')
-
-    //     await this.addMember(req, String(addressUser.name), newRoom.id)
-
-    //     // create permission 
-    //     await this.prismaService.groupMember.create({
-    //         data: {
-    //             roomID: newRoom.id,
-    //             userId: userId,
-    //             roleId: adminRole.id
-    //         }
-    //     })
-
-    //     return newRoom
-    // }
-
-    // // add member
-    // async addMember(req: Request, userName: string, roomId: string) {
-    //     // find author
-    //     const userId = req.user?.id
-    //     const author = await this.customCache.getUserByIdInCache(userId)
-
-    //     if (!author) {
-    //         // fall back
-    //         const key = ROOM_CONSTANTS.CACHE_KEYS.KeyUserWithId(userId)
-    //         await this.customCache.setCacheTempObject(key, null)
-    //         throw new NotFoundException('User not found')
-    //     }
-
-    //     // find room
-    //     const exitingRoom = await this.customCache.findRoomInCache(roomId)
-
-    //     // fall back
-    //     if (!exitingRoom) {
-    //         const key = ROOM_CONSTANTS.CACHE_KEYS.KeyRoom(roomId)
-    //         await this.customCache.setCacheTempObject(key, null)
-    //         throw new NotFoundException("Room not found")
-    //     }
-
-    //     // find address user
-    //     const member = await this.customCache.getUserByNameInCache(userName)
-
-    //     // fall back 
-    //     if (!member) {
-    //         const key = ROOM_CONSTANTS.CACHE_KEYS.KeyUserWithName(userName)
-    //         await this.customCache.setCacheTempObject(key, null)
-    //         throw new NotFoundException("User not found")
-    //     }
-
-    //     const userRole = await this.prismaService.role.findFirst({
-    //         where: { nameRole: "MEMBER" }
-    //     });
-
-    //     if (!userRole) throw new NotFoundException('Admin role not found')
-
-    //     // add member
-    //     const newMember = await this.prismaService.groupMember.create({
-    //         data: {
-    //             userId: member.id,
-    //             roomID: roomId,
-    //             roleId: userRole.id
-    //         }
-    //     })
-
-    //     return newMember
-    // }
-
-    // // remove member
-    // async removeMember(req: Request, roomId: string, userId: string) {
-    //     // find user
-    //     const exitingUser = await this.prismaService.user.findUnique({
-    //         where: { id: req.user?.id }
-    //     })
-
-    //     if (!exitingUser) throw new NotFoundException("Room not found")
-
-    //     const exitingAddressUser = await this.prismaService.groupMember.findFirst({
-    //         where: { userId: userId }
-    //     })
-
-    //     if(!exitingAddressUser) throw new NotFoundException("Member not found")
-
-    //     const exitingRoom = await this.prismaService.room.findUnique({
-    //         where: { id: roomId }
-    //     })
-
-    //     if(!exitingRoom) throw new NotFoundException("Room not found")
-
-    //     // remove user in room
-    //     await this.prismaService.groupMember.delete({
-    //         where: { roomID: exitingRoom.id, id: exitingAddressUser.id}
-    //     })
-
-    //     return {
-    //         message: 'success'
-    //     }
-    // }
-
-    // async getUserRooms(req: Request) {
-
-    // }
 }

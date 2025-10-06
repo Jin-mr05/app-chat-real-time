@@ -18,10 +18,11 @@ export class CommonService {
 
 		try {
 			// Check cache first
-			const cached = await this.redisService.get(key) as User;
+			const cached = await this.redisService.get(key);
 			if (cached) {
+				const user: User = typeof cached === "string" ? JSON.parse(cached) : cached;
 				this.logger.debug(`User found in cache: ${access}`);
-				return cached;
+				return user;
 			}
 
 			// Fallback to database
@@ -40,18 +41,18 @@ export class CommonService {
 			});
 
 			if (availableUser) {
-				// Cache the user
-				await this.redisService.set(key, availableUser);
+				// Cache the user as JSON string
+				await this.redisService.set(key, JSON.stringify(availableUser));
 				this.logger.debug(`User cached: ${access}`);
 				return availableUser;
 			}
 
 			// Cache null to prevent repeated DB queries
-			await this.redisService.set(key, null);
+			await this.redisService.set(key, "null");
 			return null;
 		} catch (error) {
 			this.logger.error(`Error checking user availability: ${error.message}`, error.stack);
-			throw new Error(`Failed to check user availability: ${error.message}`);
+			return null; // Trả về null thay vì throw error
 		}
 	}
 }
