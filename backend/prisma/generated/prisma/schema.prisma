@@ -331,7 +331,7 @@ model Room {
 
   // basic detail 
   name     String
-  linkRoom String?
+  linkRoom String   @unique
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 

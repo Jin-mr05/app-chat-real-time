@@ -15785,7 +15785,7 @@ export namespace Prisma {
   export type RoomGroupByOutputType = {
     id: string
     name: string
-    linkRoom: string | null
+    linkRoom: string
     createAt: Date
     updateAt: Date
     authorId: string | null
@@ -15871,7 +15871,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
-      linkRoom: string | null
+      linkRoom: string
       createAt: Date
       updateAt: Date
       authorId: string | null
@@ -26114,7 +26114,7 @@ export namespace Prisma {
     NOT?: RoomWhereInput | RoomWhereInput[]
     id?: UuidFilter<"Room"> | string
     name?: StringFilter<"Room"> | string
-    linkRoom?: StringNullableFilter<"Room"> | string | null
+    linkRoom?: StringFilter<"Room"> | string
     createAt?: DateTimeFilter<"Room"> | Date | string
     updateAt?: DateTimeFilter<"Room"> | Date | string
     authorId?: UuidNullableFilter<"Room"> | string | null
@@ -26125,7 +26125,7 @@ export namespace Prisma {
   export type RoomOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    linkRoom?: SortOrderInput | SortOrder
+    linkRoom?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
     authorId?: SortOrderInput | SortOrder
@@ -26135,22 +26135,22 @@ export namespace Prisma {
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    linkRoom?: string
     AND?: RoomWhereInput | RoomWhereInput[]
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
     name?: StringFilter<"Room"> | string
-    linkRoom?: StringNullableFilter<"Room"> | string | null
     createAt?: DateTimeFilter<"Room"> | Date | string
     updateAt?: DateTimeFilter<"Room"> | Date | string
     authorId?: UuidNullableFilter<"Room"> | string | null
     author?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     members?: GroupMemberListRelationFilter
-  }, "id">
+  }, "id" | "linkRoom">
 
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    linkRoom?: SortOrderInput | SortOrder
+    linkRoom?: SortOrder
     createAt?: SortOrder
     updateAt?: SortOrder
     authorId?: SortOrderInput | SortOrder
@@ -26165,7 +26165,7 @@ export namespace Prisma {
     NOT?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Room"> | string
     name?: StringWithAggregatesFilter<"Room"> | string
-    linkRoom?: StringNullableWithAggregatesFilter<"Room"> | string | null
+    linkRoom?: StringWithAggregatesFilter<"Room"> | string
     createAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
     updateAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
     authorId?: UuidNullableWithAggregatesFilter<"Room"> | string | null
@@ -27501,7 +27501,7 @@ export namespace Prisma {
   export type RoomCreateInput = {
     id?: string
     name: string
-    linkRoom?: string | null
+    linkRoom: string
     createAt?: Date | string
     updateAt?: Date | string
     author?: UserCreateNestedOneWithoutRoomsInput
@@ -27511,7 +27511,7 @@ export namespace Prisma {
   export type RoomUncheckedCreateInput = {
     id?: string
     name: string
-    linkRoom?: string | null
+    linkRoom: string
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
@@ -27521,7 +27521,7 @@ export namespace Prisma {
   export type RoomUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneWithoutRoomsNestedInput
@@ -27531,7 +27531,7 @@ export namespace Prisma {
   export type RoomUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27541,7 +27541,7 @@ export namespace Prisma {
   export type RoomCreateManyInput = {
     id?: string
     name: string
-    linkRoom?: string | null
+    linkRoom: string
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
@@ -27550,7 +27550,7 @@ export namespace Prisma {
   export type RoomUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27558,7 +27558,7 @@ export namespace Prisma {
   export type RoomUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34644,7 +34644,7 @@ export namespace Prisma {
   export type RoomCreateWithoutMembersInput = {
     id?: string
     name: string
-    linkRoom?: string | null
+    linkRoom: string
     createAt?: Date | string
     updateAt?: Date | string
     author?: UserCreateNestedOneWithoutRoomsInput
@@ -34653,7 +34653,7 @@ export namespace Prisma {
   export type RoomUncheckedCreateWithoutMembersInput = {
     id?: string
     name: string
-    linkRoom?: string | null
+    linkRoom: string
     createAt?: Date | string
     updateAt?: Date | string
     authorId?: string | null
@@ -34768,7 +34768,7 @@ export namespace Prisma {
   export type RoomUpdateWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneWithoutRoomsNestedInput
@@ -34777,7 +34777,7 @@ export namespace Prisma {
   export type RoomUncheckedUpdateWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35893,7 +35893,7 @@ export namespace Prisma {
   export type RoomCreateWithoutAuthorInput = {
     id?: string
     name: string
-    linkRoom?: string | null
+    linkRoom: string
     createAt?: Date | string
     updateAt?: Date | string
     members?: GroupMemberCreateNestedManyWithoutRoomInput
@@ -35902,7 +35902,7 @@ export namespace Prisma {
   export type RoomUncheckedCreateWithoutAuthorInput = {
     id?: string
     name: string
-    linkRoom?: string | null
+    linkRoom: string
     createAt?: Date | string
     updateAt?: Date | string
     members?: GroupMemberUncheckedCreateNestedManyWithoutRoomInput
@@ -36329,7 +36329,7 @@ export namespace Prisma {
     NOT?: RoomScalarWhereInput | RoomScalarWhereInput[]
     id?: UuidFilter<"Room"> | string
     name?: StringFilter<"Room"> | string
-    linkRoom?: StringNullableFilter<"Room"> | string | null
+    linkRoom?: StringFilter<"Room"> | string
     createAt?: DateTimeFilter<"Room"> | Date | string
     updateAt?: DateTimeFilter<"Room"> | Date | string
     authorId?: UuidNullableFilter<"Room"> | string | null
@@ -37114,7 +37114,7 @@ export namespace Prisma {
   export type RoomCreateManyAuthorInput = {
     id?: string
     name: string
-    linkRoom?: string | null
+    linkRoom: string
     createAt?: Date | string
     updateAt?: Date | string
   }
@@ -37478,7 +37478,7 @@ export namespace Prisma {
   export type RoomUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: GroupMemberUpdateManyWithoutRoomNestedInput
@@ -37487,7 +37487,7 @@ export namespace Prisma {
   export type RoomUncheckedUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: GroupMemberUncheckedUpdateManyWithoutRoomNestedInput
@@ -37496,7 +37496,7 @@ export namespace Prisma {
   export type RoomUncheckedUpdateManyWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    linkRoom?: NullableStringFieldUpdateOperationsInput | string | null
+    linkRoom?: StringFieldUpdateOperationsInput | string
     createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updateAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
