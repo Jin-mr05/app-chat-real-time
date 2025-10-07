@@ -6,6 +6,8 @@ import { RedisService } from "../redis/redis.service";
 import { CreateRoomDto } from "./dto/create-room.dto";
 import { ROOM_CONSTANTS } from "./room.constants";
 import { User } from "prisma/generated/prisma";
+import { FindRoomDto } from "./dto/find-room.dto";
+import { take } from "rxjs";
 @Injectable()
 export class RoomService {
     constructor(
@@ -72,6 +74,61 @@ export class RoomService {
             data: {
                 deleteRoom
             }
+        }
+    }
+
+    // finding room
+    async findRoom(data: FindRoomDto) {
+        const searchItem = data.nameRoom.trim().toLowerCase()
+
+        // construct query
+        const take = data?.take || 10
+        const queryOptions: any = {
+            where: {
+                name: {
+                    contains: searchItem,
+                    mode: 'insensitive' // <-- sửa đúng chính tả
+                }
+            },
+            take: take + 1
+        }
+
+        // pagination
+        if (data?.cursor) {
+            queryOptions.cursor = { id: data?.cursor }
+            queryOptions.skip = 1
+        } else if (data?.page && data?.skip !== undefined) {
+            queryOptions.skip = data.skip,
+                queryOptions.take = take
+        }
+
+        const rooms = await this.prismaService.room.findMany(queryOptions)
+
+        // check hasMore 
+        const hasMore = rooms.length > take
+        if (hasMore) rooms.pop()
+        const nextCursor = hasMore && rooms.length > 0 ? rooms[rooms.length - 1].id : null
+
+        const result = {
+            rooms,
+            pagination: data?.cursor ?
+                {
+                    limit: take,
+                    hasNext: hasMore,
+                    nextCursor,
+                    cursor: data.cursor
+                } :
+                {
+                    page: data?.page || 1,
+                    limit: data?.take || 10,
+                    hasNext: hasMore,
+                    hasPrev: (data?.page || 1) > 1
+                }
+        }
+
+        return {
+            success: true,
+            data: rooms
         }
     }
 
