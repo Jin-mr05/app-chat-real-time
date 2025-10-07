@@ -1,5 +1,10 @@
-import { Gender } from "src/modules/private-chat/private-chat.interface";
 
+
+export enum Gender {
+    Male = 'male',
+    Female = 'female',
+    Other = 'other'
+}
 
 export class EditDetailDto {
     name?: string;

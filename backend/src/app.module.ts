@@ -12,7 +12,6 @@ import { AuthCookieGuard } from './common/guard/auth.cookie.guard';
 import { CronModule } from './cron/cron.module';
 import { EmailModule } from './email/email.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { PrivateChatModule } from './modules/private-chat/private-chat.module';
 import { RoomModule } from './modules/room/room.module';
 import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -43,7 +42,6 @@ const TIME_LIFE_CACHE = 10 * 24 * 60 * 60
     }),
     RedisModule,
     EventEmitterModule.forRoot(),
-    PrivateChatModule
   ],
   controllers: [AppController],
   providers: [
