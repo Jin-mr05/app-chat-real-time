@@ -24,16 +24,11 @@ model User {
     receivedFriendRequests FriendRequest[]   @relation("ReceivedFriendRequests")
     friendships1           Friendship[]      @relation("User1Friendships")
     friendships2           Friendship[]      @relation("User2Friendships")
-    chatMembers            ChatMember[]
-    messages               Message[]
     readReceipts           ReadReceipt[]
     reactions              MessageReaction[]
-    rooms                  Room[]
-    memberInRoom           GroupMember[]
-    user1                  PrivateChat[]     @relation("User1Chats")
-    user2                  PrivateChat[]     @relation("User2Chats")
-    sender                 PrivateMessage[]  @relation("SentMessages")
     TypingStatus           TypingStatus[]
+    memberInRooms          Member[]
+    messages               MessageInRoom[]
 
     @@index([email]) // Index for login lookup
     @@index([isOnline]) // Index for online users query

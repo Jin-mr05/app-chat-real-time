@@ -1,0 +1,110 @@
+model Room {
+    id           String   @id @default(uuid()) @db.Uuid
+    link         String   @unique @map("room_link") @db.VarChar(255)
+    totalMessage Int      @default(0)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    // relations
+    members        Member[]
+    messagesInRoom MessageInRoom[]
+
+    @@index([createdAt])
+    @@index([updatedAt])
+}
+
+model Member {
+    id        String   @id @default(ulid()) @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // foreign key 
+    userId String @db.Uuid
+    roomId String @db.Uuid
+
+    // relation
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    room Room @relation(fields: [roomId], references: [id], onUpdate: Cascade)
+
+    @@unique([userId, roomId])
+    @@index([roomId])
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model Message {
+    id        String      @id @default(uuid()) @db.Uuid
+    content   String      @db.VarChar(1000)
+    type      MessageType @default(TEXT)
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+    repLyId   String?     @db.Uuid
+
+    // relations
+    messageInRooms  MessageInRoom[]
+    ReadReceipt     ReadReceipt[]
+    MessageReaction MessageReaction[]
+
+    @@index([type])
+    @@index([createdAt])
+    @@index([updatedAt])
+}
+
+model MessageInRoom {
+    id        String   @id @default(uuid()) @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // foreign key
+    messageId String @db.Uuid
+    roomId    String @db.Uuid
+    senderId  String @db.Uuid
+
+    // relation
+    messaga Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+    room    Room    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+    User    User?   @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+    @@unique([messageId, roomId, senderId])
+    @@index([roomId])
+    @@index([senderId])
+    @@index([messageId])
+    @@index([createdAt])
+}
+
+enum MessageType {
+    TEXT
+    IMAGE
+    FILE
+    VIDEO
+    AUDIO
+    EMOJI
+    STICKER
+    LOCATION
+    SYSTEM
+}
+
+model TypingStatus {
+    id     String @id @default(uuid()) @db.Uuid
+    chatId String @db.Uuid
+    userId String @db.Uuid
+
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([chatId, userId])
+    @@index([userId])
+    @@index([chatId])
+    @@map("typing_status")
+}
+
+enum ChatType {
+    DIRECT
+    GROUP
+}
+
+enum ChatMemberRole {
+    ADMIN
+    MEMBER
+}

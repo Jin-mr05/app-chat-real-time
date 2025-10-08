@@ -1,38 +1,3 @@
-model Message {
-    id String @id @default(uuid()) @db.Uuid
-
-    content       String?      @db.Text
-    type          MessageTypes  @default(TEXT)
-    attachments   Json? // Array of attachment URLs
-    isEdited      Boolean      @default(false)
-    editedAt      DateTime?
-    createdAt     DateTime     @default(now())
-    updatedAt     DateTime     @updatedAt
-
-    // foreign keys
-    chatId          String  @db.Uuid
-    senderId        String  @db.Uuid
-    replyToId       String? @db.Uuid // For replying to messages
-    forwardedFromId String? @db.Uuid // For forwarded messages
-
-    // relations
-    chat           Chat              @relation(fields: [chatId], references: [id], onDelete: Cascade)
-    sender         User              @relation(fields: [senderId], references: [id], onDelete: Cascade)
-    replyTo        Message?          @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: SetNull)
-    replies        Message[]         @relation("MessageReplies")
-    forwardedFrom  Message?          @relation("ForwardedMessages", fields: [forwardedFromId], references: [id], onDelete: SetNull)
-    forwardedTo    Message[]         @relation("ForwardedMessages")
-    readReceipts   ReadReceipt[]
-    reactions      MessageReaction[]
-
-    @@index([chatId]) // Index for chat messages lookup
-    @@index([senderId]) // Index for sender lookup
-    @@index([createdAt]) // Index for message ordering
-    @@index([chatId, createdAt]) // Composite index for chat message queries
-    @@index([replyToId]) // Index for reply lookup
-    @@index([forwardedFromId]) // Index for forwarded message lookup
-    @@map("messages")
-}
 
 model ReadReceipt {
     id String @id @default(uuid()) @db.Uuid
