@@ -174,7 +174,8 @@ exports.Prisma.RoomScalarFieldEnum = {
   link: 'link',
   totalMessage: 'totalMessage',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  authorId: 'authorId'
 };
 
 exports.Prisma.MemberScalarFieldEnum = {
@@ -191,15 +192,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   type: 'type',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  repLyId: 'repLyId'
-};
-
-exports.Prisma.MessageInRoomScalarFieldEnum = {
-  id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  messageId: 'messageId',
   roomId: 'roomId',
+  repLyId: 'repLyId',
   senderId: 'senderId'
 };
 
@@ -288,7 +282,6 @@ exports.Prisma.ModelName = {
   Room: 'Room',
   Member: 'Member',
   Message: 'Message',
-  MessageInRoom: 'MessageInRoom',
   TypingStatus: 'TypingStatus',
   FriendRequest: 'FriendRequest',
   Friendship: 'Friendship',

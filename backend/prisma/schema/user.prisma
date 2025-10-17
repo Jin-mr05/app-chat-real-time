@@ -28,7 +28,7 @@ model User {
     reactions              MessageReaction[]
     TypingStatus           TypingStatus[]
     memberInRooms          Member[]
-    messages               MessageInRoom[]
+    messages               Message[]
 
     @@index([email]) // Index for login lookup
     @@index([isOnline]) // Index for online users query

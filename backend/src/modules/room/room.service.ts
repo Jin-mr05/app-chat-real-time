@@ -19,7 +19,7 @@ export class RoomService {
     // check available room 
     async getRoomWithRoomLink(roomLink: string) {
         return await this.prismaService.room.findUnique({
-            where: { linkRoom: roomLink }
+            where: { link: roomLink }
         })
     }
 
@@ -48,8 +48,7 @@ export class RoomService {
         // crerate new room
         const newRoom = await this.prismaService.room.create({
             data: {
-                linkRoom,
-                name: data.name,
+                link: linkRoom,
                 authorId: userId
             }
         })
