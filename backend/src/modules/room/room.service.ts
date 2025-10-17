@@ -79,7 +79,6 @@ export class RoomService {
     // finding room
     async findRoom(data: FindRoomDto) {
         const searchItem = data.nameRoom.trim().toLowerCase()
-
         // construct query
         const take = data?.take || 10
         const queryOptions: any = {

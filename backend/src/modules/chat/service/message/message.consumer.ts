@@ -3,6 +3,7 @@ import { EventPattern, Payload } from "@nestjs/microservices";
 import { MessageQueue } from "./message.interface";
 import { BatchInsertService } from "./batchInsert.service";
 
+
 @Controller()
 export class MessageConsumer {
 
